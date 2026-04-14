@@ -313,6 +313,7 @@ gsap.registerPlugin(ScrollTrigger);
 const scenes=[0,1,2,3,4,5].map(i=>document.getElementById('sc'+i));
 const dots=document.querySelectorAll('.dot');
 let cur=-1;
+let transitioning=false; // lock while animating
 
 // Geometry positions per scene
 const gpos=[
@@ -321,25 +322,32 @@ const gpos=[
 
 function show(idx){
   if(idx===cur)return;
+  if(transitioning)return; // ignore rapid scroll — wait for current transition
+  transitioning=true;
   const prev=cur; cur=idx;
   dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
 
   // Move geometry
   const p=gpos[idx]||gpos[0];
-  gsap.to(ico.position,{x:p.x,y:p.y,z:p.z,duration:1.4,ease:'power2.inOut'});
+  gsap.to(ico.position,{x:p.x,y:p.y,z:p.z,duration:1.2,ease:'power2.inOut'});
 
-  // Fade out previous
+  // Kill any running animations on scenes
+  scenes.forEach(s=>gsap.killTweensOf(s));
+
+  // Fade out previous instantly if piling up
   if(prev>=0){
-    gsap.to(scenes[prev],{opacity:0,y:idx>prev?-28:28,duration:.5,ease:'power2.in',
-      onComplete:()=>{scenes[prev].classList.remove('live');}
+    gsap.to(scenes[prev],{opacity:0,y:idx>prev?-24:24,duration:.45,ease:'power2.in',
+      onComplete:()=>{ scenes[prev].classList.remove('live'); scenes[prev].style.opacity='0'; }
     });
   }
 
-  // Fade in new
+  // Fade in new scene
   scenes[idx].classList.add('live');
   gsap.fromTo(scenes[idx],
-    {opacity:0,y:idx>prev?28:-28},
-    {opacity:1,y:0,duration:.8,ease:'power3.out',delay:prev>=0?.12:0}
+    {opacity:0,y:idx>prev?24:-24},
+    {opacity:1,y:0,duration:.7,ease:'power3.out',delay:prev>=0?.1:0,
+      onComplete:()=>{ transitioning=false; } // unlock after transition completes
+    }
   );
 
   // Entrance animations
