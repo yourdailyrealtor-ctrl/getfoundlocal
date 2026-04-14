@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Get Found Local</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#070810;color:#fff;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#d4a853}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.42);border-radius:8px;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-cta{background:#d4a853!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:600!important}
+.nav-cta:hover{background:#f0c87a!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}.hamburger span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px}
+.mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(7,8,16,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
+.page-hero{padding:130px 52px 70px;position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.06)}
+.page-hero::before{content:'';position:absolute;top:-120px;right:-120px;width:450px;height:450px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,83,.08) 0%,transparent 65%);pointer-events:none}
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:.68rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#d4a853;margin-bottom:20px}
+.eyebrow-line{width:28px;height:1px;background:#d4a853}
+h1{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6rem);line-height:.95;letter-spacing:-1.5px;font-weight:400;margin-bottom:20px}
+h1 em{font-style:italic;color:#f0c87a}
+h2{font-family:'Instrument Serif',serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:400;line-height:1.1;letter-spacing:-.5px;margin-bottom:16px}
+h2 em{font-style:italic;color:#f0c87a}
+.lede{font-size:1rem;color:rgba(255,255,255,.42);line-height:1.8;max-width:540px;font-weight:300}
+section{padding:80px 52px}
+.sec-label{display:flex;align-items:center;gap:12px;font-size:.68rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#d4a853;margin-bottom:20px}
+.sec-line{width:28px;height:1px;background:#d4a853}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);border-radius:16px;overflow:hidden;margin-top:48px;max-width:1100px}
+.svc-card{background:#0d0f1a;padding:32px 26px;transition:background .3s}
+.svc-card:hover{background:#12152a}
+.svc-num{font-family:'Instrument Serif',serif;font-style:italic;font-size:.88rem;color:rgba(212,168,83,.3);display:block;margin-bottom:12px;transition:color .3s}
+.svc-card:hover .svc-num{color:rgba(212,168,83,.7)}
+.svc-name{font-family:'Instrument Serif',serif;font-size:1.1rem;font-weight:400;margin-bottom:8px}
+.svc-desc{font-size:.83rem;color:rgba(255,255,255,.42);line-height:1.65}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:44px;max-width:1100px}
+.feat-card{background:#0d0f1a;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:26px 22px;transition:border-color .3s}
+.feat-card:hover{border-color:rgba(212,168,83,.2)}
+.feat-tier{font-size:.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,83,.5);margin-bottom:10px;display:block}
+.feat-name{font-family:'Instrument Serif',serif;font-size:1rem;font-weight:400;margin-bottom:6px}
+.feat-desc{font-size:.81rem;color:rgba(255,255,255,.4);line-height:1.6}
+.demo-box{background:#0d0f1a;border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:48px;text-align:center;margin-top:48px;max-width:640px;margin-left:auto;margin-right:auto}
+.demo-box h3{font-family:'Instrument Serif',serif;font-size:1.5rem;font-weight:400;margin-bottom:10px}
+.demo-box p{font-size:.88rem;color:rgba(255,255,255,.42);line-height:1.75;max-width:400px;margin:0 auto 24px}
+.btn-gold{display:inline-block;background:#d4a853;color:#070810;padding:13px 30px;border-radius:50px;font-weight:600;font-size:.88rem;transition:all .3s}
+.btn-gold:hover{background:#f0c87a;transform:translateY(-2px)}
+.process{margin-top:44px;display:flex;flex-direction:column;gap:0;max-width:680px}
+.step{display:grid;grid-template-columns:44px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.step:last-child{border-bottom:none}
+.step-n{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.4rem;color:rgba(212,168,83,.3);line-height:1;padding-top:3px}
+.step-h{font-size:.9rem;font-weight:600;margin-bottom:4px}
+.step-p{font-size:.82rem;color:rgba(255,255,255,.42);line-height:1.7}
+[data-r]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}[data-r].on{opacity:1;transform:none}
+footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.06)}
+.f-logo{font-family:'Instrument Serif',serif;font-size:1.05rem;color:#fff}.f-logo em{font-style:italic;color:#f0c87a}
+.f-links{display:flex;gap:22px}.f-links a{font-size:.78rem;color:rgba(255,255,255,.25);transition:color .2s}.f-links a:hover{color:#f0c87a}
+.f-copy{font-size:.76rem;color:rgba(255,255,255,.18)}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}section,.page-hero{padding-left:20px;padding-right:20px}.svc-grid,.feat-grid{grid-template-columns:1fr}.demo-box{padding:32px 20px}footer{padding:28px 20px;flex-direction:column;text-align:center}.f-links{justify-content:center}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Get Found <em>Local</em></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="demo.html">Demo</a><a href="services.html" class="active">Services</a><a href="pricing.html">Pricing</a>
+    <a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a>
+    <a href="contact.html" class="nav-cta">Get a Website</a>
+  </div>
+  <div class="hamburger" onclick="document.getElementById('mob').classList.toggle('open')"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob" id="mob"><a href="index.html">Home</a><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a><a href="contact.html">Get a Website</a></div>
+
+<div class="page-hero">
+  <div class="eyebrow"><span class="eyebrow-line"></span>Services</div>
+  <h1>What we <em>build</em></h1>
+  <p class="lede">Professional websites, animations, SEO, and full management — everything a local business needs to get found online.</p>
+</div>
+
+<section>
+  <div class="sec-label" data-r><span class="sec-line"></span>Included in Every Site</div>
+  <h2 data-r>Built for your business.<br>Not a <em>template.</em></h2>
+  <p class="lede" style="margin-bottom:0" data-r>Every site we build is unique to your business — we pull your real photos, hours, and reviews from Google.</p>
+  <div class="svc-grid">
+    <div class="svc-card" data-r><span class="svc-num">01</span><div class="svc-name">Custom Website Design</div><p class="svc-desc">Built from scratch using your photos, colors, and story. Never a template dropped in.</p></div>
+    <div class="svc-card" data-r><span class="svc-num">02</span><div class="svc-name">Scroll Animations</div><p class="svc-desc">Ken Burns photo effects, scroll reveals, smooth transitions that build trust instantly.</p></div>
+    <div class="svc-card" data-r><span class="svc-num">03</span><div class="svc-name">Local SEO</div><p class="svc-desc">Schema markup, Google Business integration, and meta tags so you show up in local searches.</p></div>
+    <div class="svc-card" data-r><span class="svc-num">04</span><div class="svc-name">Mobile Responsive</div><p class="svc-desc">Flawless on every phone, tablet, and desktop screen. Real breakpoints, not afterthoughts.</p></div>
+    <div class="svc-card" data-r><span class="svc-num">05</span><div class="svc-name">Ongoing Management</div><p class="svc-desc">We handle your domain, hosting, updates, and Google Business profile every month.</p></div>
+    <div class="svc-card" data-r><span class="svc-num">06</span><div class="svc-name">Live in 3–4 Days</div><p class="svc-desc">From approval to a live site at your own domain in under a week. Agencies take months.</p></div>
+  </div>
+</section>
+
+<section style="background:#0d0f1a">
+  <div class="sec-label" data-r><span class="sec-line"></span>Standard and Premium Features</div>
+  <h2 data-r>More pages, more <em>power.</em></h2>
+  <div class="feat-grid">
+    <div class="feat-card" data-r><span class="feat-tier">Standard</span><div class="feat-name">Photo Hover Effects</div><p class="feat-desc">Zoom, color reveal, blur-to-sharp — your photos come alive when visitors hover.</p></div>
+    <div class="feat-card" data-r><span class="feat-tier">Standard</span><div class="feat-name">Contact Form</div><p class="feat-desc">Submissions go directly to your email. No backend server needed.</p></div>
+    <div class="feat-card" data-r><span class="feat-tier">Standard</span><div class="feat-name">Booking Button</div><p class="feat-desc">Calendly or Google Calendar embed so clients can book directly from your site.</p></div>
+    <div class="feat-card" data-r><span class="feat-tier">Premium</span><div class="feat-name">Online Booking System</div><p class="feat-desc">Real-time availability, confirmation emails, and a full appointment system.</p></div>
+    <div class="feat-card" data-r><span class="feat-tier">Premium</span><div class="feat-name">Stripe Payments</div><p class="feat-desc">Accept deposits, sell gift cards, or take full payments through your website.</p></div>
+    <div class="feat-card" data-r><span class="feat-tier">Premium</span><div class="feat-name">Analytics Setup</div><p class="feat-desc">Google Analytics 4 and Search Console configured so you can track performance.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-label" data-r><span class="sec-line"></span>Animation Demo</div>
+  <h2 data-r>See it in <em>action.</em></h2>
+  <p class="lede" data-r>Our Demo page is a cinematic scroll experience showing every animation we build. No stock photos — just the real effects.</p>
+  <div class="demo-box" data-r>
+    <h3>Experience our interactive demo</h3>
+    <p>Five scenes. Smooth transitions. Every animation that goes into your website, showcased live.</p>
+    <a href="demo.html" class="btn-gold">Open the Demo</a>
+  </div>
+</section>
+
+<section style="background:#0d0f1a">
+  <div class="sec-label" data-r><span class="sec-line"></span>How It Works</div>
+  <h2 data-r>From request to <em>live</em> in days.</h2>
+  <div class="process" data-r>
+    <div class="step"><div class="step-n">01</div><div><div class="step-h">Fill out the form</div><p class="step-p">Tell us your business, which pages you want, and any preferences. Takes about 3 minutes.</p></div></div>
+    <div class="step"><div class="step-n">02</div><div><div class="step-h">We reach out within 24 hours</div><p class="step-p">We confirm details and discuss pricing before anything starts. No surprises.</p></div></div>
+    <div class="step"><div class="step-n">03</div><div><div class="step-h">We build your site</div><p class="step-p">Usually 1–2 days. We pull your photos and reviews from Google and build everything custom.</p></div></div>
+    <div class="step"><div class="step-n">04</div><div><div class="step-h">You review and approve</div><p class="step-p">We send a preview link. You do not pay a single cent until you are happy with it.</p></div></div>
+    <div class="step"><div class="step-n">05</div><div><div class="step-h">Your site goes live</div><p class="step-p">We purchase your domain and your site is live at yourBusinessName.com within 24 hours of approval.</p></div></div>
+  </div>
+</section>
+
+<footer><div class="f-logo">Get Found <em>Local</em></div><div class="f-links"><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="contact.html">Contact</a></div><div class="f-copy">Get-Found-Local@outlook.com</div></footer>
+<script>const io=new IntersectionObserver(e=>{e.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('on'),i*80);io.unobserve(e.target)}})},{threshold:.1});document.querySelectorAll('[data-r]').forEach(el=>io.observe(el));</script>
+</body>
+</html>
