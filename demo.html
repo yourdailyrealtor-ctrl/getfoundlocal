@@ -11,64 +11,61 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:#04050e;color:#fff;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:#070810;color:#fff;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(4,5,14,.5);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.04)}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.6);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)}
 .logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#d4a853}
 .nav-links{display:flex;align-items:center;gap:2px}.nav-links a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.45);border-radius:8px;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#fff}
-.nav-cta{background:#d4a853!important;color:#04050e!important;border-radius:50px!important;padding:8px 22px!important;font-weight:600!important}.nav-cta:hover{background:#f0c87a!important}
+.nav-cta{background:#d4a853!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:600!important}.nav-cta:hover{background:#f0c87a!important}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}.hamburger span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px}
-.mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(4,5,14,.98);border-bottom:1px solid rgba(255,255,255,.05);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
+.mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(7,8,16,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
 
 #c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-.track{height:900vh;position:relative;z-index:1}
+.track{height:800vh;position:relative;z-index:1}
 
-/* All overlays */
-.ov{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;pointer-events:none;opacity:0;width:90%;max-width:1000px;text-align:center}
+/* Overlays */
+.ov{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;pointer-events:none;opacity:0;width:90%;max-width:900px;text-align:center}
 .ov.on{pointer-events:auto}
 
-/* Opening */
-#o0 .big{font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,5.2rem);font-weight:400;line-height:1.05;letter-spacing:-.5px;color:rgba(255,255,255,.9)}
-#o0 .big em{font-style:italic;color:#f0c87a}
-#o0 .small{font-size:.72rem;letter-spacing:3.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:18px;display:block}
-#o0 .arrow{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:8px}
-#o0 .aline{width:1px;height:36px;background:linear-gradient(to bottom,#d4a853,transparent);animation:ap 2s ease infinite}
-#o0 .atxt{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.22)}
-@keyframes ap{0%,100%{opacity:.5;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.15)}}
+/* S0 */
+#o0 .title{font-family:'Instrument Serif',serif;font-size:clamp(2.4rem,5vw,4.8rem);font-weight:400;line-height:1.05;letter-spacing:-.5px;color:rgba(255,255,255,.9)}
+#o0 .title em{font-style:italic;color:#f0c87a}
+#o0 .sub{font-size:.72rem;letter-spacing:3.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:18px;display:block}
+#o0 .hint{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:8px}
+#o0 .hl{width:1px;height:36px;background:linear-gradient(to bottom,#d4a853,transparent);animation:hp 2s ease infinite}
+#o0 .ht{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.22)}
+@keyframes hp{0%,100%{opacity:.5}50%{opacity:1}}
 
-/* Statement */
+/* S1 — statement */
 #o1 .stmt{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,5.5vw,5rem);font-weight:400;line-height:1.0;letter-spacing:-.5px}
 #o1 .stmt em{font-style:italic;color:#f0c87a}
-.wline{overflow:hidden;display:block}
-.wspan{display:inline-block;transform:translateY(105%)}
+.wl{overflow:hidden;display:block}.ws{display:inline-block;transform:translateY(105%)}
 
-/* Feature grid */
-#o2{max-width:960px}
+/* S2 — features */
 #o2 .ey{font-size:.65rem;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:#d4a853;margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:12px}
 #o2 .ey span{width:22px;height:1px;background:#d4a853;display:inline-block}
 #o2 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left}
-.fc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:22px 20px;backdrop-filter:blur(12px);transition:border-color .3s}
-.fc:hover{border-color:rgba(212,168,83,.3)}
+.fc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:22px 20px;backdrop-filter:blur(10px)}
 .fc-n{font-family:'Instrument Serif',serif;font-style:italic;font-size:.82rem;color:rgba(212,168,83,.35);margin-bottom:8px}
 .fc-h{font-size:.9rem;font-weight:600;margin-bottom:4px;color:#fff}
-.fc-p{font-size:.78rem;color:rgba(255,255,255,.52);line-height:1.55}
+.fc-p{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.55}
 
-/* Stats */
-#o3 .srow{display:flex;gap:0;width:100%;max-width:900px;margin:0 auto}
-#o3 .sitem{flex:1;padding:0 32px;border-right:1px solid rgba(255,255,255,.07)}
-#o3 .sitem:last-child{border-right:none}
-#o3 .sval{font-family:'Instrument Serif',serif;font-size:clamp(3rem,8vw,7rem);font-weight:400;color:#fff;line-height:1;display:block}
-#o3 .sval em{font-style:italic;color:#f0c87a;font-size:.6em}
-#o3 .slbl{font-size:.68rem;color:rgba(255,255,255,.45);letter-spacing:1.5px;text-transform:uppercase;margin-top:8px;display:block}
-#o3 .ey2{font-size:.65rem;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:#d4a853;margin-bottom:36px;display:flex;align-items:center;justify-content:center;gap:12px}
-#o3 .ey2 span{width:22px;height:1px;background:#d4a853;display:inline-block}
+/* S3 — FUNNY MOMENT */
+#o3{max-width:700px}
+#o3 .funny-h{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:400;line-height:1.15;margin-bottom:20px}
+#o3 .funny-h em{font-style:italic;color:#f0c87a}
+#o3 .funny-p{font-size:.95rem;color:rgba(255,255,255,.6);line-height:1.75;font-weight:300;max-width:480px;margin:0 auto}
+#o3 .stats-row{display:flex;gap:32px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+.sbox{text-align:center}
+.sv{font-family:'Instrument Serif',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:400;color:#fff;line-height:1;display:block}
+.sv em{font-style:italic;color:#f0c87a;font-size:.65em}
+.sl{font-size:.68rem;color:rgba(255,255,255,.45);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;display:block}
 
-/* Pricing */
-#o4{max-width:1000px}
-#o4 .ph{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:400;letter-spacing:-.5px;margin-bottom:28px;color:#fff}
+/* S4 — pricing */
+#o4 .ph{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:400;letter-spacing:-.5px;margin-bottom:24px}
 #o4 .ph em{font-style:italic;color:#f0c87a}
 #o4 .pcards{display:flex;gap:10px}
-.pc{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:26px 20px;text-align:left;backdrop-filter:blur(12px)}
+.pc{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:26px 20px;text-align:left;backdrop-filter:blur(10px)}
 .pc.hot{border-color:rgba(212,168,83,.3);background:rgba(212,168,83,.05)}
 .pc-t{font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px}
 .pc-p{font-family:'Instrument Serif',serif;font-size:2.1rem;font-weight:400;color:#fff;line-height:1;margin-bottom:2px}
@@ -77,35 +74,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;al
 .pc-l li{font-size:.76rem;color:rgba(255,255,255,.55);display:flex;gap:6px;align-items:flex-start}
 .pc-l li::before{content:'';width:3px;height:3px;background:#d4a853;border-radius:50%;flex-shrink:0;margin-top:5px}
 
-/* CTA */
+/* S5 — CTA */
 #o5 .ch{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:400;letter-spacing:-1.5px;line-height:.92;color:#fff}
 #o5 .ch em{font-style:italic;color:#f0c87a}
 #o5 .cp{font-size:.98rem;color:rgba(255,255,255,.55);margin-top:18px;max-width:360px;margin-left:auto;margin-right:auto;line-height:1.75;font-weight:300}
-#o5 .cbtn{display:inline-block;background:#d4a853;color:#04050e;padding:15px 42px;border-radius:50px;font-weight:600;font-size:.9rem;margin-top:28px;transition:all .25s;pointer-events:auto}
+#o5 .cbtn{display:inline-block;background:#d4a853;color:#070810;padding:15px 42px;border-radius:50px;font-weight:600;font-size:.9rem;margin-top:28px;transition:all .25s;pointer-events:auto}
 #o5 .cbtn:hover{background:#f0c87a;transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,83,.35)}
 
 /* Dots */
 .dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:500}
 .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .45s;cursor:pointer}
 .dot.on{background:#d4a853;transform:scale(2.2)}
-.dot:hover{background:rgba(255,255,255,.5)}
-
-/* Depth label top left */
-#dlabel{position:fixed;top:90px;left:52px;z-index:4;font-size:.62rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.22);transition:opacity .5s}
 
 /* Post */
-.post{position:relative;z-index:3;margin-top:900vh;background:#04050e}
-.pcta{padding:110px 52px;text-align:center;border-top:1px solid rgba(255,255,255,.05)}
+.post{position:relative;z-index:3;margin-top:800vh;background:#070810}
+.pcta{padding:110px 52px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
 .pcta h2{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:400;letter-spacing:-1px;margin-bottom:16px}
 .pcta h2 em{font-style:italic;color:#f0c87a}
 .pcta p{font-size:.98rem;color:rgba(255,255,255,.55);max-width:380px;margin:0 auto 30px;line-height:1.75;font-weight:300}
-.bgold{display:inline-block;background:#d4a853;color:#04050e;padding:14px 36px;border-radius:50px;font-weight:600;font-size:.9rem;transition:all .3s}.bgold:hover{background:#f0c87a;transform:translateY(-2px)}
-footer{background:#020309;padding:40px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.05)}
+.bgold{display:inline-block;background:#d4a853;color:#070810;padding:14px 36px;border-radius:50px;font-weight:600;font-size:.9rem;transition:all .3s}.bgold:hover{background:#f0c87a;transform:translateY(-2px)}
+footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.06)}
 .fl{font-family:'Instrument Serif',serif;font-size:1.05rem;color:#fff}.fl em{font-style:italic;color:#f0c87a}
 .flinks{display:flex;gap:22px}.flinks a{font-size:.78rem;color:rgba(255,255,255,.28);transition:color .2s}.flinks a:hover{color:#f0c87a}
 .fcp{font-size:.76rem;color:rgba(255,255,255,.18)}
 
-@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}.dots{display:none}#dlabel{display:none}#o2 .grid{grid-template-columns:1fr}#o3 .srow{flex-direction:column;gap:28px}#o3 .sitem{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:24px}#o3 .sitem:last-child{border-bottom:none}#o4 .pcards{flex-direction:column}.pcta{padding:80px 20px}footer{padding:28px 20px;flex-direction:column;text-align:center}.flinks{justify-content:center}}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}.dots{display:none}#o2 .grid{grid-template-columns:1fr}#o4 .pcards{flex-direction:column}#o3 .stats-row{gap:20px}.pcta{padding:80px 20px}footer{padding:28px 20px;flex-direction:column;text-align:center}.flinks{justify-content:center}}
 </style>
 </head>
 <body>
@@ -127,21 +120,20 @@ footer{background:#020309;padding:40px 52px;display:flex;justify-content:space-b
   <div class="dot" onclick="jmp(5)"></div>
 </div>
 
-<div id="dlabel">depth: 0%</div>
 <div class="track"></div>
 
 <!-- OVERLAYS -->
 <div class="ov on" id="o0">
-  <div class="big">how <em>your</em> site<br>could <em>feel.</em></div>
-  <span class="small">Animation Showcase — Scroll to travel through</span>
-  <div class="arrow"><span class="atxt">scroll</span><div class="aline"></div></div>
+  <div class="title">how <em>your</em> site<br>could <em>feel.</em></div>
+  <span class="sub">Scroll to experience it</span>
+  <div class="hint"><span class="ht">scroll</span><div class="hl"></div></div>
 </div>
 
 <div class="ov" id="o1">
   <h2 class="stmt">
-    <span class="wline"><span class="wspan">Your business</span></span>
-    <span class="wline"><span class="wspan">tells a story.</span></span>
-    <span class="wline"><span class="wspan" style="font-style:italic;color:#f0c87a">We help people find it.</span></span>
+    <span class="wl"><span class="ws">Your business</span></span>
+    <span class="wl"><span class="ws">tells a story.</span></span>
+    <span class="wl"><span class="ws" style="font-style:italic;color:#f0c87a">We help people find it.</span></span>
   </h2>
 </div>
 
@@ -151,21 +143,23 @@ footer{background:#020309;padding:40px 52px;display:flex;justify-content:space-b
     <div class="fc"><div class="fc-n">01</div><div class="fc-h">Custom Design</div><div class="fc-p">Built from scratch — your photos, your story. Never a template.</div></div>
     <div class="fc"><div class="fc-n">02</div><div class="fc-h">Scroll Animations</div><div class="fc-p">Ken Burns, reveals, transitions that build trust instantly.</div></div>
     <div class="fc"><div class="fc-n">03</div><div class="fc-h">Local SEO</div><div class="fc-p">Schema markup and Google Business so locals find you.</div></div>
-    <div class="fc"><div class="fc-n">04</div><div class="fc-h">Fully Managed</div><div class="fc-p">Domain, hosting, updates — handled every month.</div></div>
+    <div class="fc"><div class="fc-n">04</div><div class="fc-h">Fully Managed</div><div class="fc-p">Domain, hosting, updates — handled every month. You do nothing.</div></div>
   </div>
 </div>
 
+<!-- THE FUNNY/COOL MOMENT -->
 <div class="ov" id="o3">
-  <div class="ey2"><span></span>By the Numbers<span></span></div>
-  <div class="srow">
-    <div class="sitem"><span class="sval">3–4<em> days</em></span><span class="slbl">Average time to go live</span></div>
-    <div class="sitem"><span class="sval">$0</span><span class="slbl">Until you approve</span></div>
-    <div class="sitem"><span class="sval">100<em>%</em></span><span class="slbl">Mobile responsive</span></div>
+  <h2 class="funny-h">Your old website<br>called. It said <em>"please<br>replace me."</em></h2>
+  <p class="funny-p">We will not tell you what it looked like. But we can promise yours will be better. By a lot.</p>
+  <div class="stats-row">
+    <div class="sbox"><span class="sv">3–4<em> days</em></span><span class="sl">To go live</span></div>
+    <div class="sbox"><span class="sv">$0</span><span class="sl">Until you approve</span></div>
+    <div class="sbox"><span class="sv">100<em>%</em></span><span class="sl">Mobile ready</span></div>
   </div>
 </div>
 
 <div class="ov" id="o4">
-  <h2 class="ph">One standard of quality. <em>Three tiers.</em></h2>
+  <h2 class="ph">One standard of quality.<br><em>Three tiers.</em></h2>
   <div class="pcards">
     <div class="pc"><div class="pc-t">Basic</div><div class="pc-p">$399</div><div class="pc-n">build + from $49/mo</div><ul class="pc-l"><li>1–5 pages</li><li>Animated hero</li><li>SEO built in</li></ul></div>
     <div class="pc hot"><div class="pc-t">Standard — Most Popular</div><div class="pc-p">$799</div><div class="pc-n">build + from $49/mo</div><ul class="pc-l"><li>6–10 pages</li><li>Photo effects</li><li>Contact form</li><li>Booking button</li></ul></div>
@@ -195,150 +189,91 @@ footer{background:#020309;padding:40px 52px;display:flex;justify-content:space-b
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-// ═══════════════════════════════════════════════════════════════════
-// THREE.JS — IMMERSIVE DEPTH TUNNEL
-// ═══════════════════════════════════════════════════════════════════
+// ── THREE.JS — CLEAN PARTICLE TUNNEL ─────────────────────────────────────────
 const canvas = document.getElementById('c');
 const R = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
 R.setPixelRatio(Math.min(devicePixelRatio,2));
 R.setSize(innerWidth,innerHeight);
 
 const S = new THREE.Scene();
-S.fog = new THREE.FogExp2(0x04050e, 0.014);
+S.fog = new THREE.FogExp2(0x070810, 0.016);
 
-const CAM = new THREE.PerspectiveCamera(72, innerWidth/innerHeight, 0.1, 300);
+const CAM = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 200);
 CAM.position.set(0,0,0);
 
 const GOLD = new THREE.Color(0xd4a853);
-const GOLDL = new THREE.Color(0xf0c87a);
-const GOLDD = new THREE.Color(0x7a5a18);
 
-// ── 1. DENSE PARTICLE FIELD (6000 particles in tunnel formation) ──
-const N = 6000;
+// Particles — tunnel shape
+const N = 3500;
 const PA = new Float32Array(N*3);
-const PS = []; // speeds
+const PS = [];
 for(let i=0;i<N;i++){
-  const angle = Math.random() * Math.PI * 2;
-  const r = 3 + Math.pow(Math.random(),0.5) * 14; // clustered near center-ish
-  const depth = Math.random() * 140;
-  PA[i*3]   = Math.cos(angle)*r + (Math.random()-.5)*3;
-  PA[i*3+1] = Math.sin(angle)*r*.55 + (Math.random()-.5)*2;
-  PA[i*3+2] = -depth;
-  PS.push({x:(Math.random()-.5)*.0025, y:(Math.random()-.5)*.0018});
+  const a = Math.random()*Math.PI*2;
+  const r = 4 + Math.random()*10;
+  const d = Math.random()*110;
+  PA[i*3]   = Math.cos(a)*r + (Math.random()-.5)*2.5;
+  PA[i*3+1] = Math.sin(a)*r*.55 + (Math.random()-.5)*2;
+  PA[i*3+2] = -d;
+  PS.push({x:(Math.random()-.5)*.0022, y:(Math.random()-.5)*.0016});
 }
 const PG = new THREE.BufferGeometry();
 PG.setAttribute('position', new THREE.BufferAttribute(PA,3));
-S.add(new THREE.Points(PG, new THREE.PointsMaterial({color:GOLD,size:.038,transparent:true,opacity:.5,sizeAttenuation:true})));
+S.add(new THREE.Points(PG, new THREE.PointsMaterial({color:GOLD,size:.03,transparent:true,opacity:.48,sizeAttenuation:true})));
 
-// ── 2. GLOWING RINGS at depth intervals ──
-const ringZ = [-8,-20,-34,-50,-68,-88,-110,-135];
-const rings = [];
-ringZ.forEach((z,i) => {
-  const segs = 80;
-  const r = 5 + Math.sin(i*1.3)*1.5;
-  const geo = new THREE.TorusGeometry(r, .04, 4, segs);
-  const mat = new THREE.MeshBasicMaterial({color:GOLD, transparent:true, opacity: .12 + i*.008});
-  const ring = new THREE.Mesh(geo, mat);
-  ring.position.z = z;
+// 5 clean rings
+[-12,-28,-46,-66,-88].forEach((z,i)=>{
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(5+i*.3, .035, 4, 72),
+    new THREE.MeshBasicMaterial({color:GOLD,transparent:true,opacity:.1+i*.012})
+  );
   ring.rotation.x = Math.PI/2;
+  ring.position.z = z;
+  ring.userData.i = i;
   S.add(ring);
-  rings.push(ring);
-
-  // Outer ring (larger, dimmer)
-  const geo2 = new THREE.TorusGeometry(r+1.5, .02, 4, segs);
-  const mat2 = new THREE.MeshBasicMaterial({color:GOLDD, transparent:true, opacity:.05});
-  const ring2 = new THREE.Mesh(geo2, mat2);
-  ring2.position.z = z;
-  ring2.rotation.x = Math.PI/2;
-  S.add(ring2);
 });
 
-// ── 3. LARGE CENTRAL GEOMETRY pieces ──
-const geoConfigs = [
-  {type:'ico', pos:[-6,2,-25], scale:2.2, op:.15},
-  {type:'oct', pos:[7,-3,-42], scale:1.8, op:.12},
-  {type:'tet', pos:[-5,-4,-60], scale:2.5, op:.1},
-  {type:'ico', pos:[8,4,-78], scale:3, op:.08},
-  {type:'oct', pos:[-7,3,-95], scale:2, op:.11},
-  {type:'tet', pos:[5,-5,-115], scale:3.5, op:.07},
+// A few floating icosahedra
+const icoData = [
+  {pos:[-5,2,-22], scale:1.6, rs:{x:.006,y:.009}},
+  {pos:[6,-2.5,-45], scale:2.0, rs:{x:-.005,y:.007}},
+  {pos:[-6,3,-70], scale:2.4, rs:{x:.007,y:-.006}},
 ];
-const geoMeshes = [];
-geoConfigs.forEach(cfg => {
-  let geo;
-  if(cfg.type==='ico') geo = new THREE.IcosahedronGeometry(1,1);
-  else if(cfg.type==='oct') geo = new THREE.OctahedronGeometry(1,0);
-  else geo = new THREE.TetrahedronGeometry(1,0);
-  const mat = new THREE.MeshBasicMaterial({color:GOLD,wireframe:true,transparent:true,opacity:cfg.op});
-  const m = new THREE.Mesh(geo, mat);
-  m.position.set(...cfg.pos);
-  m.scale.setScalar(cfg.scale);
-  m.userData.rs = {x:(Math.random()-.5)*.006, y:(Math.random()-.5)*.008};
+const icoMeshes = icoData.map(d=>{
+  const m = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(1,1),
+    new THREE.MeshBasicMaterial({color:GOLD,wireframe:true,transparent:true,opacity:.14})
+  );
+  m.position.set(...d.pos);
+  m.scale.setScalar(d.scale);
+  m.userData.rs = d.rs;
   S.add(m);
-  geoMeshes.push(m);
+  return m;
 });
 
-// ── 4. GRID PLANES (floor + ceiling) ──
-const gfGeo = new THREE.PlaneGeometry(60,140,35,70);
-const gfMat = new THREE.MeshBasicMaterial({color:GOLDD,wireframe:true,transparent:true,opacity:.045});
-const gFloor = new THREE.Mesh(gfGeo, gfMat);
+// Grid floor
+const gFloor = new THREE.Mesh(
+  new THREE.PlaneGeometry(50,110,28,55),
+  new THREE.MeshBasicMaterial({color:GOLD,wireframe:true,transparent:true,opacity:.04})
+);
 gFloor.rotation.x = -Math.PI/2;
-gFloor.position.set(0,-6,-60);
+gFloor.position.set(0,-5.5,-50);
 S.add(gFloor);
 
-const gcMat = new THREE.MeshBasicMaterial({color:GOLDD,wireframe:true,transparent:true,opacity:.025});
-const gCeil = new THREE.Mesh(gfGeo.clone(), gcMat);
-gCeil.rotation.x = Math.PI/2;
-gCeil.position.set(0,6,-60);
-S.add(gCeil);
+let mx=0,my=0,camX=0,camY=0,targetZ=0;
+const TRAVEL = -110;
 
-// ── 5. SIDE WALL LINES (like a corridor) ──
-for(let i=0;i<20;i++){
-  const geo = new THREE.BufferGeometry();
-  const side = i%2===0 ? -9 : 9;
-  const yPos = (Math.random()-.5)*8;
-  const pts = [side,yPos,0, side,yPos,-140];
-  geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pts),3));
-  const mat = new THREE.LineBasicMaterial({color:GOLDD,transparent:true,opacity:.04+Math.random()*.04});
-  S.add(new THREE.Line(geo,mat));
-}
+document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*.65;my=(e.clientY/innerHeight-.5)*.38;});
 
-// ── 6. STAR FIELD in the far distance ──
-const SF = 800;
-const sfPos = new Float32Array(SF*3);
-for(let i=0;i<SF;i++){
-  sfPos[i*3]   = (Math.random()-.5)*100;
-  sfPos[i*3+1] = (Math.random()-.5)*60;
-  sfPos[i*3+2] = -100 - Math.random()*200;
-}
-const sfGeo = new THREE.BufferGeometry();
-sfGeo.setAttribute('position', new THREE.BufferAttribute(sfPos,3));
-S.add(new THREE.Points(sfGeo, new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.3,sizeAttenuation:true})));
-
-// ── MOUSE & CAMERA STATE ──
-let mx=0, my=0, camX=0, camY=0;
-let targetZ = 0;
-const CAM_TRAVEL = -130;
-
-document.addEventListener('mousemove', e=>{
-  mx = (e.clientX/innerWidth-.5)*.7;
-  my = (e.clientY/innerHeight-.5)*.4;
-});
-
-// ── ANIMATE ──
-const dlabel = document.getElementById('dlabel');
-function animate(t){
-  requestAnimationFrame(animate);
+function animBG(t){
+  requestAnimationFrame(animBG);
   const time = t*.001;
-
-  // Camera smooth follow
-  CAM.position.z += (targetZ - CAM.position.z) * .055;
-  camX += (mx*.35 - camX) * .04;
-  camY += (-my*.22 - camY) * .04;
+  CAM.position.z += (targetZ - CAM.position.z)*.055;
+  camX += (mx*.3 - camX)*.04;
+  camY += (-my*.2 - camY)*.04;
   CAM.position.x = camX;
   CAM.position.y = camY;
-  CAM.lookAt(camX*.3, camY*.3, CAM.position.z - 12);
+  CAM.lookAt(camX*.3, camY*.25, CAM.position.z-10);
 
-  // Particle drift
   for(let i=0;i<N;i++){
     PA[i*3]+=PS[i].x; PA[i*3+1]+=PS[i].y;
     if(Math.abs(PA[i*3])>12) PS[i].x*=-1;
@@ -346,110 +281,77 @@ function animate(t){
   }
   PG.attributes.position.needsUpdate=true;
 
-  // Rotate rings — breathing pulse
-  rings.forEach((ring,i) => {
-    ring.rotation.z = time * (.05 + i*.01);
-    ring.material.opacity = (.1+i*.007) * (1+Math.sin(time*1.2+i)*.15);
+  S.children.forEach(child=>{
+    if(child.geometry?.type==='TorusGeometry'){
+      child.rotation.z = time*(.04+child.userData.i*.008);
+    }
   });
+  icoMeshes.forEach(m=>{m.rotation.x+=m.userData.rs.x;m.rotation.y+=m.userData.rs.y;});
+  gFloor.position.z = -50 + CAM.position.z*.12;
 
-  // Rotate geometry
-  geoMeshes.forEach(m => {
-    m.rotation.x += m.userData.rs.x;
-    m.rotation.y += m.userData.rs.y;
-    const b = 1+Math.sin(time*.8 + m.position.z*.05)*.04;
-    m.scale.setScalar(m.userData.baseScale || (m.userData.baseScale = m.scale.x));
-    m.scale.setScalar(m.userData.baseScale * b);
-  });
-
-  // Grid scroll with camera
-  gFloor.position.z = -60 + CAM.position.z * .15;
-  gCeil.position.z = -60 + CAM.position.z * .15;
-
-  // Depth label
-  const pct = Math.round(Math.abs(CAM.position.z / CAM_TRAVEL) * 100);
-  dlabel.textContent = 'depth: ' + Math.min(100,pct) + '%';
-
-  R.render(S, CAM);
+  R.render(S,CAM);
 }
-animate(0);
+animBG(0);
 
-window.addEventListener('resize',()=>{
-  CAM.aspect=innerWidth/innerHeight;
-  CAM.updateProjectionMatrix();
-  R.setSize(innerWidth,innerHeight);
-});
+window.addEventListener('resize',()=>{CAM.aspect=innerWidth/innerHeight;CAM.updateProjectionMatrix();R.setSize(innerWidth,innerHeight);});
 
-// ═══════════════════════════════════════════════════════════════════
-// SCROLL → SCENE SYSTEM
-// ═══════════════════════════════════════════════════════════════════
-const STOPS = [
-  {p:0,    z:0,    id:'o0', label:'entrance'},
-  {p:.17,  z:-22,  id:'o1', label:'story'},
-  {p:.34,  z:-44,  id:'o2', label:'features'},
-  {p:.51,  z:-65,  id:'o3', label:'numbers'},
-  {p:.68,  z:-88,  id:'o4', label:'pricing'},
-  {p:.85,  z:-110, id:'o5', label:'cta'},
+// ── SCENE MANAGEMENT ─────────────────────────────────────────────────────────
+const STOPS=[
+  {p:0,   z:0,   id:'o0'},
+  {p:.17, z:-20, id:'o1'},
+  {p:.34, z:-40, id:'o2'},
+  {p:.51, z:-60, id:'o3'},
+  {p:.68, z:-80, id:'o4'},
+  {p:.85, z:-98, id:'o5'},
 ];
-
-const ovEls = STOPS.map(s => document.getElementById(s.id));
+const ovEls = STOPS.map(s=>document.getElementById(s.id));
 const dots = document.querySelectorAll('.dot');
-let curStop = 0;
-let busy = false;
+let cur=0, busy=false;
 
 function showStop(idx){
-  if(idx===curStop || busy) return;
-  busy = true;
-  const prev = curStop;
-  curStop = idx;
-
+  if(idx===cur||busy)return;
+  busy=true;
+  const prev=cur; cur=idx;
   dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
-  targetZ = STOPS[idx].z;
+  targetZ=STOPS[idx].z;
 
-  // Hide current
-  const prevEl = ovEls[prev];
-  gsap.killTweensOf(prevEl);
-  gsap.to(prevEl,{opacity:0,y:idx>prev?-20:20,duration:.4,ease:'power2.in',
-    onComplete:()=>prevEl.classList.remove('on')
-  });
+  gsap.killTweensOf(ovEls[prev]);
+  gsap.to(ovEls[prev],{opacity:0,y:idx>prev?-18:18,duration:.38,ease:'power2.in',onComplete:()=>ovEls[prev].classList.remove('on')});
 
-  // Show new
-  const nextEl = ovEls[idx];
-  nextEl.classList.add('on');
+  ovEls[idx].classList.add('on');
   setTimeout(()=>{
-    gsap.fromTo(nextEl,{opacity:0,y:idx>prev?22:-22},{opacity:1,y:0,duration:.7,ease:'power3.out',
-      onComplete:()=>{busy=false;}
-    });
-    // Per-scene entrance
-    const id = STOPS[idx].id;
-    if(id==='o1') gsap.to('#o1 .wspan',{y:0,stagger:.1,duration:.85,ease:'power4.out',delay:.15});
-    if(id==='o2') gsap.fromTo('#o2 .fc',{opacity:0,y:24,scale:.96},{opacity:1,y:0,scale:1,stagger:.07,duration:.55,delay:.1,ease:'back.out(1.4)'});
-    if(id==='o3') gsap.fromTo('#o3 .sval',{opacity:0,y:28,scale:.88},{opacity:1,y:0,scale:1,stagger:.15,duration:.8,delay:.15,ease:'back.out(1.6)'});
-    if(id==='o4') gsap.fromTo('#o4 .pc',{opacity:0,y:30},{opacity:1,y:0,stagger:.1,duration:.65,delay:.15,ease:'back.out(1.4)'});
-    if(id==='o5'){
-      gsap.fromTo('#o5 .ch',{opacity:0,scale:.88},{opacity:1,scale:1,duration:.95,delay:.15,ease:'power3.out'});
-      gsap.fromTo('#o5 .cp',{opacity:0},{opacity:1,duration:.7,delay:.85});
-      gsap.fromTo('#o5 .cbtn',{opacity:0,y:14},{opacity:1,y:0,duration:.65,delay:1.05,ease:'back.out(1.4)'});
+    gsap.fromTo(ovEls[idx],{opacity:0,y:idx>prev?20:-20},{opacity:1,y:0,duration:.65,ease:'power3.out',onComplete:()=>{busy=false;}});
+    const id=STOPS[idx].id;
+    if(id==='o1') gsap.to('#o1 .ws',{y:0,stagger:.1,duration:.85,ease:'power4.out',delay:.1});
+    if(id==='o2') gsap.fromTo('#o2 .fc',{opacity:0,y:22,scale:.96},{opacity:1,y:0,scale:1,stagger:.07,duration:.5,delay:.1,ease:'back.out(1.4)'});
+    if(id==='o3'){
+      // Fun bounce on the headline
+      gsap.fromTo('#o3 .funny-h',{opacity:0,scale:.9,y:20},{opacity:1,scale:1,y:0,duration:.8,delay:.1,ease:'back.out(1.5)'});
+      gsap.fromTo('#o3 .funny-p',{opacity:0},{opacity:1,duration:.6,delay:.6});
+      gsap.fromTo('#o3 .sbox',{opacity:0,y:24},{opacity:1,y:0,stagger:.12,duration:.6,delay:.8,ease:'back.out(1.6)'});
     }
-  }, 150);
+    if(id==='o4') gsap.fromTo('#o4 .pc',{opacity:0,y:28},{opacity:1,y:0,stagger:.1,duration:.6,delay:.1,ease:'back.out(1.4)'});
+    if(id==='o5'){
+      gsap.fromTo('#o5 .ch',{opacity:0,scale:.9},{opacity:1,scale:1,duration:.9,delay:.1,ease:'power3.out'});
+      gsap.fromTo('#o5 .cp',{opacity:0},{opacity:1,duration:.65,delay:.75});
+      gsap.fromTo('#o5 .cbtn',{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:1,ease:'back.out(1.4)'});
+    }
+  },120);
 }
 
 ScrollTrigger.create({
-  trigger:'.track', start:'top top', end:'bottom bottom',
+  trigger:'.track',start:'top top',end:'bottom bottom',
   onUpdate:self=>{
-    const p = self.progress;
-    targetZ = p * CAM_TRAVEL; // continuous camera travel
+    targetZ=self.progress*TRAVEL;
     let best=0;
-    STOPS.forEach((s,i)=>{ if(p >= s.p-.06) best=i; });
+    STOPS.forEach((s,i)=>{if(self.progress>=s.p-.05)best=i;});
     showStop(best);
   }
 });
 
-function jmp(i){
-  window.scrollTo({top:document.querySelector('.track').offsetHeight*STOPS[i].p, behavior:'smooth'});
-}
+function jmp(i){window.scrollTo({top:document.querySelector('.track').offsetHeight*STOPS[i].p,behavior:'smooth'});}
 
-// Init
-gsap.fromTo('#o0',{opacity:0,y:20},{opacity:1,y:0,duration:1.2,ease:'power3.out',delay:.4});
+gsap.fromTo('#o0',{opacity:0,y:18},{opacity:1,y:0,duration:1.1,ease:'power3.out',delay:.35});
 </script>
 </body>
 </html>
