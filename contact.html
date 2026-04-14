@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request a Website — Get Found Local</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#070810;color:#fff;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#d4a853}
+.nav-links{display:flex;align-items:center;gap:2px}.nav-links a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.42);border-radius:8px;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-cta{background:#d4a853!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:600!important}.nav-cta:hover{background:#f0c87a!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}.hamburger span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px}
+.mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(7,8,16,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
+.page-hero{padding:130px 52px 70px;position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.06)}
+.page-hero::before{content:'';position:absolute;top:-120px;right:-120px;width:450px;height:450px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,83,.08) 0%,transparent 65%);pointer-events:none}
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:.68rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#d4a853;margin-bottom:20px}
+.eyebrow-line{width:28px;height:1px;background:#d4a853}
+h1{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6rem);line-height:.95;letter-spacing:-1.5px;font-weight:400;margin-bottom:20px}h1 em{font-style:italic;color:#f0c87a}
+.lede{font-size:1rem;color:rgba(255,255,255,.42);line-height:1.8;max-width:540px;font-weight:300}
+.form-section{padding:70px 52px}
+.fw{max-width:780px;background:#0d0f1a;border-radius:22px;padding:48px 44px;border:1px solid rgba(255,255,255,.07)}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.f-full{margin-bottom:14px}
+.fg label{display:block;font-size:.7rem;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px}
+.fg input,.fg select,.fg textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .25s,background .25s;-webkit-appearance:none}
+.fg select{cursor:pointer}.fg select option{background:#0d0f1a}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(212,168,83,.45);background:rgba(212,168,83,.04)}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.18)}
+.fg textarea{resize:vertical;min-height:88px}
+.f-div{height:1px;background:rgba(255,255,255,.07);margin:24px 0}
+.f-title{font-family:'Instrument Serif',serif;font-size:.98rem;font-weight:400;margin-bottom:14px;color:#fff}
+.checks{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
+.chk{position:relative}.chk input{position:absolute;opacity:0;pointer-events:none}
+.chk label{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:9px 12px;font-size:.79rem;color:rgba(255,255,255,.45);cursor:pointer;transition:all .2s;user-select:none}
+.chk input:checked+label{background:rgba(212,168,83,.08);border-color:rgba(212,168,83,.38);color:#f0c87a}
+.chk label:hover{border-color:rgba(255,255,255,.18);color:#fff}
+.radios{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.rdo{position:relative}.rdo input{position:absolute;opacity:0;pointer-events:none}
+.rdo label{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:50px;padding:7px 14px;font-size:.79rem;color:rgba(255,255,255,.45);cursor:pointer;transition:all .2s;user-select:none}
+.rdo input:checked+label{background:rgba(212,168,83,.08);border-color:rgba(212,168,83,.38);color:#f0c87a}
+.rdo label:hover{border-color:rgba(255,255,255,.18);color:#fff}
+.submit{width:100%;background:#d4a853;color:#070810;border:none;padding:15px;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .25s;margin-top:8px;letter-spacing:.3px}
+.submit:hover{background:#f0c87a;transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,83,.3)}
+.form-note{text-align:center;margin-top:12px;font-size:.75rem;color:rgba(255,255,255,.28)}
+[data-r]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}[data-r].on{opacity:1;transform:none}
+footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.06)}
+.f-logo{font-family:'Instrument Serif',serif;font-size:1.05rem;color:#fff}.f-logo em{font-style:italic;color:#f0c87a}
+.f-links{display:flex;gap:22px}.f-links a{font-size:.78rem;color:rgba(255,255,255,.25);transition:color .2s}.f-links a:hover{color:#f0c87a}
+.f-copy{font-size:.76rem;color:rgba(255,255,255,.18)}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}.form-section,.page-hero{padding-left:20px;padding-right:20px}.fw{padding:28px 20px}.f-row{grid-template-columns:1fr}.checks{grid-template-columns:repeat(2,1fr)}footer{padding:28px 20px;flex-direction:column;text-align:center}.f-links{justify-content:center}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Get Found <em>Local</em></a>
+  <div class="nav-links"><a href="index.html">Home</a><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a><a href="contact.html" class="active nav-cta">Get a Website</a></div>
+  <div class="hamburger" onclick="document.getElementById('mob').classList.toggle('open')"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob" id="mob"><a href="index.html">Home</a><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a><a href="contact.html">Get a Website</a></div>
+
+<div class="page-hero">
+  <div class="eyebrow"><span class="eyebrow-line"></span>Get Started</div>
+  <h1>Let us build<br>your <em>site.</em></h1>
+  <p class="lede">Fill this out and we will reach out within 24 hours. No payment until you approve the design.</p>
+</div>
+
+<section class="form-section">
+  <div class="fw" data-r>
+    <form id="theForm" action="https://formspree.io/f/xpwzgkqy" method="POST">
+      <div class="f-title">Your Information</div>
+      <div class="f-row">
+        <div class="fg"><label>Business Name *</label><input type="text" name="business_name" placeholder="Mountain Auto Repair" required></div>
+        <div class="fg"><label>Your Name *</label><input type="text" name="name" placeholder="Your Name" required></div>
+      </div>
+      <div class="f-row">
+        <div class="fg"><label>Email Address *</label><input type="email" name="email" placeholder="you@email.com" required></div>
+        <div class="fg"><label>Phone Number</label><input type="tel" name="phone" placeholder="(303) 555-0100"></div>
+      </div>
+      <div class="f-full fg"><label>Business Address *</label><input type="text" name="location" placeholder="123 Main St, Denver, CO 80201" required></div>
+      <div class="f-div"></div>
+      <div class="f-title">Website Package</div>
+      <div class="f-full fg">
+        <label>Which tier? *</label>
+        <select name="tier" required>
+          <option value="" disabled selected>Select a package...</option>
+          <option>Basic — $399 build fee (plus monthly plan)</option>
+          <option>Standard — $799 build fee (plus monthly plan)</option>
+          <option>Premium — $1,499 build fee (plus monthly plan)</option>
+          <option>Not sure — help me decide</option>
+        </select>
+      </div>
+      <div class="f-div"></div>
+      <div class="f-title">Pages You Want</div>
+      <div class="checks">
+        <div class="chk"><input type="checkbox" id="c1" name="pages" value="Home" checked><label for="c1">Home</label></div>
+        <div class="chk"><input type="checkbox" id="c2" name="pages" value="About"><label for="c2">About</label></div>
+        <div class="chk"><input type="checkbox" id="c3" name="pages" value="Services"><label for="c3">Services</label></div>
+        <div class="chk"><input type="checkbox" id="c4" name="pages" value="Gallery"><label for="c4">Gallery</label></div>
+        <div class="chk"><input type="checkbox" id="c5" name="pages" value="Reviews"><label for="c5">Reviews</label></div>
+        <div class="chk"><input type="checkbox" id="c6" name="pages" value="Contact"><label for="c6">Contact</label></div>
+        <div class="chk"><input type="checkbox" id="c7" name="pages" value="Menu"><label for="c7">Menu</label></div>
+        <div class="chk"><input type="checkbox" id="c8" name="pages" value="Booking"><label for="c8">Booking</label></div>
+        <div class="chk"><input type="checkbox" id="c9" name="pages" value="FAQ"><label for="c9">FAQ</label></div>
+      </div>
+      <div class="f-div"></div>
+      <div class="f-title">Design Preferences</div>
+      <div class="f-full">
+        <div class="radios">
+          <div class="rdo"><input type="radio" id="r0" name="colors" value="best_judgment" checked><label for="r0">Use your best judgment</label></div>
+          <div class="rdo"><input type="radio" id="r1" name="colors" value="dark"><label for="r1">Dark and moody</label></div>
+          <div class="rdo"><input type="radio" id="r2" name="colors" value="light"><label for="r2">Light and clean</label></div>
+          <div class="rdo"><input type="radio" id="r3" name="colors" value="warm"><label for="r3">Warm and earthy</label></div>
+          <div class="rdo"><input type="radio" id="r4" name="colors" value="bold"><label for="r4">Bold and vibrant</label></div>
+        </div>
+      </div>
+      <div class="f-full fg">
+        <label>Photos</label>
+        <select name="photos">
+          <option>Pull photos from my Google Maps listing</option>
+          <option>I will send my own photos</option>
+          <option>A mix of both</option>
+          <option>Use professional stock photos</option>
+        </select>
+      </div>
+      <div class="f-full fg"><label>Anything Else?</label><textarea name="notes" placeholder="Special requests, features you need, or just leave this blank and we will handle the rest."></textarea></div>
+      <button type="submit" class="submit">Send My Request</button>
+      <p class="form-note">We will reach out within 24 hours. No payment until you approve the design.</p>
+    </form>
+  </div>
+</section>
+
+<footer><div class="f-logo">Get Found <em>Local</em></div><div class="f-links"><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="contact.html">Contact</a></div><div class="f-copy">Get-Found-Local@outlook.com</div></footer>
+<script>
+const io=new IntersectionObserver(e=>{e.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('on'),i*80);io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('[data-r]').forEach(el=>io.observe(el));
+document.getElementById('theForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const btn=this.querySelector('.submit');
+  btn.textContent='Sending...';btn.disabled=true;
+  try{
+    const res=await fetch('https://formspree.io/f/xpwzgkqy',{method:'POST',body:new FormData(this),headers:{Accept:'application/json'}});
+    if(res.ok){this.innerHTML='<div style="text-align:center;padding:52px 0"><div style="font-family:Instrument Serif,serif;font-size:1.8rem;color:#fff;margin-bottom:12px">Request received.</div><p style="color:rgba(255,255,255,.42);line-height:1.75;font-size:.9rem">We will reach out within 24 hours.<br>Keep an eye on your inbox.</p></div>';}
+    else{btn.textContent='Try again';btn.disabled=false;}
+  }catch(err){btn.textContent='Try again';btn.disabled=false;}
+});
+</script>
+</body>
+</html>
