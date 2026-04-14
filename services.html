@@ -13,7 +13,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
 .logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#d4a853}
 .nav-links{display:flex;align-items:center;gap:2px}
-.nav-links a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.42);border-radius:8px;transition:color .2s}
+.nav-links a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.7);border-radius:8px;transition:color .2s}
 .nav-links a:hover,.nav-links a.active{color:#fff}
 .nav-cta{background:#d4a853!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:600!important}
 .nav-cta:hover{background:#f0c87a!important}
@@ -27,7 +27,7 @@ h1{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6rem);line-heig
 h1 em{font-style:italic;color:#f0c87a}
 h2{font-family:'Instrument Serif',serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:400;line-height:1.1;letter-spacing:-.5px;margin-bottom:16px}
 h2 em{font-style:italic;color:#f0c87a}
-.lede{font-size:1rem;color:rgba(255,255,255,.42);line-height:1.8;max-width:540px;font-weight:300}
+.lede{font-size:1rem;color:rgba(255,255,255,.7);line-height:1.8;max-width:540px;font-weight:300}
 section{padding:80px 52px}
 .sec-label{display:flex;align-items:center;gap:12px;font-size:.68rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#d4a853;margin-bottom:20px}
 .sec-line{width:28px;height:1px;background:#d4a853}
@@ -37,7 +37,7 @@ section{padding:80px 52px}
 .svc-num{font-family:'Instrument Serif',serif;font-style:italic;font-size:.88rem;color:rgba(212,168,83,.3);display:block;margin-bottom:12px;transition:color .3s}
 .svc-card:hover .svc-num{color:rgba(212,168,83,.7)}
 .svc-name{font-family:'Instrument Serif',serif;font-size:1.1rem;font-weight:400;margin-bottom:8px}
-.svc-desc{font-size:.83rem;color:rgba(255,255,255,.42);line-height:1.65}
+.svc-desc{font-size:.83rem;color:rgba(255,255,255,.7);line-height:1.65}
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:44px;max-width:1100px}
 .feat-card{background:#0d0f1a;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:26px 22px;transition:border-color .3s}
 .feat-card:hover{border-color:rgba(212,168,83,.2)}
@@ -46,7 +46,7 @@ section{padding:80px 52px}
 .feat-desc{font-size:.81rem;color:rgba(255,255,255,.4);line-height:1.6}
 .demo-box{background:#0d0f1a;border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:48px;text-align:center;margin-top:48px;max-width:640px;margin-left:auto;margin-right:auto}
 .demo-box h3{font-family:'Instrument Serif',serif;font-size:1.5rem;font-weight:400;margin-bottom:10px}
-.demo-box p{font-size:.88rem;color:rgba(255,255,255,.42);line-height:1.75;max-width:400px;margin:0 auto 24px}
+.demo-box p{font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.75;max-width:400px;margin:0 auto 24px}
 .btn-gold{display:inline-block;background:#d4a853;color:#070810;padding:13px 30px;border-radius:50px;font-weight:600;font-size:.88rem;transition:all .3s}
 .btn-gold:hover{background:#f0c87a;transform:translateY(-2px)}
 .process{margin-top:44px;display:flex;flex-direction:column;gap:0;max-width:680px}
@@ -54,16 +54,19 @@ section{padding:80px 52px}
 .step:last-child{border-bottom:none}
 .step-n{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.4rem;color:rgba(212,168,83,.3);line-height:1;padding-top:3px}
 .step-h{font-size:.9rem;font-weight:600;margin-bottom:4px}
-.step-p{font-size:.82rem;color:rgba(255,255,255,.42);line-height:1.7}
+.step-p{font-size:.82rem;color:rgba(255,255,255,.7);line-height:1.7}
 [data-r]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}[data-r].on{opacity:1;transform:none}
 footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.06)}
 .f-logo{font-family:'Instrument Serif',serif;font-size:1.05rem;color:#fff}.f-logo em{font-style:italic;color:#f0c87a}
-.f-links{display:flex;gap:22px}.f-links a{font-size:.78rem;color:rgba(255,255,255,.25);transition:color .2s}.f-links a:hover{color:#f0c87a}
+.f-links{display:flex;gap:22px}.f-links a{font-size:.78rem;color:rgba(255,255,255,.45);transition:color .2s}.f-links a:hover{color:#f0c87a}
 .f-copy{font-size:.76rem;color:rgba(255,255,255,.18)}
 @media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}section,.page-hero{padding-left:20px;padding-right:20px}.svc-grid,.feat-grid{grid-template-columns:1fr}.demo-box{padding:32px 20px}footer{padding:28px 20px;flex-direction:column;text-align:center}.f-links{justify-content:center}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 </head>
 <body>
+<style>#svc-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.4}</style>
+<canvas id="svc-canvas"></canvas>
 <nav>
   <a href="index.html" class="logo">Get Found <em>Local</em></a>
   <div class="nav-links">
@@ -133,5 +136,60 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 
 <footer><div class="f-logo">Get Found <em>Local</em></div><div class="f-links"><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="contact.html">Contact</a></div><div class="f-copy">Get-Found-Local@outlook.com</div></footer>
 <script>const io=new IntersectionObserver(e=>{e.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('on'),i*80);io.unobserve(e.target)}})},{threshold:.1});document.querySelectorAll('[data-r]').forEach(el=>io.observe(el));</script>
+
+<script>
+(function(){
+  if(!window.THREE) return;
+  const canvas = document.getElementById('svc-canvas');
+  const renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.z = 5;
+  const gold = new THREE.Color(0xd4a853);
+  const m1 = new THREE.MeshBasicMaterial({color:gold,wireframe:true,transparent:true,opacity:.2});
+  const m2 = new THREE.MeshBasicMaterial({color:gold,wireframe:true,transparent:true,opacity:.12});
+  
+  // Tetrahedron top right
+  const tet = new THREE.Mesh(new THREE.TetrahedronGeometry(1.4,0), m1);
+  tet.position.set(4, 1.5, -2);
+  scene.add(tet);
+  
+  // Dodecahedron lower left
+  const dod = new THREE.Mesh(new THREE.DodecahedronGeometry(1.0,0), m2);
+  dod.position.set(-4.5, -1.5, -3);
+  scene.add(dod);
+  
+  // Grid plane
+  const gridGeo = new THREE.PlaneGeometry(22,22,24,24);
+  const gridMat = new THREE.MeshBasicMaterial({color:gold,wireframe:true,transparent:true,opacity:.05});
+  const grid = new THREE.Mesh(gridGeo,gridMat);
+  grid.rotation.x = -Math.PI/2.6;
+  grid.position.y = -3;
+  grid.position.z = -5;
+  scene.add(grid);
+  
+  let mx=0,my=0,tx=0,ty=0,sy=0;
+  document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*.35;my=(e.clientY/window.innerHeight-.5)*.25;});
+  window.addEventListener('scroll',()=>{sy=window.scrollY;});
+  
+  function animate(t){
+    requestAnimationFrame(animate);
+    const time=t*.001;
+    tx+=(mx-tx)*.05;ty+=(my-ty)*.05;
+    tet.rotation.x=time*.15+ty*.4;tet.rotation.y=time*.2+tx*.4;
+    dod.rotation.x=-time*.1;dod.rotation.y=time*.18+tx*.3;
+    const b=1+Math.sin(time*.7)*.05;
+    tet.scale.setScalar(b);
+    grid.position.z=-5-sy*.0015;
+    camera.position.x=tx*.25;camera.position.y=-ty*.18;
+    renderer.render(scene,camera);
+  }
+  animate(0);
+  window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+
 </body>
 </html>
