@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Demo — Get Found Local</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -14,119 +14,137 @@
 body{font-family:'DM Sans',sans-serif;background:#070810;color:#fff;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.6);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)}
 .logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#d4a853}
-.nav-links{display:flex;align-items:center;gap:2px}.nav-links a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.55);border-radius:8px;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-links{display:flex;align-items:center;gap:2px}.nav-links a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.5);border-radius:8px;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#fff}
 .nav-cta{background:#d4a853!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:600!important}.nav-cta:hover{background:#f0c87a!important}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}.hamburger span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px}
-.mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(7,8,16,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.55);border-radius:8px}.mob a:hover{color:#fff}
+.mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(7,8,16,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
 
-/* The key: html has the scroll, canvas and scenes are fixed behind/above */
-#bg{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0}
-.pin{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2;pointer-events:none;display:flex;align-items:center;justify-content:center}
-.track{height:700vh}
+/* Full screen WebGL */
+#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+
+/* Scroll track */
+.track{height:800vh;position:relative;z-index:1}
+
+/* HUD overlays — fixed above canvas */
+.hud{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2;pointer-events:none}
+
+/* Section labels that appear at each depth stop */
+.depth-label{
+  position:fixed;
+  pointer-events:none;
+  z-index:3;
+  transition:opacity .6s ease, transform .6s ease;
+  opacity:0;
+}
+.depth-label.visible{opacity:1}
+
+/* Opening title */
+.title-wrap{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;z-index:3;pointer-events:none;
+}
+.title-main{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(2.4rem,5vw,4.8rem);
+  font-weight:400;line-height:1.1;letter-spacing:-.5px;
+  color:rgba(255,255,255,.9);
+}
+.title-main em{font-style:italic;color:#f0c87a}
+.title-sub{font-size:.85rem;color:rgba(255,255,255,.45);margin-top:16px;letter-spacing:2px;text-transform:uppercase;font-weight:300}
+.title-hint{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:36px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.hint-line{width:1px;height:32px;background:linear-gradient(to bottom,#d4a853,transparent);animation:hpulse 2s ease infinite}
+@keyframes hpulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* Scene text overlays */
+.scene-overlay{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;z-index:3;pointer-events:none;
+  max-width:800px;width:90%;
+  opacity:0;
+}
+.scene-overlay.show{opacity:1}
+
+.so-label{font-size:.68rem;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:#d4a853;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:12px}
+.so-label span{width:22px;height:1px;background:#d4a853;display:inline-block}
+.so-h{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;line-height:1.05;letter-spacing:-.5px;color:#fff}
+.so-h em{font-style:italic;color:#f0c87a}
+.so-p{font-size:.95rem;color:rgba(255,255,255,.6);margin-top:16px;line-height:1.75;font-weight:300;max-width:500px;margin-left:auto;margin-right:auto}
+
+/* Feature list overlay */
+.feat-overlay{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:3;pointer-events:none;
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  max-width:900px;width:90%;
+  opacity:0;
+}
+.feat-overlay.show{opacity:1}
+.fo-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px 20px;backdrop-filter:blur(8px)}
+.fo-n{font-family:'Instrument Serif',serif;font-style:italic;font-size:.85rem;color:rgba(212,168,83,.4);margin-bottom:8px}
+.fo-h{font-size:.9rem;font-weight:600;margin-bottom:4px;color:#fff}
+.fo-p{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.55}
+
+/* Pricing overlay */
+.price-overlay{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:3;pointer-events:none;
+  display:flex;gap:12px;
+  max-width:960px;width:90%;
+  opacity:0;
+}
+.price-overlay.show{opacity:1}
+.po-card{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:28px 22px;backdrop-filter:blur(10px)}
+.po-card.hot{border-color:rgba(212,168,83,.3);background:rgba(212,168,83,.05)}
+.po-t{font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:10px}
+.po-p{font-family:'Instrument Serif',serif;font-size:2.3rem;font-weight:400;color:#fff;line-height:1;margin-bottom:3px}
+.po-n{font-size:.68rem;color:rgba(255,255,255,.28);margin-bottom:14px}
+.po-l{list-style:none;display:flex;flex-direction:column;gap:6px}
+.po-l li{font-size:.76rem;color:rgba(255,255,255,.55);display:flex;gap:7px;align-items:flex-start}
+.po-l li::before{content:'';width:3px;height:3px;background:#d4a853;border-radius:50%;flex-shrink:0;margin-top:5px}
+
+/* CTA overlay */
+.cta-overlay{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;z-index:3;
+  opacity:0;pointer-events:none;
+}
+.cta-overlay.show{opacity:1;pointer-events:auto}
+.co-h{font-family:'Instrument Serif',serif;font-size:clamp(2.8rem,6vw,5.5rem);font-weight:400;letter-spacing:-1px;line-height:.95;color:#fff}
+.co-h em{font-style:italic;color:#f0c87a}
+.co-p{font-size:.98rem;color:rgba(255,255,255,.58);margin-top:18px;max-width:360px;margin-left:auto;margin-right:auto;line-height:1.75;font-weight:300}
+.co-btn{display:inline-block;background:#d4a853;color:#070810;padding:15px 40px;border-radius:50px;font-weight:600;font-size:.9rem;margin-top:28px;transition:all .25s}
+.co-btn:hover{background:#f0c87a;transform:translateY(-2px)}
 
 /* Progress dots */
 .dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:500}
-.dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .4s;cursor:pointer}
+.dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.18);transition:all .4s;cursor:pointer}
 .dot.on{background:#d4a853;transform:scale(2)}
 
-/* Scenes */
-.sc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:90px 56px;opacity:0}
-.sc.live{pointer-events:auto}
-
-/* S0 */
-.s0{flex-direction:column;text-align:center;gap:0}
-.s0-ey{font-size:.68rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#d4a853;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:36px}
-.s0-ey span{width:26px;height:1px;background:#d4a853;display:inline-block}
-.s0-h{font-family:'Instrument Serif',serif;font-size:clamp(2.4rem,5.5vw,5rem);font-weight:400;letter-spacing:-1px;line-height:1.1;color:rgba(255,255,255,.75)}
-.s0-h em{font-style:italic;color:#f0c87a;font-size:1.35em;font-weight:400;letter-spacing:-2px}
-.s0-p{font-size:1rem;color:rgba(255,255,255,.6);margin-top:28px;max-width:380px;line-height:1.75;font-weight:300}
-.s0-hint{margin-top:52px;display:flex;flex-direction:column;align-items:center;gap:8px}
-.s0-ht{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3)}
-.s0-hl{width:1px;height:36px;background:linear-gradient(to bottom,#d4a853,transparent);animation:pulse 2s ease infinite}
-@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
-
-/* S1 */
-.s1{text-align:center;flex-direction:column;max-width:1100px}
-.s1-h{font-family:'Instrument Serif',serif;font-size:clamp(2.8rem,7vw,6.5rem);font-weight:400;line-height:1.0;letter-spacing:-1.5px;color:#fff}
-.s1-h em{font-style:italic;color:#f0c87a}
-.wl{overflow:hidden;display:block}
-.ws{display:inline-block;transform:translateY(105%)}
-
-/* S2 */
-.s2{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;max-width:1150px;width:100%}
-.s2-lbl{font-size:.68rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#d4a853;display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.s2-lbl span{width:22px;height:1px;background:#d4a853;display:inline-block}
-.s2-h{font-family:'Instrument Serif',serif;font-size:clamp(2rem,3.8vw,3rem);font-weight:400;line-height:1.1;color:#fff}
-.s2-h em{font-style:italic;color:#f0c87a}
-.s2-p{font-size:.92rem;color:rgba(255,255,255,.62);line-height:1.8;margin-top:14px;font-weight:300}
-.s2-feats{display:flex;flex-direction:column;gap:0}
-.s2f{display:flex;align-items:flex-start;gap:16px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.07)}
-.s2f:last-child{border-bottom:none}
-.s2fn{font-family:'Instrument Serif',serif;font-style:italic;font-size:.9rem;color:rgba(212,168,83,.38);min-width:22px;flex-shrink:0;padding-top:2px}
-.s2fh{font-size:.88rem;font-weight:600;margin-bottom:2px;color:#fff}
-.s2fp{font-size:.78rem;color:rgba(255,255,255,.58);line-height:1.55}
-
-/* S3 */
-.s3{flex-direction:column;text-align:center;gap:52px;max-width:960px;width:100%}
-.s3-ey{font-size:.68rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#d4a853;display:flex;align-items:center;gap:12px;justify-content:center}
-.s3-ey span{width:22px;height:1px;background:#d4a853;display:inline-block}
-.s3-nums{display:flex;width:100%}
-.s3-stat{flex:1;text-align:center;padding:0 28px;border-right:1px solid rgba(255,255,255,.07)}
-.s3-stat:last-child{border-right:none}
-.s3-v{font-family:'Instrument Serif',serif;font-size:clamp(3.5rem,9vw,8rem);font-weight:400;color:#fff;line-height:1;display:block}
-.s3-v em{font-style:italic;color:#f0c87a;font-size:.65em}
-.s3-l{font-size:.7rem;color:rgba(255,255,255,.52);letter-spacing:1.5px;text-transform:uppercase;margin-top:8px;display:block}
-
-/* S4 */
-.s4{flex-direction:column;gap:40px;text-align:center;max-width:1000px;width:100%}
-.s4-ey{font-size:.68rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#d4a853;display:flex;align-items:center;gap:12px;justify-content:center}
-.s4-ey span{width:22px;height:1px;background:#d4a853;display:inline-block}
-.s4-h{font-family:'Instrument Serif',serif;font-size:clamp(2rem,4.5vw,3.4rem);font-weight:400;letter-spacing:-.5px;color:#fff}
-.s4-h em{font-style:italic;color:#f0c87a}
-.s4-cards{display:flex;gap:12px;width:100%}
-.s4c{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:28px 22px;text-align:left;transition:border-color .3s}
-.s4c:hover{border-color:rgba(212,168,83,.25)}
-.s4c.hot{border-color:rgba(212,168,83,.3);background:rgba(212,168,83,.05)}
-.s4ct{font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px}
-.s4cp{font-family:'Instrument Serif',serif;font-size:2.3rem;font-weight:400;color:#fff;line-height:1;margin-bottom:3px}
-.s4cn{font-size:.68rem;color:rgba(255,255,255,.28);margin-bottom:16px}
-.s4cl{list-style:none;display:flex;flex-direction:column;gap:6px}
-.s4cl li{font-size:.78rem;color:rgba(255,255,255,.58);display:flex;gap:7px;align-items:flex-start}
-.s4cl li::before{content:'';width:3px;height:3px;background:#d4a853;border-radius:50%;flex-shrink:0;margin-top:6px}
-
-/* S5 */
-.s5{flex-direction:column;text-align:center;gap:20px}
-.s5-h{font-family:'Instrument Serif',serif;font-size:clamp(3.5rem,9vw,9rem);font-weight:400;letter-spacing:-2px;line-height:.92;color:#fff}
-.s5-h em{font-style:italic;color:#f0c87a}
-.s5-p{font-size:1rem;color:rgba(255,255,255,.58);max-width:380px;line-height:1.75;font-weight:300}
-.s5-btn{display:inline-block;background:#d4a853;color:#070810;padding:15px 40px;border-radius:50px;font-weight:600;font-size:.9rem;pointer-events:auto;transition:all .25s;margin-top:8px}
-.s5-btn:hover{background:#f0c87a;transform:translateY(-2px)}
-
-/* POST */
-.post{position:relative;z-index:3;margin-top:700vh;background:#070810}
+/* Post */
+.post{position:relative;z-index:3;margin-top:800vh;background:#070810}
 .post-cta{padding:110px 52px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
-.post-cta h2{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:400;letter-spacing:-1px;line-height:1.0;margin-bottom:16px}
+.post-cta h2{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:400;letter-spacing:-1px;margin-bottom:16px}
 .post-cta h2 em{font-style:italic;color:#f0c87a}
-.post-cta p{font-size:.98rem;color:rgba(255,255,255,.6);max-width:380px;margin:0 auto 32px;line-height:1.75;font-weight:300}
+.post-cta p{font-size:.98rem;color:rgba(255,255,255,.58);max-width:380px;margin:0 auto 30px;line-height:1.75;font-weight:300}
 .btn-gold{display:inline-block;background:#d4a853;color:#070810;padding:14px 36px;border-radius:50px;font-weight:600;font-size:.9rem;transition:all .3s}
 .btn-gold:hover{background:#f0c87a;transform:translateY(-2px)}
 footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.06)}
 .f-logo{font-family:'Instrument Serif',serif;font-size:1.05rem;color:#fff}.f-logo em{font-style:italic;color:#f0c87a}
-.f-links{display:flex;gap:22px}.f-links a{font-size:.78rem;color:rgba(255,255,255,.35);transition:color .2s}.f-links a:hover{color:#f0c87a}
-.f-copy{font-size:.76rem;color:rgba(255,255,255,.2)}
+.f-links{display:flex;gap:22px}.f-links a{font-size:.78rem;color:rgba(255,255,255,.3);transition:color .2s}.f-links a:hover{color:#f0c87a}
+.f-copy{font-size:.76rem;color:rgba(255,255,255,.18)}
 
 @media(max-width:768px){
   nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}
   .dots{display:none}
-  .sc{padding:80px 20px}
-  .s0-h{font-size:clamp(4rem,13vw,6rem);letter-spacing:-3px}
-  .s2{grid-template-columns:1fr;gap:36px}
-  .s3-nums{flex-direction:column;gap:28px}
-  .s3-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);padding:0 0 24px}
-  .s3-stat:last-child{border-bottom:none}
-  .s4-cards{flex-direction:column}
+  .feat-overlay{grid-template-columns:1fr}
+  .price-overlay{flex-direction:column}
   .post-cta{padding:80px 20px}
   footer{padding:28px 20px;flex-direction:column;text-align:center}.f-links{justify-content:center}
 }
@@ -151,89 +169,63 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
   <a href="contact.html">Get a Website</a>
 </div>
 
-<!-- WebGL background -->
-<canvas id="bg"></canvas>
+<canvas id="c"></canvas>
 
-<!-- Progress dots -->
 <div class="dots" id="dots">
-  <div class="dot on" onclick="jump(0)"></div>
-  <div class="dot" onclick="jump(1)"></div>
-  <div class="dot" onclick="jump(2)"></div>
-  <div class="dot" onclick="jump(3)"></div>
-  <div class="dot" onclick="jump(4)"></div>
-  <div class="dot" onclick="jump(5)"></div>
+  <div class="dot on" onclick="jumpTo(0)"></div>
+  <div class="dot" onclick="jumpTo(1)"></div>
+  <div class="dot" onclick="jumpTo(2)"></div>
+  <div class="dot" onclick="jumpTo(3)"></div>
+  <div class="dot" onclick="jumpTo(4)"></div>
+  <div class="dot" onclick="jumpTo(5)"></div>
 </div>
 
-<!-- This is the scrollable spacer — 700vh tall -->
 <div class="track"></div>
 
-<!-- Fixed scene overlay -->
-<div class="pin">
-
-  <!-- S0: Opening -->
-  <div class="sc s0 live" id="sc0">
-    <div class="s0-ey"><span></span>Animation Showcase<span></span></div>
-    <h1 class="s0-h">how <em>your</em> site<br>could <em>feel.</em></h1>
-    <p class="s0-p">Scroll down — the stage transforms around you. Every effect here can live on your site.</p>
-    <div class="s0-hint"><span class="s0-ht">scroll</span><div class="s0-hl"></div></div>
+<!-- Opening title -->
+<div class="title-wrap" id="titleWrap">
+  <div class="title-main">how <em>your</em> site<br>could <em>feel.</em></div>
+  <div class="title-sub">Animation Showcase</div>
+  <div class="title-hint">
+    <span>scroll</span>
+    <div class="hint-line"></div>
   </div>
-
-  <!-- S1: Statement -->
-  <div class="sc s1" id="sc1">
-    <h2 class="s1-h">
-      <span class="wl"><span class="ws">Your business</span></span>
-      <span class="wl"><span class="ws">tells a story.</span></span>
-      <span class="wl"><span class="ws" style="color:#f0c87a;font-style:italic">We help people find it.</span></span>
-    </h2>
-  </div>
-
-  <!-- S2: Features -->
-  <div class="sc s2" id="sc2">
-    <div id="s2left">
-      <div class="s2-lbl"><span></span>Standard Tier — $799</div>
-      <h2 class="s2-h">Six to ten pages.<br><em>Everything</em><br>you need.</h2>
-      <p class="s2-p">Built from your Google listing — photos, hours, reviews. Live in days. You own everything.</p>
-    </div>
-    <div class="s2-feats" id="s2feats">
-      <div class="s2f"><span class="s2fn">01</span><div><div class="s2fh">6–10 Pages</div><div class="s2fp">Home, services, gallery, about, contact, FAQ.</div></div></div>
-      <div class="s2f"><span class="s2fn">02</span><div><div class="s2fh">Photo Hover Effects</div><div class="s2fp">Zoom, color reveal, blur-to-sharp.</div></div></div>
-      <div class="s2f"><span class="s2fn">03</span><div><div class="s2fh">Booking Button</div><div class="s2fp">Calendly or Google Calendar embed.</div></div></div>
-      <div class="s2f"><span class="s2fn">04</span><div><div class="s2fh">Contact Form</div><div class="s2fp">Goes straight to your email.</div></div></div>
-      <div class="s2f"><span class="s2fn">05</span><div><div class="s2fh">SEO and Schema</div><div class="s2fp">Google finds you from day one.</div></div></div>
-    </div>
-  </div>
-
-  <!-- S3: Stats -->
-  <div class="sc s3" id="sc3">
-    <div class="s3-ey"><span></span>By the Numbers<span></span></div>
-    <div class="s3-nums">
-      <div class="s3-stat"><span class="s3-v" id="sv1">3–4<em> days</em></span><span class="s3-l">Average time to go live</span></div>
-      <div class="s3-stat"><span class="s3-v" id="sv2">$0</span><span class="s3-l">Until you approve</span></div>
-      <div class="s3-stat"><span class="s3-v" id="sv3">100<em>%</em></span><span class="s3-l">Mobile responsive</span></div>
-    </div>
-  </div>
-
-  <!-- S4: Pricing -->
-  <div class="sc s4" id="sc4">
-    <div class="s4-ey"><span></span>Pricing<span></span></div>
-    <h2 class="s4-h" id="s4h">One standard of quality.<br><em>Three tiers.</em></h2>
-    <div class="s4-cards" id="s4cards">
-      <div class="s4c"><div class="s4ct">Basic</div><div class="s4cp">$399</div><div class="s4cn">build + from $49/mo</div><ul class="s4cl"><li>1–5 pages</li><li>Animated hero</li><li>Scroll reveals</li><li>SEO built in</li></ul></div>
-      <div class="s4c hot"><div class="s4ct">Standard — Popular</div><div class="s4cp">$799</div><div class="s4cn">build + from $49/mo</div><ul class="s4cl"><li>6–10 pages</li><li>Photo effects</li><li>Contact form</li><li>Booking button</li></ul></div>
-      <div class="s4c"><div class="s4ct">Premium</div><div class="s4cp">$1,499</div><div class="s4cn">build + from $49/mo</div><ul class="s4cl"><li>Online booking</li><li>Stripe payments</li><li>Product catalog</li><li>Analytics</li></ul></div>
-    </div>
-  </div>
-
-  <!-- S5: CTA -->
-  <div class="sc s5" id="sc5">
-    <h2 class="s5-h">Ready to get<br><em>found?</em></h2>
-    <p class="s5-p">Your customers are searching right now. Let us build something beautiful.</p>
-    <a href="contact.html" class="s5-btn">Request Your Website</a>
-  </div>
-
 </div>
 
-<!-- Post cinema — normal scroll content below -->
+<!-- Scene 1: Statement -->
+<div class="scene-overlay" id="ov1">
+  <div class="so-label"><span></span>Your Story<span></span></div>
+  <h2 class="so-h">Your business<br>tells a <em>story.</em><br>We help people find it.</h2>
+</div>
+
+<!-- Scene 2: Features -->
+<div class="feat-overlay" id="ov2">
+  <div class="fo-card"><div class="fo-n">01</div><div class="fo-h">Custom Design</div><div class="fo-p">Built from scratch — your photos, colors, your story. Never a template.</div></div>
+  <div class="fo-card"><div class="fo-n">02</div><div class="fo-h">Scroll Animations</div><div class="fo-p">Ken Burns, reveals, smooth transitions that build trust instantly.</div></div>
+  <div class="fo-card"><div class="fo-n">03</div><div class="fo-h">Local SEO</div><div class="fo-p">Schema markup and Google Business so you show up in local searches.</div></div>
+  <div class="fo-card"><div class="fo-n">04</div><div class="fo-h">Fully Managed</div><div class="fo-p">Domain, hosting, updates — handled every month. You do nothing.</div></div>
+</div>
+
+<!-- Scene 3: Stats -->
+<div class="scene-overlay" id="ov3">
+  <div class="so-label"><span></span>By the Numbers<span></span></div>
+  <h2 class="so-h"><em>3–4 days</em> to go live.<br><em>$0</em> until you approve.<br><em>100%</em> mobile ready.</h2>
+</div>
+
+<!-- Scene 4: Pricing -->
+<div class="price-overlay" id="ov4">
+  <div class="po-card"><div class="po-t">Basic</div><div class="po-p">$399</div><div class="po-n">build + from $49/mo</div><ul class="po-l"><li>1–5 pages</li><li>Animated hero</li><li>SEO built in</li><li>Mobile perfect</li></ul></div>
+  <div class="po-card hot"><div class="po-t">Standard — Most Popular</div><div class="po-p">$799</div><div class="po-n">build + from $49/mo</div><ul class="po-l"><li>6–10 pages</li><li>Photo effects</li><li>Contact form</li><li>Booking button</li></ul></div>
+  <div class="po-card"><div class="po-t">Premium</div><div class="po-p">$1,499</div><div class="po-n">build + from $49/mo</div><ul class="po-l"><li>Online booking</li><li>Stripe payments</li><li>Product catalog</li><li>Analytics</li></ul></div>
+</div>
+
+<!-- Scene 5: CTA -->
+<div class="cta-overlay" id="ov5">
+  <h2 class="co-h">Ready to get<br><em>found?</em></h2>
+  <p class="co-p">Your customers are searching right now. Let us build something beautiful for your business.</p>
+  <a href="contact.html" class="co-btn">Request Your Website</a>
+</div>
+
 <div class="post">
   <section class="post-cta">
     <h2>Let us build your site <em>together.</em></h2>
@@ -248,157 +240,233 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 </div>
 
 <script>
-// ── THREE.JS ─────────────────────────────────────────────────────────────────
-const cnv = document.getElementById('bg');
-const rndr = new THREE.WebGLRenderer({canvas:cnv,alpha:true,antialias:true});
-rndr.setPixelRatio(Math.min(devicePixelRatio,2));
-rndr.setSize(innerWidth,innerHeight);
-const scn = new THREE.Scene();
-const cam = new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,1000);
-cam.position.z = 6;
-const G = new THREE.Color(0xd4a853);
-const GL = new THREE.Color(0xf0c87a);
-
-// Particles
-const N=1200, PA=new Float32Array(N*3), SP=[];
-for(let i=0;i<N;i++){
-  PA[i*3]=(Math.random()-.5)*28;PA[i*3+1]=(Math.random()-.5)*18;PA[i*3+2]=(Math.random()-.5)*16;
-  SP.push({x:(Math.random()-.5)*.002,y:(Math.random()-.5)*.003,z:(Math.random()-.5)*.001});
-}
-const PG=new THREE.BufferGeometry();
-PG.setAttribute('position',new THREE.BufferAttribute(PA,3));
-const PM=new THREE.PointsMaterial({color:G,size:.02,transparent:true,opacity:.45,sizeAttenuation:true});
-scn.add(new THREE.Points(PG,PM));
-
-// Geometry
-const M1=new THREE.MeshBasicMaterial({color:G,wireframe:true,transparent:true,opacity:.18});
-const M2=new THREE.MeshBasicMaterial({color:G,wireframe:true,transparent:true,opacity:.11});
-const M3=new THREE.MeshBasicMaterial({color:GL,wireframe:true,transparent:true,opacity:.13});
-const ico=new THREE.Mesh(new THREE.IcosahedronGeometry(2.2,1),M1); ico.position.set(4.2,.5,-1.5); scn.add(ico);
-const oct=new THREE.Mesh(new THREE.OctahedronGeometry(1.3,0),M2); oct.position.set(-4.5,-1.5,-2.5); scn.add(oct);
-const tet=new THREE.Mesh(new THREE.TetrahedronGeometry(.9,0),M3); tet.position.set(-3.2,3,-1.5); scn.add(tet);
-const gridGeo=new THREE.PlaneGeometry(28,28,28,28);
-const gridMat=new THREE.MeshBasicMaterial({color:G,wireframe:true,transparent:true,opacity:.052});
-const grid=new THREE.Mesh(gridGeo,gridMat); grid.rotation.x=-Math.PI/2.5; grid.position.y=-4; grid.position.z=-5; scn.add(grid);
-
-let mx=0,my=0,tx=0,ty=0,sy=0;
-document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*.6;my=(e.clientY/innerHeight-.5)*.4;});
-window.addEventListener('scroll',()=>{sy=scrollY;});
-
-function animBG(t){
-  requestAnimationFrame(animBG);
-  const time=t*.001;
-  tx+=(mx-tx)*.04; ty+=(my-ty)*.04;
-  for(let i=0;i<N;i++){
-    PA[i*3]+=SP[i].x;PA[i*3+1]+=SP[i].y;PA[i*3+2]+=SP[i].z;
-    if(Math.abs(PA[i*3])>14)SP[i].x*=-1;
-    if(Math.abs(PA[i*3+1])>9)SP[i].y*=-1;
-    if(Math.abs(PA[i*3+2])>8)SP[i].z*=-1;
-  }
-  PG.attributes.position.needsUpdate=true;
-  const br=1+Math.sin(time*.7)*.03;
-  ico.rotation.x=time*.1+ty*.4; ico.rotation.y=time*.15+tx*.4; ico.scale.setScalar(br);
-  oct.rotation.x=-time*.12; oct.rotation.y=time*.2+tx*.3;
-  tet.rotation.x=time*.22; tet.rotation.z=time*.18+tx*.5;
-  grid.position.y=-4-sy*.0018; grid.rotation.x=-Math.PI/2.5+sy*.00025;
-  cam.position.x=tx*.38; cam.position.y=-ty*.28;
-  rndr.render(scn,cam);
-}
-animBG(0);
-window.addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();rndr.setSize(innerWidth,innerHeight);});
-
-// ── SCENE LOGIC ───────────────────────────────────────────────────────────────
 gsap.registerPlugin(ScrollTrigger);
 
-const scenes=[0,1,2,3,4,5].map(i=>document.getElementById('sc'+i));
-const dots=document.querySelectorAll('.dot');
-let cur=-1;
-let transitioning=false; // lock while animating
+// ── THREE.JS DEPTH SCROLL SCENE ───────────────────────────────────────────────
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.setFog = true;
 
-// Geometry positions per scene
-const gpos=[
-  {x:4.2,y:.5,z:-1.5},{x:2,y:1,z:-2},{x:5,y:0,z:-1},{x:-3,y:2,z:-2},{x:3,y:-1,z:-1},{x:0,y:0,z:-3}
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x070810, 0.018);
+
+const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 200);
+camera.position.z = 0; // starts at Z=0, travels FORWARD (negative Z)
+
+const gold = new THREE.Color(0xd4a853);
+const goldDim = new THREE.Color(0x8a6020);
+
+// ── Particle tunnel — particles distributed along a tunnel path ──
+const TOTAL = 3000;
+const pPos = new Float32Array(TOTAL * 3);
+const pSpeeds = [];
+for(let i = 0; i < TOTAL; i++){
+  const theta = Math.random() * Math.PI * 2;
+  const radius = 4 + Math.random() * 12;
+  const depth = Math.random() * 120 - 10; // spread from -10 to 110 in Z
+  pPos[i*3]   = Math.cos(theta) * radius + (Math.random()-.5) * 6;
+  pPos[i*3+1] = Math.sin(theta) * radius * .6 + (Math.random()-.5) * 4;
+  pPos[i*3+2] = -depth; // negative Z = forward
+  pSpeeds.push({
+    x: (Math.random()-.5) * .003,
+    y: (Math.random()-.5) * .002,
+  });
+}
+const pGeo = new THREE.BufferGeometry();
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+const pMat = new THREE.PointsMaterial({
+  color: gold, size: .045, transparent: true, opacity: .55, sizeAttenuation: true
+});
+const particles = new THREE.Points(pGeo, pMat);
+scene.add(particles);
+
+// ── Wireframe rings at depth intervals (like rings in a tunnel) ──
+const ringPositions = [-5, -18, -32, -48, -65, -82, -100];
+ringPositions.forEach((z, i) => {
+  const segments = 64;
+  const radius = 6 + Math.sin(i) * 2;
+  const ringGeo = new THREE.RingGeometry(radius, radius + .04, segments);
+  const ringMat = new THREE.MeshBasicMaterial({
+    color: gold, transparent: true, opacity: .08 + i * .01, side: THREE.DoubleSide
+  });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.position.z = z;
+  scene.add(ring);
+
+  // Small icosahedron floating near each ring
+  const iMat = new THREE.MeshBasicMaterial({color: gold, wireframe: true, transparent: true, opacity: .12});
+  const ico = new THREE.Mesh(new THREE.IcosahedronGeometry(.8 + Math.random() * .6, 0), iMat);
+  ico.position.set(
+    (Math.random()-.5) * 8,
+    (Math.random()-.5) * 5,
+    z + (Math.random()-.5) * 4
+  );
+  ico.userData.rotSpeed = {x: (Math.random()-.5)*.008, y: (Math.random()-.5)*.01};
+  scene.add(ico);
+});
+
+// ── Grid floor ──
+const floorGeo = new THREE.PlaneGeometry(60, 120, 30, 60);
+const floorMat = new THREE.MeshBasicMaterial({color: gold, wireframe: true, transparent: true, opacity: .04});
+const floor = new THREE.Mesh(floorGeo, floorMat);
+floor.rotation.x = -Math.PI / 2;
+floor.position.y = -5;
+floor.position.z = -55;
+scene.add(floor);
+
+// ── Camera travel path ──
+// Camera moves from Z=0 to Z=-100 as user scrolls 0% to 100%
+const CAMERA_START_Z = 0;
+const CAMERA_END_Z = -100;
+
+let targetCamZ = CAMERA_START_Z;
+let targetCamX = 0;
+let targetCamY = 0;
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => {
+  mx = (e.clientX/innerWidth - .5) * .8;
+  my = (e.clientY/innerHeight - .5) * .4;
+});
+
+// ── Animate ──
+const icoMeshes = scene.children.filter(c => c.geometry && c.geometry.type === 'IcosahedronGeometry');
+function animLoop(t) {
+  requestAnimationFrame(animLoop);
+  const time = t * .001;
+
+  // Smooth camera follow
+  camera.position.z += (targetCamZ - camera.position.z) * .06;
+  camera.position.x += (targetCamX + mx * .3 - camera.position.x) * .04;
+  camera.position.y += (targetCamY - my * .2 - camera.position.y) * .04;
+  camera.lookAt(camera.position.x * .5, camera.position.y * .5, camera.position.z - 10);
+
+  // Drift particles subtly
+  for(let i = 0; i < TOTAL; i++){
+    pPos[i*3]   += pSpeeds[i].x;
+    pPos[i*3+1] += pSpeeds[i].y;
+    if(Math.abs(pPos[i*3])   > 14) pSpeeds[i].x *= -1;
+    if(Math.abs(pPos[i*3+1]) > 8)  pSpeeds[i].y *= -1;
+  }
+  pGeo.attributes.position.needsUpdate = true;
+
+  // Rotate geo
+  icoMeshes.forEach(m => {
+    if(m.userData.rotSpeed){
+      m.rotation.x += m.userData.rotSpeed.x;
+      m.rotation.y += m.userData.rotSpeed.y;
+    }
+  });
+
+  renderer.render(scene, camera);
+}
+animLoop(0);
+
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+// ── SCROLL → DEPTH MAPPING ────────────────────────────────────────────────────
+// 6 stops along the camera path
+const STOPS = [
+  { progress: 0,    camZ: 0,    overlay: null },
+  { progress: .18,  camZ: -18,  overlay: 'ov1' },
+  { progress: .36,  camZ: -36,  overlay: 'ov2' },
+  { progress: .54,  camZ: -55,  overlay: 'ov3' },
+  { progress: .72,  camZ: -72,  overlay: 'ov4' },
+  { progress: .90,  camZ: -90,  overlay: 'ov5' },
 ];
 
-function show(idx){
-  if(idx===cur)return;
-  if(transitioning)return; // ignore rapid scroll — wait for current transition
-  transitioning=true;
-  const prev=cur; cur=idx;
-  dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
+const dots = document.querySelectorAll('.dot');
+const titleWrap = document.getElementById('titleWrap');
+const overlays = ['ov1','ov2','ov3','ov4','ov5'].map(id => document.getElementById(id));
 
-  // Move geometry
-  const p=gpos[idx]||gpos[0];
-  gsap.to(ico.position,{x:p.x,y:p.y,z:p.z,duration:1.2,ease:'power2.inOut'});
+let lastStop = 0;
+let transitioning = false;
 
-  // Kill any running animations on scenes
-  scenes.forEach(s=>gsap.killTweensOf(s));
+function goToStop(idx) {
+  if(transitioning || idx === lastStop) return;
+  transitioning = true;
+  lastStop = idx;
 
-  // Fade out previous instantly if piling up
-  if(prev>=0){
-    gsap.to(scenes[prev],{opacity:0,y:idx>prev?-24:24,duration:.45,ease:'power2.in',
-      onComplete:()=>{ scenes[prev].classList.remove('live'); scenes[prev].style.opacity='0'; }
-    });
+  dots.forEach((d,i) => d.classList.toggle('on', i === idx));
+
+  const stop = STOPS[idx];
+  targetCamZ = stop.camZ;
+
+  // Hide title after first scroll
+  if(idx > 0) {
+    gsap.to(titleWrap, {opacity:0, y:-20, duration:.5, ease:'power2.in'});
+  } else {
+    gsap.to(titleWrap, {opacity:1, y:0, duration:.6, ease:'power2.out'});
   }
 
-  // Fade in new scene
-  scenes[idx].classList.add('live');
-  gsap.fromTo(scenes[idx],
-    {opacity:0,y:idx>prev?24:-24},
-    {opacity:1,y:0,duration:.7,ease:'power3.out',delay:prev>=0?.1:0,
-      onComplete:()=>{ transitioning=false; } // unlock after transition completes
+  // Hide all overlays
+  const allOvs = [titleWrap, ...overlays];
+  overlays.forEach(ov => {
+    if(ov && ov.classList.contains('show')) {
+      gsap.to(ov, {opacity:0, y:-16, duration:.4, ease:'power2.in',
+        onComplete: () => { ov.classList.remove('show'); ov.style.opacity='0'; }
+      });
     }
-  );
+  });
 
-  // Entrance animations
-  if(idx===0){
-    gsap.fromTo('.s0-ey',{opacity:0,y:12},{opacity:1,y:0,duration:.7,delay:.2});
-    gsap.fromTo('.s0-h',{opacity:0,y:40},{opacity:1,y:0,duration:1,delay:.35,ease:'power4.out'});
-    gsap.fromTo('.s0-p',{opacity:0},{opacity:1,duration:.7,delay:1});
-    gsap.fromTo('.s0-hint',{opacity:0},{opacity:1,duration:.7,delay:1.4});
-  }
-  if(idx===1){
-    gsap.fromTo('.ws',{y:'105%'},{y:0,stagger:.1,duration:.85,ease:'power4.out',delay:.2});
-  }
-  if(idx===2){
-    gsap.fromTo('#s2left',{opacity:0,x:-32},{opacity:1,x:0,duration:.8,delay:.2,ease:'power3.out'});
-    gsap.fromTo('#s2feats .s2f',{opacity:0,x:32},{opacity:1,x:0,stagger:.08,duration:.6,delay:.4,ease:'power3.out'});
-  }
-  if(idx===3){
-    gsap.fromTo('.s3-ey',{opacity:0},{opacity:1,duration:.6,delay:.2});
-    gsap.fromTo('.s3-v',{opacity:0,y:28,scale:.88},{opacity:1,y:0,scale:1,stagger:.15,duration:.85,delay:.5,ease:'back.out(1.6)'});
-  }
-  if(idx===4){
-    gsap.fromTo('.s4-ey',{opacity:0},{opacity:1,duration:.5,delay:.2});
-    gsap.fromTo('#s4h',{opacity:0,y:18},{opacity:1,y:0,duration:.7,delay:.4,ease:'power3.out'});
-    gsap.fromTo('#s4cards .s4c',{opacity:0,y:36},{opacity:1,y:0,stagger:.1,duration:.7,delay:.65,ease:'back.out(1.4)'});
-  }
-  if(idx===5){
-    gsap.fromTo('.s5-h',{opacity:0,scale:.9},{opacity:1,scale:1,duration:1,delay:.2,ease:'power3.out'});
-    gsap.fromTo('.s5-p',{opacity:0},{opacity:1,duration:.7,delay:.85});
-    gsap.fromTo('.s5-btn',{opacity:0,y:14},{opacity:1,y:0,duration:.65,delay:1.1,ease:'back.out(1.4)'});
+  // Show new overlay
+  if(stop.overlay) {
+    const ov = document.getElementById(stop.overlay);
+    if(ov) {
+      setTimeout(() => {
+        ov.classList.add('show');
+        gsap.fromTo(ov, {opacity:0, y:24}, {opacity:1, y:0, duration:.75, ease:'power3.out',
+          onComplete: () => { transitioning = false; }
+        });
+        // Entrance animations per overlay
+        if(stop.overlay === 'ov1') gsap.fromTo('#ov1 .so-h', {opacity:0,y:20},{opacity:1,y:0,duration:.8,delay:.2,ease:'power3.out'});
+        if(stop.overlay === 'ov2') gsap.fromTo('#ov2 .fo-card', {opacity:0,y:28,scale:.96},{opacity:1,y:0,scale:1,stagger:.08,duration:.6,delay:.15,ease:'back.out(1.4)'});
+        if(stop.overlay === 'ov3') gsap.fromTo('#ov3 .so-h', {opacity:0,scale:.94},{opacity:1,scale:1,duration:.85,delay:.2,ease:'power3.out'});
+        if(stop.overlay === 'ov4') gsap.fromTo('#ov4 .po-card', {opacity:0,y:30},{opacity:1,y:0,stagger:.1,duration:.65,delay:.2,ease:'back.out(1.4)'});
+        if(stop.overlay === 'ov5') {
+          gsap.fromTo('#ov5 .co-h', {opacity:0,scale:.9},{opacity:1,scale:1,duration:.9,delay:.2,ease:'power3.out'});
+          gsap.fromTo('#ov5 .co-p', {opacity:0},{opacity:1,duration:.7,delay:.8});
+          gsap.fromTo('#ov5 .co-btn', {opacity:0,y:12},{opacity:1,y:0,duration:.65,delay:1.05,ease:'back.out(1.4)'});
+        }
+      }, 200);
+    }
+  } else {
+    transitioning = false;
   }
 }
 
-// Map scroll → scene
+// Map scroll progress to stops
 ScrollTrigger.create({
-  trigger:'.track',
-  start:'top top',
-  end:'bottom bottom',
-  onUpdate:self=>{
-    const s=Math.min(5,Math.floor(self.progress*6));
-    show(s);
+  trigger: '.track',
+  start: 'top top',
+  end: 'bottom bottom',
+  onUpdate: self => {
+    const p = self.progress;
+    // Find which stop we're in
+    let stopIdx = 0;
+    for(let i = STOPS.length - 1; i >= 0; i--){
+      if(p >= STOPS[i].progress - .05) { stopIdx = i; break; }
+    }
+    // Also update camera smoothly between stops
+    const trackPct = p;
+    targetCamZ = CAMERA_START_Z + (CAMERA_END_Z - CAMERA_START_Z) * trackPct;
+    goToStop(stopIdx);
   }
 });
 
-function jump(i){
-  const h=document.querySelector('.track').offsetHeight;
-  window.scrollTo({top:h*(i/6),behavior:'smooth'});
+// Jump to stop
+function jumpTo(i) {
+  const h = document.querySelector('.track').offsetHeight;
+  window.scrollTo({top: h * STOPS[i].progress, behavior: 'smooth'});
 }
 
 // Init
-gsap.set(scenes,{opacity:0});
-window.addEventListener('load',()=>show(0));
+gsap.fromTo(titleWrap, {opacity:0, y:20}, {opacity:1, y:0, duration:1.2, ease:'power3.out', delay:.3});
 </script>
 </body>
 </html>
