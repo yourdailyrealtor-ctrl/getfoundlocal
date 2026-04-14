@@ -54,8 +54,11 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 .f-copy{font-size:.76rem;color:rgba(255,255,255,.18)}
 @media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}.form-section,.page-hero{padding-left:20px;padding-right:20px}.fw{padding:28px 20px}.f-row{grid-template-columns:1fr}.checks{grid-template-columns:repeat(2,1fr)}footer{padding:28px 20px;flex-direction:column;text-align:center}.f-links{justify-content:center}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 </head>
 <body>
+<style>#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.45}</style>
+<canvas id="bg-canvas"></canvas>
 <nav>
   <a href="index.html" class="logo">Get Found <em>Local</em></a>
   <div class="nav-links"><a href="index.html">Home</a><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a><a href="contact.html" class="active nav-cta">Get a Website</a></div>
@@ -148,6 +151,67 @@ document.getElementById('theForm').addEventListener('submit',async function(e){
     else{btn.textContent='Try again';btn.disabled=false;}
   }catch(err){btn.textContent='Try again';btn.disabled=false;}
 });
+</script>
+
+<script>
+(function(){
+  if(!window.THREE) return;
+  const canvas = document.getElementById('bg-canvas');
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 6;
+  const gold = new THREE.Color(0xd4a853);
+
+  // Particle field
+  const pCount = 800;
+  const pos = new Float32Array(pCount * 3);
+  const spd = [];
+  for(let i=0;i<pCount;i++){
+    pos[i*3]=(Math.random()-.5)*26; pos[i*3+1]=(Math.random()-.5)*16; pos[i*3+2]=(Math.random()-.5)*14;
+    spd.push({x:(Math.random()-.5)*.002,y:(Math.random()-.5)*.003,z:(Math.random()-.5)*.001});
+  }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({color:gold,size:.02,transparent:true,opacity:.4,sizeAttenuation:true})));
+
+  // Icosahedron right
+  const ico = new THREE.Mesh(new THREE.IcosahedronGeometry(1.9,1), new THREE.MeshBasicMaterial({color:gold,wireframe:true,transparent:true,opacity:.15}));
+  ico.position.set(4.5,.5,-2);
+  scene.add(ico);
+
+  // Grid plane
+  const grid = new THREE.Mesh(new THREE.PlaneGeometry(26,26,24,24), new THREE.MeshBasicMaterial({color:gold,wireframe:true,transparent:true,opacity:.05}));
+  grid.rotation.x = -Math.PI/2.5; grid.position.y = -4; grid.position.z = -5;
+  scene.add(grid);
+
+  let mx=0,my=0,tx=0,ty=0,sy=0;
+  document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*.5;my=(e.clientY/window.innerHeight-.5)*.35;});
+  window.addEventListener('scroll',()=>{sy=window.scrollY;});
+
+  function animate(t){
+    requestAnimationFrame(animate);
+    const time=t*.001;
+    tx+=(mx-tx)*.04; ty+=(my-ty)*.04;
+    // drift particles
+    for(let i=0;i<pCount;i++){
+      pos[i*3]+=spd[i].x; pos[i*3+1]+=spd[i].y; pos[i*3+2]+=spd[i].z;
+      if(Math.abs(pos[i*3])>13)spd[i].x*=-1;
+      if(Math.abs(pos[i*3+1])>8)spd[i].y*=-1;
+      if(Math.abs(pos[i*3+2])>7)spd[i].z*=-1;
+    }
+    pGeo.attributes.position.needsUpdate=true;
+    ico.rotation.x=time*.1+ty*.4; ico.rotation.y=time*.15+tx*.4;
+    const b=1+Math.sin(time*.7)*.03; ico.scale.setScalar(b);
+    grid.position.y=-4-sy*.0015; grid.rotation.x=-Math.PI/2.5+sy*.00022;
+    camera.position.x=tx*.35; camera.position.y=-ty*.25;
+    renderer.render(scene,camera);
+  }
+  animate(0);
+  window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
 </script>
 </body>
 </html>
