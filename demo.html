@@ -672,14 +672,13 @@ function showStop(idx){
     }, 300);
   }
 
-  // Resurface flash: fires when leaving ov11 (deep message, idx=13) going to ov12 (idx=14)
+  // Resurface flash: fires immediately when transitioning from ov11 → ov12
+  // Flash starts NOW (camera begins rising), text fades in AFTER the flash starts
   if(idx===14 && prev===13){
-    setTimeout(()=>{
-      gsap.killTweensOf('#resurface');
-      gsap.fromTo('#resurface',{opacity:0},{opacity:1,duration:.35,ease:'power3.out',
-        onComplete:()=>gsap.to('#resurface',{opacity:0,duration:2.2,ease:'power1.in'})
-      });
-    }, 350);
+    gsap.killTweensOf('#resurface');
+    gsap.fromTo('#resurface',{opacity:0},{opacity:1,duration:.4,ease:'power3.out',
+      onComplete:()=>gsap.to('#resurface',{opacity:0,duration:2.4,ease:'power1.in'})
+    });
   }
 
   // Splash and resurface are handled by the world blend watcher, not here
