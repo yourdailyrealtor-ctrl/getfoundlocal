@@ -591,7 +591,7 @@ function renderBG(t){
 
   // Flash checks — triggered by actual camera Y movement in render loop
   const cy=camera.position.y;
-  if(lastCamY2>-5 && cy<=-5 && !diveFired2){
+  if(lastCamY2>-20 && cy<=-20 && !diveFired2){
     diveFired2=true;
     gsap.killTweensOf('#splash');
     gsap.fromTo('#splash',{opacity:0},{opacity:1,duration:.3,ease:'power2.out',
@@ -602,14 +602,14 @@ function renderBG(t){
       }
     });
   }
-  if(lastCamY2<=-5 && cy>-5 && !resurfaceFired2){
+  if(lastCamY2<=-20 && cy>-20 && !resurfaceFired2){
     resurfaceFired2=true;
     gsap.killTweensOf('#resurface');
     gsap.fromTo('#resurface',{opacity:0},{opacity:1,duration:.3,ease:'power3.out',
       onComplete:()=>gsap.to('#resurface',{opacity:0,duration:2.0,ease:'power1.in'})
     });
   }
-  if(cy>-1){diveFired2=false;resurfaceFired2=false;}
+  if(cy>-5){diveFired2=false;resurfaceFired2=false;}
   lastCamY2=cy;
 
   renderer.render(scene,camera);
