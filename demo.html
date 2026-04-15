@@ -13,103 +13,155 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:#070810;color:#fff;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.6);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.55);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)}
 .logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#d4a853}
 .nav-links{display:flex;align-items:center;gap:2px}.nav-links a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.45);border-radius:8px;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#fff}
 .nav-cta{background:#d4a853!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:600!important}.nav-cta:hover{background:#f0c87a!important}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}.hamburger span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px}
 .mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(7,8,16,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
 
-#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-.track{height:800vh;position:relative;z-index:1}
+/* Canvas fills everything */
+#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
 
-/* Overlays */
-.ov{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;pointer-events:none;opacity:0;width:90%;max-width:900px;text-align:center}
-.ov.on{pointer-events:auto}
+/* 900vh scroll track */
+.track{height:900vh;position:relative;z-index:1}
 
-/* S0 */
-#o0 .title{font-family:'Instrument Serif',serif;font-size:clamp(2.4rem,5vw,4.8rem);font-weight:400;line-height:1.05;letter-spacing:-.5px;color:rgba(255,255,255,.9)}
-#o0 .title em{font-style:italic;color:#f0c87a}
-#o0 .sub{font-size:.72rem;letter-spacing:3.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:18px;display:block}
-#o0 .hint{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:8px}
-#o0 .hl{width:1px;height:36px;background:linear-gradient(to bottom,#d4a853,transparent);animation:hp 2s ease infinite}
-#o0 .ht{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.22)}
-@keyframes hp{0%,100%{opacity:.5}50%{opacity:1}}
+/* All overlays fixed centered */
+.ov{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:3;pointer-events:none;opacity:0;
+  width:90%;max-width:960px;text-align:center;
+}
+.ov.live{pointer-events:auto}
 
-/* S1 — statement */
-#o1 .stmt{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,5.5vw,5rem);font-weight:400;line-height:1.0;letter-spacing:-.5px}
-#o1 .stmt em{font-style:italic;color:#f0c87a}
-.wl{overflow:hidden;display:block}.ws{display:inline-block;transform:translateY(105%)}
+/* ── S0: Opening ── */
+.s0-title{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(2.6rem,5.5vw,5rem);
+  font-weight:400;line-height:1.05;letter-spacing:-.5px;
+  color:rgba(255,255,255,.92);
+}
+.s0-title em{font-style:italic;color:#f0c87a}
+.s0-tag{
+  font-size:.68rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(255,255,255,.32);margin-top:18px;display:block;
+}
+.s0-scroll{margin-top:52px;display:flex;flex-direction:column;align-items:center;gap:9px}
+.s0-scroll-txt{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.22)}
+.s0-line{width:1px;height:38px;background:linear-gradient(to bottom,#d4a853,transparent);animation:scrollp 2s ease infinite}
+@keyframes scrollp{0%,100%{opacity:.45;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.2)}}
 
-/* S2 — features */
-#o2 .ey{font-size:.65rem;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:#d4a853;margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:12px}
-#o2 .ey span{width:22px;height:1px;background:#d4a853;display:inline-block}
-#o2 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left}
-.fc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:22px 20px;backdrop-filter:blur(10px)}
-.fc-n{font-family:'Instrument Serif',serif;font-style:italic;font-size:.82rem;color:rgba(212,168,83,.35);margin-bottom:8px}
+/* ── S1: Statement ── */
+.s1-h{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(2.4rem,6vw,5.5rem);
+  font-weight:400;line-height:1.0;letter-spacing:-.5px;
+}
+.s1-h em{font-style:italic;color:#f0c87a}
+.wl{overflow:hidden;display:block}
+.ws{display:inline-block;transform:translateY(108%)}
+
+/* ── S2: Features ── */
+.s2-ey{font-size:.65rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#d4a853;margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:12px}
+.s2-ey span{width:22px;height:1px;background:#d4a853;display:inline-block}
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left}
+.fc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:22px 20px;backdrop-filter:blur(10px);transition:border-color .3s}
+.fc:hover{border-color:rgba(212,168,83,.3)}
+.fc-n{font-family:'Instrument Serif',serif;font-style:italic;font-size:.82rem;color:rgba(212,168,83,.38);margin-bottom:8px}
 .fc-h{font-size:.9rem;font-weight:600;margin-bottom:4px;color:#fff}
 .fc-p{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.55}
 
-/* S3 — FUNNY MOMENT */
-#o3{max-width:700px}
-#o3 .funny-h{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:400;line-height:1.15;margin-bottom:20px}
-#o3 .funny-h em{font-style:italic;color:#f0c87a}
-#o3 .funny-p{font-size:.95rem;color:rgba(255,255,255,.6);line-height:1.75;font-weight:300;max-width:480px;margin:0 auto}
-#o3 .stats-row{display:flex;gap:32px;justify-content:center;margin-top:32px;flex-wrap:wrap}
-.sbox{text-align:center}
-.sv{font-family:'Instrument Serif',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:400;color:#fff;line-height:1;display:block}
-.sv em{font-style:italic;color:#f0c87a;font-size:.65em}
-.sl{font-size:.68rem;color:rgba(255,255,255,.45);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;display:block}
+/* ── S3: Funny moment ── */
+.s3-h{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(1.8rem,4.5vw,4rem);
+  font-weight:400;line-height:1.1;letter-spacing:-.3px;
+  margin-bottom:18px;
+}
+.s3-h em{font-style:italic;color:#f0c87a}
+.s3-p{font-size:.95rem;color:rgba(255,255,255,.58);line-height:1.75;max-width:500px;margin:0 auto 32px;font-weight:300}
+.s3-stats{display:flex;gap:0;justify-content:center}
+.s3-stat{padding:0 36px;border-right:1px solid rgba(255,255,255,.07)}
+.s3-stat:last-child{border-right:none}
+.s3-val{font-family:'Instrument Serif',serif;font-size:clamp(2.5rem,7vw,6rem);font-weight:400;color:#fff;line-height:1;display:block}
+.s3-val em{font-style:italic;color:#f0c87a;font-size:.6em}
+.s3-lbl{font-size:.66rem;color:rgba(255,255,255,.42);letter-spacing:1.5px;text-transform:uppercase;margin-top:7px;display:block}
 
-/* S4 — pricing */
-#o4 .ph{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:400;letter-spacing:-.5px;margin-bottom:24px}
-#o4 .ph em{font-style:italic;color:#f0c87a}
-#o4 .pcards{display:flex;gap:10px}
+/* ── S4: Pricing ── */
+.s4-h{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:400;letter-spacing:-.3px;margin-bottom:24px}
+.s4-h em{font-style:italic;color:#f0c87a}
+.p-cards{display:flex;gap:10px}
 .pc{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:26px 20px;text-align:left;backdrop-filter:blur(10px)}
-.pc.hot{border-color:rgba(212,168,83,.3);background:rgba(212,168,83,.05)}
+.pc.hot{border-color:rgba(212,168,83,.32);background:rgba(212,168,83,.05)}
 .pc-t{font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px}
 .pc-p{font-family:'Instrument Serif',serif;font-size:2.1rem;font-weight:400;color:#fff;line-height:1;margin-bottom:2px}
 .pc-n{font-size:.66rem;color:rgba(255,255,255,.26);margin-bottom:14px}
 .pc-l{list-style:none;display:flex;flex-direction:column;gap:6px}
-.pc-l li{font-size:.76rem;color:rgba(255,255,255,.55);display:flex;gap:6px;align-items:flex-start}
+.pc-l li{font-size:.76rem;color:rgba(255,255,255,.58);display:flex;gap:6px;align-items:flex-start}
 .pc-l li::before{content:'';width:3px;height:3px;background:#d4a853;border-radius:50%;flex-shrink:0;margin-top:5px}
 
-/* S5 — CTA */
-#o5 .ch{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:400;letter-spacing:-1.5px;line-height:.92;color:#fff}
-#o5 .ch em{font-style:italic;color:#f0c87a}
-#o5 .cp{font-size:.98rem;color:rgba(255,255,255,.55);margin-top:18px;max-width:360px;margin-left:auto;margin-right:auto;line-height:1.75;font-weight:300}
-#o5 .cbtn{display:inline-block;background:#d4a853;color:#070810;padding:15px 42px;border-radius:50px;font-weight:600;font-size:.9rem;margin-top:28px;transition:all .25s;pointer-events:auto}
-#o5 .cbtn:hover{background:#f0c87a;transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,83,.35)}
+/* ── S5: CTA ── */
+.s5-h{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:400;letter-spacing:-1.5px;line-height:.92;color:#fff}
+.s5-h em{font-style:italic;color:#f0c87a}
+.s5-p{font-size:.98rem;color:rgba(255,255,255,.55);margin-top:18px;max-width:360px;margin-left:auto;margin-right:auto;line-height:1.75;font-weight:300}
+.s5-btn{display:inline-block;background:#d4a853;color:#070810;padding:15px 42px;border-radius:50px;font-weight:600;font-size:.9rem;margin-top:28px;transition:all .25s;pointer-events:auto}
+.s5-btn:hover{background:#f0c87a;transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,83,.35)}
 
-/* Dots */
+/* Progress dots */
 .dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:500}
 .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .45s;cursor:pointer}
 .dot.on{background:#d4a853;transform:scale(2.2)}
+.dot:hover{background:rgba(255,255,255,.5)}
 
-/* Post */
-.post{position:relative;z-index:3;margin-top:800vh;background:#070810}
+/* Post cinema */
+.post{position:relative;z-index:3;margin-top:900vh;background:#070810}
 .pcta{padding:110px 52px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
 .pcta h2{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:400;letter-spacing:-1px;margin-bottom:16px}
 .pcta h2 em{font-style:italic;color:#f0c87a}
 .pcta p{font-size:.98rem;color:rgba(255,255,255,.55);max-width:380px;margin:0 auto 30px;line-height:1.75;font-weight:300}
-.bgold{display:inline-block;background:#d4a853;color:#070810;padding:14px 36px;border-radius:50px;font-weight:600;font-size:.9rem;transition:all .3s}.bgold:hover{background:#f0c87a;transform:translateY(-2px)}
+.bgold{display:inline-block;background:#d4a853;color:#070810;padding:14px 36px;border-radius:50px;font-weight:600;font-size:.9rem;transition:all .3s}
+.bgold:hover{background:#f0c87a;transform:translateY(-2px)}
 footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.06)}
 .fl{font-family:'Instrument Serif',serif;font-size:1.05rem;color:#fff}.fl em{font-style:italic;color:#f0c87a}
 .flinks{display:flex;gap:22px}.flinks a{font-size:.78rem;color:rgba(255,255,255,.28);transition:color .2s}.flinks a:hover{color:#f0c87a}
 .fcp{font-size:.76rem;color:rgba(255,255,255,.18)}
 
-@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}.dots{display:none}#o2 .grid{grid-template-columns:1fr}#o4 .pcards{flex-direction:column}#o3 .stats-row{gap:20px}.pcta{padding:80px 20px}footer{padding:28px 20px;flex-direction:column;text-align:center}.flinks{justify-content:center}}
+@media(max-width:768px){
+  nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}
+  .dots{display:none}
+  .ov{padding:0 16px}
+  .feat-grid{grid-template-columns:1fr}
+  .s3-stats{flex-direction:column;gap:24px}.s3-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:20px}.s3-stat:last-child{border-bottom:none}
+  .p-cards{flex-direction:column}
+  .pcta{padding:80px 20px}
+  footer{padding:28px 20px;flex-direction:column;text-align:center}.flinks{justify-content:center}
+}
 </style>
 </head>
 <body>
+
 <nav>
   <a href="index.html" class="logo">Get Found <em>Local</em></a>
-  <div class="nav-links"><a href="index.html">Home</a><a href="demo.html" class="active">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a><a href="contact.html" class="nav-cta">Get a Website</a></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="demo.html" class="active">Demo</a>
+    <a href="services.html">Services</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a>
+    <a href="contact.html" class="nav-cta">Get a Website</a>
+  </div>
   <div class="hamburger" onclick="document.getElementById('mob').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
-<div class="mob" id="mob"><a href="index.html">Home</a><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a><a href="contact.html">Get a Website</a></div>
+<div class="mob" id="mob">
+  <a href="index.html">Home</a><a href="demo.html">Demo</a><a href="services.html">Services</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a>
+  <a href="contact.html">Get a Website</a>
+</div>
 
-<canvas id="c"></canvas>
+<canvas id="bg"></canvas>
 
 <div class="dots" id="dots">
   <div class="dot on" onclick="jmp(0)"></div>
@@ -123,54 +175,56 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 <div class="track"></div>
 
 <!-- OVERLAYS -->
-<div class="ov on" id="o0">
-  <div class="title">how <em>your</em> site<br>could <em>feel.</em></div>
-  <span class="sub">Scroll to experience it</span>
-  <div class="hint"><span class="ht">scroll</span><div class="hl"></div></div>
+<div class="ov live" id="ov0">
+  <h1 class="s0-title">how <em>your</em> site<br>could <em>feel.</em></h1>
+  <span class="s0-tag">Scroll to experience it</span>
+  <div class="s0-scroll">
+    <span class="s0-scroll-txt">scroll</span>
+    <div class="s0-line"></div>
+  </div>
 </div>
 
-<div class="ov" id="o1">
-  <h2 class="stmt">
+<div class="ov" id="ov1">
+  <h2 class="s1-h">
     <span class="wl"><span class="ws">Your business</span></span>
     <span class="wl"><span class="ws">tells a story.</span></span>
-    <span class="wl"><span class="ws" style="font-style:italic;color:#f0c87a">We help people find it.</span></span>
+    <span class="wl"><span class="ws" style="color:#f0c87a;font-style:italic">We help people find it.</span></span>
   </h2>
 </div>
 
-<div class="ov" id="o2">
-  <div class="ey"><span></span>What We Build<span></span></div>
-  <div class="grid">
-    <div class="fc"><div class="fc-n">01</div><div class="fc-h">Custom Design</div><div class="fc-p">Built from scratch — your photos, your story. Never a template.</div></div>
-    <div class="fc"><div class="fc-n">02</div><div class="fc-h">Scroll Animations</div><div class="fc-p">Ken Burns, reveals, transitions that build trust instantly.</div></div>
-    <div class="fc"><div class="fc-n">03</div><div class="fc-h">Local SEO</div><div class="fc-p">Schema markup and Google Business so locals find you.</div></div>
+<div class="ov" id="ov2">
+  <div class="s2-ey"><span></span>What We Build<span></span></div>
+  <div class="feat-grid">
+    <div class="fc"><div class="fc-n">01</div><div class="fc-h">Custom Design</div><div class="fc-p">Built from scratch using your real photos and story. Never a template.</div></div>
+    <div class="fc"><div class="fc-n">02</div><div class="fc-h">Scroll Animations</div><div class="fc-p">Ken Burns, reveals, smooth transitions that build trust instantly.</div></div>
+    <div class="fc"><div class="fc-n">03</div><div class="fc-h">Local SEO</div><div class="fc-p">Schema markup and Google Business so people find you.</div></div>
     <div class="fc"><div class="fc-n">04</div><div class="fc-h">Fully Managed</div><div class="fc-p">Domain, hosting, updates — handled every month. You do nothing.</div></div>
   </div>
 </div>
 
-<!-- THE FUNNY/COOL MOMENT -->
-<div class="ov" id="o3">
-  <h2 class="funny-h">Your old website<br>called. It said <em>"please<br>replace me."</em></h2>
-  <p class="funny-p">We will not tell you what it looked like. But we can promise yours will be better. By a lot.</p>
-  <div class="stats-row">
-    <div class="sbox"><span class="sv">3–4<em> days</em></span><span class="sl">To go live</span></div>
-    <div class="sbox"><span class="sv">$0</span><span class="sl">Until you approve</span></div>
-    <div class="sbox"><span class="sv">100<em>%</em></span><span class="sl">Mobile ready</span></div>
+<div class="ov" id="ov3">
+  <h2 class="s3-h">Your old website called.<br>It said <em>"please replace me."</em></h2>
+  <p class="s3-p">We will not tell you what it looked like. But we promise yours will be better. By a lot.</p>
+  <div class="s3-stats">
+    <div class="s3-stat"><span class="s3-val">3–4<em> days</em></span><span class="s3-lbl">To go live</span></div>
+    <div class="s3-stat"><span class="s3-val">$0</span><span class="s3-lbl">Until you approve</span></div>
+    <div class="s3-stat"><span class="s3-val">100<em>%</em></span><span class="s3-lbl">Mobile ready</span></div>
   </div>
 </div>
 
-<div class="ov" id="o4">
-  <h2 class="ph">One standard of quality.<br><em>Three tiers.</em></h2>
-  <div class="pcards">
-    <div class="pc"><div class="pc-t">Basic</div><div class="pc-p">$399</div><div class="pc-n">build + from $49/mo</div><ul class="pc-l"><li>1–5 pages</li><li>Animated hero</li><li>SEO built in</li></ul></div>
+<div class="ov" id="ov4">
+  <h2 class="s4-h">One standard of quality.<br><em>Three tiers.</em></h2>
+  <div class="p-cards">
+    <div class="pc"><div class="pc-t">Basic</div><div class="pc-p">$399</div><div class="pc-n">build + from $49/mo</div><ul class="pc-l"><li>1–5 pages</li><li>Animated hero</li><li>SEO built in</li><li>Mobile perfect</li></ul></div>
     <div class="pc hot"><div class="pc-t">Standard — Most Popular</div><div class="pc-p">$799</div><div class="pc-n">build + from $49/mo</div><ul class="pc-l"><li>6–10 pages</li><li>Photo effects</li><li>Contact form</li><li>Booking button</li></ul></div>
-    <div class="pc"><div class="pc-t">Premium</div><div class="pc-p">$1,499</div><div class="pc-n">build + from $49/mo</div><ul class="pc-l"><li>Online booking</li><li>Stripe payments</li><li>Analytics</li></ul></div>
+    <div class="pc"><div class="pc-t">Premium</div><div class="pc-p">$1,499</div><div class="pc-n">build + from $49/mo</div><ul class="pc-l"><li>Online booking</li><li>Stripe payments</li><li>Analytics setup</li></ul></div>
   </div>
 </div>
 
-<div class="ov" id="o5">
-  <h2 class="ch">Ready to get<br><em>found?</em></h2>
-  <p class="cp">Your customers are searching right now. Let us build something beautiful.</p>
-  <a href="contact.html" class="cbtn">Request Your Website</a>
+<div class="ov" id="ov5">
+  <h2 class="s5-h">Ready to get<br><em>found?</em></h2>
+  <p class="s5-p">Your customers are searching right now. Let us build something beautiful.</p>
+  <a href="contact.html" class="s5-btn">Request Your Website</a>
 </div>
 
 <div class="post">
@@ -189,193 +243,301 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-// ── THREE.JS — CLEAN PARTICLE TUNNEL ─────────────────────────────────────────
-const canvas = document.getElementById('c');
-const R = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
-R.setPixelRatio(Math.min(devicePixelRatio,2));
-R.setSize(innerWidth,innerHeight);
+// ════════════════════════════════════════════════════════════
+// THREE.JS — ALBEDO-INSPIRED SPACE / PARTICLE FIELD
+// ════════════════════════════════════════════════════════════
+const canvas = document.getElementById('bg');
+const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
 
-const S = new THREE.Scene();
-// no fog
-
-const CAM = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 200);
-CAM.position.set(0,0,0);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 300);
+camera.position.set(0, 0, 0);
 
 const GOLD = new THREE.Color(0xd4a853);
+const GOLDL = new THREE.Color(0xf0c87a);
+const WHITE = new THREE.Color(0xffffff);
 
-// rings removed
-
-// Particles — tunnel shape
-const N = 3500;
-const PA = new Float32Array(N*3);
-const PS = [];
-for(let i=0;i<N;i++){
-  const a = Math.random()*Math.PI*2;
-  const r = 4 + Math.random()*10;
-  const d = Math.random()*110;
-  PA[i*3]   = Math.cos(a)*r + (Math.random()-.5)*2.5;
-  PA[i*3+1] = Math.sin(a)*r*.55 + (Math.random()-.5)*2;
-  PA[i*3+2] = -d;
-  PS.push({x:(Math.random()-.5)*.0022, y:(Math.random()-.5)*.0016});
+// ── 1. STAR FIELD (distant, small) ──
+const STARS = 2000;
+const stPos = new Float32Array(STARS * 3);
+for(let i = 0; i < STARS; i++){
+  stPos[i*3]   = (Math.random() - .5) * 300;
+  stPos[i*3+1] = (Math.random() - .5) * 200;
+  stPos[i*3+2] = -20 - Math.random() * 280;
 }
-const PG = new THREE.BufferGeometry();
-PG.setAttribute('position', new THREE.BufferAttribute(PA,3));
-S.add(new THREE.Points(PG, new THREE.PointsMaterial({color:GOLD,size:.03,transparent:true,opacity:.48,sizeAttenuation:true})));
+const stGeo = new THREE.BufferGeometry();
+stGeo.setAttribute('position', new THREE.BufferAttribute(stPos, 3));
+scene.add(new THREE.Points(stGeo, new THREE.PointsMaterial({
+  color: WHITE, size: .055, transparent: true, opacity: .35, sizeAttenuation: true
+})));
 
-// 5 clean rings
-[-12,-28,-46,-66,-88].forEach((z,i)=>{
-  const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(5+i*.3, .035, 4, 72),
-    new THREE.MeshBasicMaterial({color:GOLD,transparent:true,opacity:.1+i*.012})
-  );
-  ring.rotation.x = Math.PI/2;
-  ring.position.z = z;
-  ring.userData.i = i;
-  S.add(ring);
+// ── 2. GOLD PARTICLES (foreground, medium density) ──
+const GP = 2200;
+const gpPos = new Float32Array(GP * 3);
+const gpSpd = [];
+for(let i = 0; i < GP; i++){
+  const angle = Math.random() * Math.PI * 2;
+  const r = 3 + Math.pow(Math.random(), .6) * 11;
+  gpPos[i*3]   = Math.cos(angle) * r + (Math.random()-.5) * 2;
+  gpPos[i*3+1] = Math.sin(angle) * r * .55 + (Math.random()-.5) * 2;
+  gpPos[i*3+2] = -(Math.random() * 120);
+  gpSpd.push({ x: (Math.random()-.5)*.002, y: (Math.random()-.5)*.0015 });
+}
+const gpGeo = new THREE.BufferGeometry();
+gpGeo.setAttribute('position', new THREE.BufferAttribute(gpPos, 3));
+scene.add(new THREE.Points(gpGeo, new THREE.PointsMaterial({
+  color: GOLD, size: .028, transparent: true, opacity: .5, sizeAttenuation: true
+})));
+
+// ── 3. ORBIT RINGS (Albedo-style, clean ellipses) ──
+const orbitData = [
+  { rx:7, ry:4, z:-15, tilt:.3,  op:.12 },
+  { rx:5, ry:3, z:-35, tilt:-.2, op:.1  },
+  { rx:9, ry:5, z:-55, tilt:.4,  op:.09 },
+  { rx:6, ry:3.5,z:-75,tilt:-.35,op:.08 },
+];
+const orbitMeshes = [];
+orbitData.forEach(od => {
+  const pts = [];
+  for(let i = 0; i <= 120; i++){
+    const t = (i/120) * Math.PI * 2;
+    pts.push(new THREE.Vector3(Math.cos(t)*od.rx, Math.sin(t)*od.ry, 0));
+  }
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  const mat = new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: od.op });
+  const line = new THREE.LineLoop(geo, mat);
+  line.position.z = od.z;
+  line.rotation.x = od.tilt;
+  line.userData.tilt = od.tilt;
+  scene.add(line);
+  orbitMeshes.push(line);
 });
 
-// A few floating icosahedra
+// ── 4. FLOATING ICOSAHEDRA ──
 const icoData = [
-  {pos:[-5,2,-22], scale:1.6, rs:{x:.006,y:.009}},
-  {pos:[6,-2.5,-45], scale:2.0, rs:{x:-.005,y:.007}},
-  {pos:[-6,3,-70], scale:2.4, rs:{x:.007,y:-.006}},
+  {p:[-5.5, 2, -22], s:1.5, rs:{x:.005,y:.008}},
+  {p:[6.5, -2.5, -44], s:1.9, rs:{x:-.004,y:.007}},
+  {p:[-5, 3.5, -68], s:2.2, rs:{x:.006,y:-.005}},
 ];
-const icoMeshes = icoData.map(d=>{
+const icoMeshes = icoData.map(d => {
   const m = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(1,1),
-    new THREE.MeshBasicMaterial({color:GOLD,wireframe:true,transparent:true,opacity:.14})
+    new THREE.IcosahedronGeometry(1, 1),
+    new THREE.MeshBasicMaterial({color:GOLD, wireframe:true, transparent:true, opacity:.15})
   );
-  m.position.set(...d.pos);
-  m.scale.setScalar(d.scale);
+  m.position.set(...d.p);
+  m.scale.setScalar(d.s);
   m.userData.rs = d.rs;
-  S.add(m);
+  scene.add(m);
   return m;
 });
 
+// ── 5. JELLYFISH (wireframe, minimal + elegant) ──
+const jellyfish = new THREE.Group();
 
-// ── JELLYFISH (wireframe, simple + beautiful) ──
-const jellyGroup = new THREE.Group();
-
-// Bell — flattened hemisphere using lathe geometry
-const bellPts = [];
-for(let i=0;i<=12;i++){
-  const t = (i/12)*Math.PI*.65;
-  bellPts.push(new THREE.Vector2(Math.sin(t)*1.4, Math.cos(t)*.9 - .9));
+// Bell — lathe geometry
+const bellCurve = [];
+for(let i = 0; i <= 10; i++){
+  const t = (i/10) * Math.PI * .62;
+  bellCurve.push(new THREE.Vector2(Math.sin(t) * 1.3, Math.cos(t) * .85 - .85));
 }
-const bellGeo = new THREE.LatheGeometry(bellPts, 14);
-const bellMat = new THREE.MeshBasicMaterial({color:new THREE.Color(0xf0c87a),wireframe:true,transparent:true,opacity:.45});
-const bell = new THREE.Mesh(bellGeo, bellMat);
-jellyGroup.add(bell);
+const bell = new THREE.Mesh(
+  new THREE.LatheGeometry(bellCurve, 12),
+  new THREE.MeshBasicMaterial({color: GOLDL, wireframe: true, transparent: true, opacity: .5})
+);
+jellyfish.add(bell);
 
-// Solid fill (dark, very transparent)
-const bellFill = new THREE.Mesh(bellGeo, new THREE.MeshBasicMaterial({color:new THREE.Color(0x1a0e00),transparent:true,opacity:.25,side:THREE.DoubleSide}));
-jellyGroup.add(bellFill);
+// Bell fill
+const bellFill = new THREE.Mesh(
+  new THREE.LatheGeometry(bellCurve, 12),
+  new THREE.MeshBasicMaterial({color: new THREE.Color(0x1a0e00), transparent: true, opacity: .22, side: THREE.DoubleSide})
+);
+jellyfish.add(bellFill);
 
-// Tentacles — 8 curved lines hanging down
-for(let i=0;i<8;i++){
-  const angle = (i/8)*Math.PI*2;
-  const r = .6 + (i%2)*.25;
-  const pts3 = [];
-  for(let j=0;j<=12;j++){
-    const t = j/12;
-    pts3.push(new THREE.Vector3(
-      Math.cos(angle)*r*(1-t*.3) + Math.sin(t*3+i)*.18,
-      -t*2.2 - .9,
-      Math.sin(angle)*r*(1-t*.3) + Math.cos(t*3+i)*.18
+// Tentacles — 8 gently curved lines
+for(let i = 0; i < 8; i++){
+  const a = (i/8) * Math.PI * 2;
+  const r = .55 + (i%2) * .22;
+  const pts = [];
+  for(let j = 0; j <= 14; j++){
+    const t = j / 14;
+    pts.push(new THREE.Vector3(
+      Math.cos(a) * r * (1 - t*.25) + Math.sin(t*3.5+i) * .14,
+      -t * 2.4 - .85,
+      Math.sin(a) * r * (1 - t*.25) + Math.cos(t*3.5+i) * .14
     ));
   }
-  const tentGeo = new THREE.BufferGeometry().setFromPoints(pts3);
-  const tentMat = new THREE.LineBasicMaterial({color:new THREE.Color(0xd4a853),transparent:true,opacity:.35});
-  jellyGroup.add(new THREE.Line(tentGeo, tentMat));
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  jellyfish.add(new THREE.Line(geo, new THREE.LineBasicMaterial({
+    color: GOLD, transparent: true, opacity: .32
+  })));
 }
 
-// Oral arms — 4 thicker arms
-for(let i=0;i<4;i++){
-  const angle = (i/4)*Math.PI*2 + Math.PI/4;
-  const pts3 = [];
-  for(let j=0;j<=10;j++){
-    const t = j/10;
-    pts3.push(new THREE.Vector3(
-      Math.cos(angle)*.3*(1+t*.5) + Math.sin(t*2+i)*.25,
-      -t*1.6 - .9,
-      Math.sin(angle)*.3*(1+t*.5) + Math.cos(t*2+i)*.25
-    ));
+jellyfish.scale.setScalar(1.15);
+jellyfish.position.set(3.5, 1.2, -18);
+scene.add(jellyfish);
+
+// ── 6. PERSPECTIVE GRID ──
+const gridMesh = new THREE.Mesh(
+  new THREE.PlaneGeometry(50, 100, 26, 52),
+  new THREE.MeshBasicMaterial({color: new THREE.Color(0x7a5a18), wireframe: true, transparent: true, opacity: .042})
+);
+gridMesh.rotation.x = -Math.PI / 2;
+gridMesh.position.set(0, -5.5, -45);
+scene.add(gridMesh);
+
+// ── MOUSE & CAMERA STATE ──
+let mx = 0, my = 0, camX = 0, camY = 0, targetZ = 0;
+const TRAVEL = -105;
+
+document.addEventListener('mousemove', e => {
+  mx = (e.clientX / innerWidth - .5) * .65;
+  my = (e.clientY / innerHeight - .5) * .38;
+});
+
+// ── RENDER LOOP ──
+function renderLoop(t) {
+  requestAnimationFrame(renderLoop);
+  const time = t * .001;
+
+  // Smooth camera
+  camera.position.z += (targetZ - camera.position.z) * .055;
+  camX += (mx * .32 - camX) * .038;
+  camY += (-my * .2 - camY) * .038;
+  camera.position.x = camX;
+  camera.position.y = camY;
+  camera.lookAt(camX * .28, camY * .22, camera.position.z - 10);
+
+  // Drift particles
+  for(let i = 0; i < GP; i++){
+    gpPos[i*3]   += gpSpd[i].x;
+    gpPos[i*3+1] += gpSpd[i].y;
+    if(Math.abs(gpPos[i*3])   > 11) gpSpd[i].x *= -1;
+    if(Math.abs(gpPos[i*3+1]) > 7)  gpSpd[i].y *= -1;
   }
-  const armGeo = new THREE.BufferGeometry().setFromPoints(pts3);
-  const armMat = new THREE.LineBasicMaterial({color:new THREE.Color(0xf0c87a),transparent:true,opacity:.25});
-  jellyGroup.add(new THREE.Line(armGeo, armMat));
+  gpGeo.attributes.position.needsUpdate = true;
+
+  // Orbit ring rotation
+  orbitMeshes.forEach((ring, i) => {
+    ring.rotation.z = time * (.04 + i * .007);
+  });
+
+  // Ico rotation
+  icoMeshes.forEach(m => {
+    m.rotation.x += m.userData.rs.x;
+    m.rotation.y += m.userData.rs.y;
+  });
+
+  // Jellyfish drift — lazy sine wave, always near camera
+  const jz = camera.position.z - 16 + Math.sin(time * .15) * 3.5;
+  jellyfish.position.x = Math.sin(time * .28) * 3.8 + 2.5;
+  jellyfish.position.y = Math.sin(time * .2) * 1.6 + 1;
+  jellyfish.position.z = jz;
+  jellyfish.rotation.y = time * .14;
+  jellyfish.rotation.z = Math.sin(time * .22) * .08;
+  // Bell breathe
+  const bp = 1 + Math.sin(time * 1.3) * .07;
+  bell.scale.set(bp, 1/bp * .94 + .06, bp);
+  bellFill.scale.copy(bell.scale);
+
+  // Grid follows camera
+  gridMesh.position.z = -45 + camera.position.z * .12;
+
+  renderer.render(scene, camera);
 }
+renderLoop(0);
 
-jellyGroup.scale.setScalar(1.1);
-jellyGroup.position.set(4, 1, -20);
-S.add(jellyGroup);
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
 
-
-  gFloor.position.z = -50 + CAM.position.z*.12;
-
-  R.render(S,CAM);
-}
-animBG(0);
-
-window.addEventListener('resize',()=>{CAM.aspect=innerWidth/innerHeight;CAM.updateProjectionMatrix();R.setSize(innerWidth,innerHeight);});
-
-// ── SCENE MANAGEMENT ─────────────────────────────────────────────────────────
-const STOPS=[
-  {p:0,   z:0,   id:'o0'},
-  {p:.17, z:-20, id:'o1'},
-  {p:.34, z:-40, id:'o2'},
-  {p:.51, z:-60, id:'o3'},
-  {p:.68, z:-80, id:'o4'},
-  {p:.85, z:-98, id:'o5'},
+// ════════════════════════════════════════════════════════════
+// SCENE MANAGEMENT
+// ════════════════════════════════════════════════════════════
+const STOPS = [
+  {p:0,   z:0,   id:'ov0'},
+  {p:.17, z:-18, id:'ov1'},
+  {p:.34, z:-38, id:'ov2'},
+  {p:.51, z:-58, id:'ov3'},
+  {p:.68, z:-78, id:'ov4'},
+  {p:.85, z:-96, id:'ov5'},
 ];
-const ovEls = STOPS.map(s=>document.getElementById(s.id));
+const ovEls = STOPS.map(s => document.getElementById(s.id));
 const dots = document.querySelectorAll('.dot');
-let cur=0, busy=false;
+let curStop = 0, busy = false;
 
-function showStop(idx){
-  if(idx===cur||busy)return;
-  busy=true;
-  const prev=cur; cur=idx;
-  dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
-  targetZ=STOPS[idx].z;
+function showStop(idx) {
+  if(idx === curStop || busy) return;
+  busy = true;
+  const prev = curStop;
+  curStop = idx;
 
+  dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+  targetZ = STOPS[idx].z;
+
+  // Kill & hide previous
   gsap.killTweensOf(ovEls[prev]);
-  gsap.to(ovEls[prev],{opacity:0,y:idx>prev?-18:18,duration:.38,ease:'power2.in',onComplete:()=>ovEls[prev].classList.remove('on')});
+  gsap.to(ovEls[prev], {
+    opacity: 0, y: idx > prev ? -22 : 22, duration: .38, ease: 'power2.in',
+    onComplete: () => { ovEls[prev].classList.remove('live'); }
+  });
 
-  ovEls[idx].classList.add('on');
-  setTimeout(()=>{
-    gsap.fromTo(ovEls[idx],{opacity:0,y:idx>prev?20:-20},{opacity:1,y:0,duration:.65,ease:'power3.out',onComplete:()=>{busy=false;}});
-    const id=STOPS[idx].id;
-    if(id==='o1') gsap.to('#o1 .ws',{y:0,stagger:.1,duration:.85,ease:'power4.out',delay:.1});
-    if(id==='o2') gsap.fromTo('#o2 .fc',{opacity:0,y:22,scale:.96},{opacity:1,y:0,scale:1,stagger:.07,duration:.5,delay:.1,ease:'back.out(1.4)'});
-    if(id==='o3'){
-      // Fun bounce on the headline
-      gsap.fromTo('#o3 .funny-h',{opacity:0,scale:.9,y:20},{opacity:1,scale:1,y:0,duration:.8,delay:.1,ease:'back.out(1.5)'});
-      gsap.fromTo('#o3 .funny-p',{opacity:0},{opacity:1,duration:.6,delay:.6});
-      gsap.fromTo('#o3 .sbox',{opacity:0,y:24},{opacity:1,y:0,stagger:.12,duration:.6,delay:.8,ease:'back.out(1.6)'});
+  // Show new
+  ovEls[idx].classList.add('live');
+  setTimeout(() => {
+    gsap.fromTo(ovEls[idx],
+      {opacity:0, y: idx > prev ? 24 : -24},
+      {opacity:1, y:0, duration:.65, ease:'power3.out',
+        onComplete: () => { busy = false; }
+      }
+    );
+    // Scene entrances
+    const id = STOPS[idx].id;
+    if(id === 'ov1') {
+      gsap.fromTo('#ov1 .ws', {y:'108%'}, {y:0, stagger:.1, duration:.85, ease:'power4.out', delay:.1});
     }
-    if(id==='o4') gsap.fromTo('#o4 .pc',{opacity:0,y:28},{opacity:1,y:0,stagger:.1,duration:.6,delay:.1,ease:'back.out(1.4)'});
-    if(id==='o5'){
-      gsap.fromTo('#o5 .ch',{opacity:0,scale:.9},{opacity:1,scale:1,duration:.9,delay:.1,ease:'power3.out'});
-      gsap.fromTo('#o5 .cp',{opacity:0},{opacity:1,duration:.65,delay:.75});
-      gsap.fromTo('#o5 .cbtn',{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:1,ease:'back.out(1.4)'});
+    if(id === 'ov2') {
+      gsap.fromTo('#ov2 .fc', {opacity:0, y:24, scale:.95}, {opacity:1, y:0, scale:1, stagger:.07, duration:.52, delay:.1, ease:'back.out(1.4)'});
     }
-  },120);
+    if(id === 'ov3') {
+      gsap.fromTo('#ov3 .s3-h', {opacity:0, scale:.92}, {opacity:1, scale:1, duration:.75, delay:.1, ease:'back.out(1.4)'});
+      gsap.fromTo('#ov3 .s3-p', {opacity:0}, {opacity:1, duration:.6, delay:.55});
+      gsap.fromTo('#ov3 .s3-stat', {opacity:0, y:22}, {opacity:1, y:0, stagger:.12, duration:.6, delay:.7, ease:'back.out(1.6)'});
+    }
+    if(id === 'ov4') {
+      gsap.fromTo('#ov4 .s4-h', {opacity:0, y:18}, {opacity:1, y:0, duration:.65, delay:.1, ease:'power3.out'});
+      gsap.fromTo('#ov4 .pc', {opacity:0, y:28}, {opacity:1, y:0, stagger:.1, duration:.6, delay:.3, ease:'back.out(1.4)'});
+    }
+    if(id === 'ov5') {
+      gsap.fromTo('#ov5 .s5-h', {opacity:0, scale:.9}, {opacity:1, scale:1, duration:.9, delay:.1, ease:'power3.out'});
+      gsap.fromTo('#ov5 .s5-p', {opacity:0}, {opacity:1, duration:.65, delay:.75});
+      gsap.fromTo('#ov5 .s5-btn', {opacity:0, y:12}, {opacity:1, y:0, duration:.6, delay:1, ease:'back.out(1.4)'});
+    }
+  }, 140);
 }
 
 ScrollTrigger.create({
-  trigger:'.track',start:'top top',end:'bottom bottom',
-  onUpdate:self=>{
-    targetZ=self.progress*TRAVEL;
-    let best=0;
-    STOPS.forEach((s,i)=>{if(self.progress>=s.p-.05)best=i;});
+  trigger: '.track',
+  start: 'top top',
+  end: 'bottom bottom',
+  onUpdate: self => {
+    targetZ = self.progress * TRAVEL;
+    let best = 0;
+    STOPS.forEach((s, i) => { if(self.progress >= s.p - .06) best = i; });
     showStop(best);
   }
 });
 
-function jmp(i){window.scrollTo({top:document.querySelector('.track').offsetHeight*STOPS[i].p,behavior:'smooth'});}
+function jmp(i) {
+  const h = document.querySelector('.track').offsetHeight;
+  window.scrollTo({top: h * STOPS[i].p, behavior: 'smooth'});
+}
 
-gsap.fromTo('#o0',{opacity:0,y:18},{opacity:1,y:0,duration:1.1,ease:'power3.out',delay:.35});
+// Init
+gsap.fromTo('#ov0', {opacity:0, y:18}, {opacity:1, y:0, duration:1.1, ease:'power3.out', delay:.35});
 </script>
 </body>
 </html>
