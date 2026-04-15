@@ -24,7 +24,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;al
 #bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
 
 /* Splash overlay — covers screen during transition */
-#splash{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 0%,rgba(150,220,255,.95) 0%,rgba(30,100,180,.9) 40%,rgba(2,20,50,.85) 100%)}
+#splash{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 10%,rgba(77,217,192,.45) 0%,rgba(10,40,80,.35) 40%,transparent 70%)}
 
 /* Resurface overlay — light breaking through water */
 #resurface{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:linear-gradient(to bottom,rgba(200,240,255,.9) 0%,rgba(150,200,255,.6) 30%,transparent 100%)}
@@ -256,7 +256,7 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
     <div class="ac-demo"><div class="ac-fill fill-1"></div></div>
     <div class="ac-info">
       <div><div class="ac-name">Color Reveal</div><div class="ac-desc">Photos transition from black and white to full color — drawing the eye and building emotion.</div></div>
-      <div><div class="ac-num">01</div><span class="ac-hint">auto-playing</span></div>
+      <div><div class="ac-num">01</div></div>
     </div>
   </div>
 </div>
@@ -266,7 +266,7 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
     <div class="ac-demo"><div class="ac-fill fill-2"></div></div>
     <div class="ac-info">
       <div><div class="ac-name">Zoom In</div><div class="ac-desc">The photo slowly zooms in on hover, creating depth and drawing visitors into the image.</div></div>
-      <div><div class="ac-num">02</div><span class="ac-hint">auto-playing</span></div>
+      <div><div class="ac-num">02</div></div>
     </div>
   </div>
 </div>
@@ -276,7 +276,7 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
     <div class="ac-demo"><div class="ac-fill fill-3"></div></div>
     <div class="ac-info">
       <div><div class="ac-name">Wipe Reveal</div><div class="ac-desc">The image sweeps in from one side — cinematic, purposeful, hard to ignore.</div></div>
-      <div><div class="ac-num">03</div><span class="ac-hint">auto-playing</span></div>
+      <div><div class="ac-num">03</div></div>
     </div>
   </div>
 </div>
@@ -286,7 +286,7 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
     <div class="ac-demo"><div class="ac-fill fill-4"></div></div>
     <div class="ac-info">
       <div><div class="ac-name">Blur to Sharp</div><div class="ac-desc">Photos emerge from fog into sharp clarity — like something coming into focus as you watch.</div></div>
-      <div><div class="ac-num">04</div><span class="ac-hint">auto-playing</span></div>
+      <div><div class="ac-num">04</div></div>
     </div>
   </div>
 </div>
@@ -296,7 +296,7 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
     <div class="ac-demo"><div class="ac-fill fill-5"></div></div>
     <div class="ac-info">
       <div><div class="ac-name">Rotate</div><div class="ac-desc">A subtle rotation that gives photos a sense of weight and arrival — satisfying every time.</div></div>
-      <div><div class="ac-num">05</div><span class="ac-hint">auto-playing</span></div>
+      <div><div class="ac-num">05</div></div>
     </div>
   </div>
 </div>
@@ -306,7 +306,7 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
     <div class="ac-demo"><div class="ac-fill fill-6"></div></div>
     <div class="ac-info">
       <div><div class="ac-name">Slide Pan</div><div class="ac-desc">The photo pans across revealing more of the scene — like a camera move in a film.</div></div>
-      <div><div class="ac-num">06</div><span class="ac-hint">auto-playing</span></div>
+      <div><div class="ac-num">06</div></div>
     </div>
   </div>
 </div>
@@ -316,7 +316,7 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
     <div class="ac-demo"><div class="ac-fill fill-7"></div></div>
     <div class="ac-info">
       <div><div class="ac-name">Ken Burns</div><div class="ac-desc">The classic film technique — photos slowly drift and zoom, making every still feel alive.</div></div>
-      <div><div class="ac-num">07</div><span class="ac-hint">auto-playing</span></div>
+      <div><div class="ac-num">07</div></div>
     </div>
   </div>
 </div>
@@ -326,7 +326,7 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
     <div class="ac-demo"><div class="ac-fill fill-8"></div></div>
     <div class="ac-info">
       <div><div class="ac-name">Flash</div><div class="ac-desc">A dramatic brightness pulse — grabs attention instantly and doesn't let go.</div></div>
-      <div><div class="ac-num">08</div><span class="ac-hint">auto-playing</span></div>
+      <div><div class="ac-num">08</div></div>
     </div>
   </div>
 </div>
@@ -502,10 +502,13 @@ function renderBG(t){
   const time=t*.001;
   camera.position.z+=(targetZ-camera.position.z)*.055;
   camera.position.y+=(targetY-camera.position.y)*.055;
-  cX+=(mx*.3-cX)*.038; cY+=(-my*.2-cY)*.038;
-  camera.position.x=cX;
+  // Reduce mouse influence underwater so background doesn't shift awkwardly
+  const mouseInfluence = worldBlend > 0.5 ? 0.12 : 0.3;
+  cX += (mx*mouseInfluence - cX) * .035;
+  cY += (-my*.15 - cY) * .03;
+  camera.position.x = cX;
   // Look direction blends between forward (space) and down (ocean)
-  const lx=cX*.2,ly=camera.position.y-8*worldBlend,lz=camera.position.z-10*(1-worldBlend);
+  const lx=cX*.15, ly=camera.position.y-8*worldBlend, lz=camera.position.z-10*(1-worldBlend);
   camera.lookAt(lx,ly,lz);
 
   for(let i=0;i<NSP;i++){spaceArr[i*3]+=spd1[i].x;spaceArr[i*3+1]+=spd1[i].y;if(Math.abs(spaceArr[i*3])>11)spd1[i].x*=-1;if(Math.abs(spaceArr[i*3+1])>7)spd1[i].y*=-1;}
@@ -532,6 +535,44 @@ function renderBG(t){
 
   icoMs.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
   seaMs.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
+  
+  // Ocean life animations
+  if(worldBlend>.05){
+    scene.children.forEach(ch=>{
+      if(!ch.isMesh||!ch.userData)return;
+      if(ch.userData.ox!==undefined){
+        // Orb: pulse opacity, gentle drift
+        ch.userData.ox+=ch.userData.ospd*.016;
+        ch.material.opacity=Math.max(0,(.4+Math.sin(ch.userData.ox)*.3)*worldBlend);
+        ch.position.x+=ch.userData.odrift;
+        if(Math.abs(ch.position.x)>9)ch.userData.odrift*=-1;
+        ch.scale.setScalar(.85+Math.sin(ch.userData.ox*.6)*.18);
+      }
+      if(ch.userData.coral){
+        ch.rotation.x+=ch.userData.rx;ch.rotation.y+=ch.userData.ry;
+        ch.material.opacity=(.15+Math.sin(time*.9+ch.position.x)*.08)*Math.min(1,worldBlend*1.5);
+      }
+    });
+  }
+  
+  // Animate ocean life
+  if(worldBlend>.1){
+    scene.children.forEach(child=>{
+      if(child.isMesh&&child.geometry.type==='SphereGeometry'&&child.userData.fx!==undefined){
+        // Orb pulse and drift
+        child.userData.fx+=child.userData.speed*.016;
+        child.material.opacity=(.45+Math.sin(child.userData.fx)*.3)*worldBlend;
+        child.position.x+=child.userData.drift;
+        if(Math.abs(child.position.x)>8)child.userData.drift*=-1;
+        child.scale.setScalar(.9+Math.sin(child.userData.fx*.7)*.15);
+      }
+      if(child.isMesh&&child.userData.rx!==undefined&&child.geometry.type==='IcosahedronGeometry'&&child.position.y<-10){
+        child.rotation.x+=child.userData.rx;
+        child.rotation.y+=child.userData.ry;
+        child.material.opacity=(.18+Math.sin(time*.8+child.position.x)*.08)*worldBlend;
+      }
+    });
+  }
 
   jelly.position.x=Math.sin(time*.28)*3.5+2.5;
   jelly.position.y=camera.position.y-8+Math.sin(time*.2)*1.5;
@@ -610,10 +651,10 @@ function showStop(idx){
   // SPLASH at the dive transition
   if(idx===3 && !splashFired){
     splashFired=true;
-    gsap.to('#splash',{opacity:1,duration:.3,ease:'power2.out',
+    gsap.to('#splash',{opacity:1,duration:.5,ease:'power2.out',
       onComplete:()=>{
         triggerSplash();
-        gsap.to('#splash',{opacity:0,duration:.8,ease:'power2.in'});
+        gsap.to('#splash',{opacity:0,duration:1.2,ease:'power2.in'});
       }
     });
   }
