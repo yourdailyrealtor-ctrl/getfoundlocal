@@ -185,8 +185,8 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 </div>
 
 <div class="ov" id="ov3">
-  <h2 class="t3">Your old website called.<br>It said <em>"please replace me."</em></h2>
-  <p class="t3p">We will not tell you what it looked like. But we promise yours will be better. By a lot.</p>
+  <h2 class="t3">Right now, someone<br>just Googled <em>you</em> —<br>and found nothing.</h2>
+  <p class="t3p">Every day without a website is customers choosing someone else. Let us fix that.</p>
   <div class="sr">
     <div class="ss"><span class="sv">3–4<em> days</em></span><span class="sl">To go live</span></div>
     <div class="ss"><span class="sv">$0</span><span class="sl">Until you approve</span></div>
@@ -256,23 +256,39 @@ scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({
   color: 0xffffff, size: .055, transparent: true, opacity: .32, sizeAttenuation: true
 })));
 
-// 2. Gold particle tunnel
-const N_GP = 2400;
+// 2. Gold particle tunnel — tighter cylinder for stronger tunnel feel
+const N_GP = 3200;
 const gpArr = new Float32Array(N_GP * 3);
 const gpSpd = [];
 for (let i = 0; i < N_GP; i++) {
   const a = Math.random() * Math.PI * 2;
-  const r = 3.5 + Math.pow(Math.random(), .55) * 10;
-  gpArr[i*3]   = Math.cos(a) * r + (Math.random() - .5) * 2;
-  gpArr[i*3+1] = Math.sin(a) * r * .52 + (Math.random() - .5) * 1.8;
-  gpArr[i*3+2] = -(Math.random() * 115);
-  gpSpd.push({ x: (Math.random() - .5) * .0022, y: (Math.random() - .5) * .0016 });
+  // 70% close to tunnel wall, 30% scattered
+  const wallCluster = Math.random() < .7;
+  const r = wallCluster
+    ? 4.5 + (Math.random() - .5) * 1.2  // tight cluster near radius 4.5
+    : 2 + Math.random() * 8;             // scattered fill
+  gpArr[i*3]   = Math.cos(a) * r;
+  gpArr[i*3+1] = Math.sin(a) * r * .5;
+  gpArr[i*3+2] = -(Math.random() * 120);
+  gpSpd.push({ x: (Math.random() - .5) * .002, y: (Math.random() - .5) * .0015 });
 }
 const gpGeo = new THREE.BufferGeometry();
 gpGeo.setAttribute('position', new THREE.BufferAttribute(gpArr, 3));
 scene.add(new THREE.Points(gpGeo, new THREE.PointsMaterial({
-  color: GOLD, size: .028, transparent: true, opacity: .48, sizeAttenuation: true
+  color: GOLD, size: .032, transparent: true, opacity: .52, sizeAttenuation: true
 })));
+
+// Subtle tunnel rings — just 4, very faint
+[-14,-32,-55,-80].forEach((z, i) => {
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(4.8, .03, 3, 64),
+    new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: .08 + i*.012 })
+  );
+  ring.rotation.x = Math.PI / 2;
+  ring.position.z = z;
+  ring.userData.ri = i;
+  scene.add(ring);
+});
 
 // 3. Wireframe icosahedra
 const icoConfigs = [
@@ -341,7 +357,7 @@ scene.add(gridMesh);
 
 // Mouse + camera
 let mx = 0, my = 0, cX = 0, cY = 0, targetZ = 0;
-const TRAVEL = -108;
+const TRAVEL = -115;
 document.addEventListener('mousemove', e => {
   mx = (e.clientX / innerWidth - .5) * .65;
   my = (e.clientY / innerHeight - .5) * .38;
@@ -351,7 +367,7 @@ function renderBG(t) {
   requestAnimationFrame(renderBG);
   const time = t * .001;
 
-  camera.position.z += (targetZ - camera.position.z) * .055;
+  camera.position.z += (targetZ - camera.position.z) * .065;
   cX += (mx * .32 - cX) * .038;
   cY += (-my * .2 - cY) * .038;
   camera.position.x = cX;
@@ -367,6 +383,13 @@ function renderBG(t) {
   gpGeo.attributes.position.needsUpdate = true;
 
   icoMeshes.forEach(m => { m.rotation.x += m.userData.rx; m.rotation.y += m.userData.ry; });
+  
+  // Ring pulse
+  scene.children.forEach(child => {
+    if (child.geometry && child.geometry.type === 'TorusGeometry') {
+      child.rotation.z = time * (.03 + child.userData.ri * .005);
+    }
+  });
 
   // Jellyfish
   jelly.position.x = Math.sin(time * .28) * 3.8 + 2.5;
