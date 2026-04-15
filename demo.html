@@ -15,28 +15,33 @@ body{font-family:'DM Sans',sans-serif;background:#070810;color:#fff;overflow-x:h
 a{text-decoration:none;color:inherit}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.55);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
-.logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:var(--accent,#d4a853)}
+.logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#d4a853}
 .nl{display:flex;align-items:center;gap:2px}.nl a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.45);border-radius:8px;transition:color .2s}.nl a:hover,.nl a.active{color:#fff}
-.nc{background:var(--accent,#d4a853)!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:700!important}
+.nc{background:#d4a853!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:700!important}.nc:hover{background:#f0c87a!important}
 .hb{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}.hb span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px}
 .mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(7,8,16,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
 
 #bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-.track{height:1100vh;position:relative;z-index:1}
 
-/* WORLD TRANSITION — body bg color shifts with JS */
-body{transition:background-color 1.2s ease}
+/* Splash overlay — covers screen during transition */
+#splash{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 0%,rgba(150,220,255,.95) 0%,rgba(30,100,180,.9) 40%,rgba(2,20,50,.85) 100%)}
+
+/* Resurface overlay — light breaking through water */
+#resurface{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:linear-gradient(to bottom,rgba(200,240,255,.9) 0%,rgba(150,200,255,.6) 30%,transparent 100%)}
+
+.track{height:2000vh;position:relative;z-index:1}
 
 /* All overlays */
 .ov{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;pointer-events:none;opacity:0;width:90%;max-width:1000px;text-align:center}
 .ov.live{pointer-events:auto}
 
-/* Dots */
+/* Progress dots */
 .dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:500}
 .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .45s;cursor:pointer}
-.dot.on{background:var(--dot-color,#d4a853);transform:scale(2.2)}
+.dot.on{background:#d4a853;transform:scale(2.2)}
+.dot:hover{background:rgba(255,255,255,.45)}
 
-/* ── S0: Gold space opening ── */
+/* ── S0 Opening ── */
 .t0{font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,5rem);font-weight:400;line-height:1.05;letter-spacing:-.5px;color:rgba(255,255,255,.92)}
 .t0 em{font-style:italic;color:#d4a853}
 .t0-tag{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:18px;display:block}
@@ -45,52 +50,89 @@ body{transition:background-color 1.2s ease}
 .t0-ln{width:1px;height:38px;background:linear-gradient(to bottom,#d4a853,transparent);animation:lp 2s ease infinite}
 @keyframes lp{0%,100%{opacity:.4}50%{opacity:1}}
 
-/* ── S1: Statement ── */
+/* ── S1 Statement ── */
 .t1{font-family:'Instrument Serif',serif;font-size:clamp(2.4rem,6vw,5.5rem);font-weight:400;line-height:1.0;letter-spacing:-.5px}
-.t1 .gold{color:#d4a853;font-style:italic}
-.wl{overflow:hidden;display:block}
-.ws{display:inline-block;transform:translateY(108%)}
+.t1 em{font-style:italic;color:#d4a853}
+.wl{overflow:hidden;display:block}.ws{display:inline-block;transform:translateY(108%)}
 
-/* ── S2: Underwater animation showcase ── */
-/* Background transitions to deep blue during this scene */
-.s2-ey{font-size:.65rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#4dd9c0;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:12px}
-.s2-ey span{width:22px;height:1px;background:#4dd9c0;display:inline-block}
-.s2-sub{font-size:.88rem;color:rgba(255,255,255,.5);margin-bottom:28px;font-weight:300}
-.demo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:860px;margin:0 auto}
-.demo-card{border-radius:12px;overflow:hidden;aspect-ratio:1;position:relative;border:1px solid rgba(255,255,255,.08);cursor:pointer;background:#0a2030}
-.dc-fill{width:100%;height:100%}
-.dc-cap{position:absolute;bottom:0;left:0;right:0;padding:9px 12px;background:rgba(2,13,24,.82);font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.7);backdrop-filter:blur(4px)}
-/* Each animation effect */
-.d1 .dc-fill{background:linear-gradient(135deg,#0a2030,#4dd9c0);filter:grayscale(100%);transition:filter .6s}
-.d1:hover .dc-fill{filter:grayscale(0%)}
-.d2 .dc-fill{background:linear-gradient(135deg,#0d3a52,#1a7a6e);transform:scale(1);transition:transform .6s cubic-bezier(.4,0,.2,1)}
-.d2:hover .dc-fill{transform:scale(1.2)}
-.d3 .dc-fill{background:linear-gradient(135deg,#4dd9c0,#0a2030);clip-path:inset(0 100% 0 0);transition:clip-path .7s cubic-bezier(.4,0,.2,1)}
-.d3:hover .dc-fill{clip-path:inset(0 0% 0 0)}
-.d4 .dc-fill{background:linear-gradient(135deg,#0d3a52,#4dd9c0,#0a2030);filter:blur(6px) brightness(.5);transform:scale(1.05);transition:filter .5s,transform .5s}
-.d4:hover .dc-fill{filter:blur(0) brightness(1);transform:scale(1)}
-.d5 .dc-fill{background:linear-gradient(135deg,#1a7a6e,#4dd9c0);transform:scale(1.08) rotate(-4deg);transition:transform .55s cubic-bezier(.4,0,.2,1)}
-.d5:hover .dc-fill{transform:scale(1) rotate(0deg)}
-.d6 .dc-fill{background:linear-gradient(135deg,#0a2030,#1a7a6e,#4dd9c0);transform:translateX(-12%);transition:transform .55s cubic-bezier(.4,0,.2,1)}
-.d6:hover .dc-fill{transform:translateX(0)}
-.d7 .dc-fill{background:linear-gradient(135deg,#0d3a52,#4dd9c0);animation:kb 6s ease infinite alternate}
-@keyframes kb{from{transform:scale(1) translate(0,0)}to{transform:scale(1.14) translate(-2%,-1%)}}
-.d8 .dc-fill{background:linear-gradient(135deg,#4dd9c0,#1a7a6e,#0a2030);filter:brightness(.5);transition:filter .45s}
-.d8:hover .dc-fill{filter:brightness(1.15)}
-.hover-hint{font-size:.6rem;color:rgba(255,255,255,.28);margin-top:14px;letter-spacing:2px;text-transform:uppercase}
+/* ── S2 Dive invitation ── */
+.dive-text{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;line-height:1.1;letter-spacing:-.3px}
+.dive-text em{font-style:italic;color:#4dd9c0}
+.dive-dots{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;color:#4dd9c0;letter-spacing:4px;margin-top:8px;display:block;min-height:1.2em}
+.dive-sub{font-size:.82rem;color:rgba(255,255,255,.35);margin-top:28px;letter-spacing:2px;text-transform:uppercase}
 
-/* ── S3: Stats (back to gold) ── */
+/* ── S3-S10: Individual animation cards ── */
+/* Each card appears at an angle, like it's drifting toward you */
+.anim-card{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%) perspective(800px) rotateY(-25deg) rotateX(10deg);
+  z-index:3;pointer-events:none;opacity:0;
+  width:min(85vw,600px);
+}
+.anim-card.live{pointer-events:auto}
+.ac-inner{
+  background:rgba(2,20,40,.85);
+  border:1px solid rgba(77,217,192,.2);
+  border-radius:20px;
+  overflow:hidden;
+  backdrop-filter:blur(16px);
+  box-shadow:0 24px 80px rgba(0,0,0,.5), 0 0 60px rgba(77,217,192,.08);
+}
+.ac-demo{height:260px;position:relative;overflow:hidden;background:#0a2030}
+.ac-fill{width:100%;height:100%;transition:all .7s cubic-bezier(.4,0,.2,1)}
+.ac-info{padding:24px 28px;display:flex;align-items:center;justify-content:space-between}
+.ac-name{font-family:'Instrument Serif',serif;font-size:1.3rem;font-weight:400;color:#fff}
+.ac-desc{font-size:.8rem;color:rgba(255,255,255,.45);margin-top:4px;line-height:1.5;max-width:340px}
+.ac-num{font-family:'Instrument Serif',serif;font-style:italic;font-size:2.5rem;color:rgba(77,217,192,.25);font-weight:400}
+.ac-hint{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(77,217,192,.5);margin-top:4px;display:block;text-align:right}
+
+/* Card fill gradients — each unique teal */
+.fill-1{background:linear-gradient(135deg,#0a2030 0%,#4dd9c0 100%);filter:grayscale(100%)}
+.fill-1:hover,.live .fill-1{filter:grayscale(0%)}
+
+.fill-2{background:linear-gradient(135deg,#0d3a52,#1a7a6e);transform:scale(1)}
+.live .fill-2{animation:zoom2 3s ease-in-out infinite alternate}
+@keyframes zoom2{from{transform:scale(1)}to{transform:scale(1.15)}}
+
+.fill-3{background:linear-gradient(135deg,#4dd9c0,#0a2030);clip-path:inset(0 100% 0 0)}
+.live .fill-3{animation:wipe3 3s cubic-bezier(.4,0,.2,1) infinite alternate}
+@keyframes wipe3{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0% 0 0)}}
+
+.fill-4{background:linear-gradient(135deg,#0d3a52,#4dd9c0,#0a2030);filter:blur(8px) brightness(.4);transform:scale(1.06)}
+.live .fill-4{animation:blursharp4 3s ease-in-out infinite alternate}
+@keyframes blursharp4{from{filter:blur(8px) brightness(.4);transform:scale(1.06)}to{filter:blur(0) brightness(1);transform:scale(1)}}
+
+.fill-5{background:linear-gradient(135deg,#1a7a6e,#4dd9c0);transform:scale(1.1) rotate(-5deg)}
+.live .fill-5{animation:rotate5 4s ease-in-out infinite alternate}
+@keyframes rotate5{from{transform:scale(1.1) rotate(-5deg)}to{transform:scale(1) rotate(0deg)}}
+
+.fill-6{background:linear-gradient(90deg,#0a2030,#1a7a6e,#4dd9c0);transform:translateX(-15%)}
+.live .fill-6{animation:slide6 3s ease-in-out infinite alternate}
+@keyframes slide6{from{transform:translateX(-15%)}to{transform:translateX(0)}}
+
+.fill-7{background:linear-gradient(135deg,#0d3a52,#4dd9c0);animation:kb7 6s ease infinite alternate}
+@keyframes kb7{from{transform:scale(1) translate(0,0)}to{transform:scale(1.14) translate(-3%,-2%)}}
+
+.fill-8{background:linear-gradient(135deg,#4dd9c0,#1a7a6e,#0a2030);filter:brightness(.5)}
+.live .fill-8{animation:flash8 2.5s ease-in-out infinite alternate}
+@keyframes flash8{from{filter:brightness(.5)}to{filter:brightness(1.15)}}
+
+/* ── S11: Deep bottom message ── */
+.deep-msg{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,4vw,3.2rem);font-weight:400;line-height:1.2}
+.deep-msg em{font-style:italic;color:#4dd9c0}
+.deep-sub{font-size:.9rem;color:rgba(255,255,255,.5);margin-top:16px;line-height:1.75;max-width:480px;margin-left:auto;margin-right:auto;font-weight:300}
+
+/* ── S12: Stats (resurface) ── */
 .t3{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4.5vw,4rem);font-weight:400;line-height:1.1;margin-bottom:16px}
 .t3 em{font-style:italic;color:#d4a853}
 .t3p{font-size:.95rem;color:rgba(255,255,255,.55);line-height:1.75;max-width:500px;margin:0 auto 28px;font-weight:300}
 .sr{display:flex;gap:0;justify-content:center}
-.ss{padding:0 36px;border-right:1px solid rgba(255,255,255,.07)}
-.ss:last-child{border-right:none}
+.ss{padding:0 36px;border-right:1px solid rgba(255,255,255,.07)}.ss:last-child{border-right:none}
 .sv{font-family:'Instrument Serif',serif;font-size:clamp(2.5rem,7vw,6rem);font-weight:400;color:#fff;line-height:1;display:block}
 .sv em{font-style:italic;color:#d4a853;font-size:.6em}
 .sl{font-size:.66rem;color:rgba(255,255,255,.42);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;display:block}
 
-/* ── S4: Pricing ── */
+/* ── S13: Pricing ── */
 .t4h{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:400;letter-spacing:-.3px;margin-bottom:22px}
 .t4h em{font-style:italic;color:#d4a853}
 .pcards{display:flex;gap:10px}
@@ -103,7 +145,7 @@ body{transition:background-color 1.2s ease}
 .pcl li{font-size:.75rem;color:rgba(255,255,255,.58);display:flex;gap:6px;align-items:flex-start}
 .pcl li::before{content:'';width:3px;height:3px;background:#d4a853;border-radius:50%;flex-shrink:0;margin-top:5px}
 
-/* ── S5: CTA ── */
+/* ── S14: CTA ── */
 .t5h{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:400;letter-spacing:-1.5px;line-height:.92;color:#fff}
 .t5h em{font-style:italic;color:#d4a853}
 .t5p{font-size:.98rem;color:rgba(255,255,255,.55);margin-top:18px;max-width:360px;margin-left:auto;margin-right:auto;line-height:1.75;font-weight:300}
@@ -111,7 +153,7 @@ body{transition:background-color 1.2s ease}
 .t5b:hover{background:#f0c87a;transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,83,.35)}
 
 /* Post */
-.post{position:relative;z-index:3;margin-top:1100vh;background:#070810}
+.post{position:relative;z-index:3;margin-top:2000vh;background:#070810}
 .postcta{padding:110px 52px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
 .postcta h2{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:400;letter-spacing:-1px;margin-bottom:16px}
 .postcta h2 em{font-style:italic;color:#d4a853}
@@ -123,18 +165,14 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 .flinks{display:flex;gap:22px}.flinks a{font-size:.78rem;color:rgba(255,255,255,.28);transition:color .2s}.flinks a:hover{color:#d4a853}
 .fcp{font-size:.76rem;color:rgba(255,255,255,.18)}
 
-@media(max-width:768px){
-  nav{padding:0 20px}.nl{display:none}.hb{display:flex}
-  .dots{display:none}
-  .demo-grid{grid-template-columns:repeat(2,1fr)}
-  .sr{flex-direction:column;gap:20px}.ss{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:18px}.ss:last-child{border-bottom:none}
-  .pcards{flex-direction:column}
-  .postcta{padding:80px 20px}
-  footer{padding:28px 20px;flex-direction:column;text-align:center}.flinks{justify-content:center}
-}
+@media(max-width:768px){nav{padding:0 20px}.nl{display:none}.hb{display:flex}.dots{display:none}.anim-card{width:92vw}.pcards{flex-direction:column}.sr{flex-direction:column;gap:20px}.ss{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:18px}.ss:last-child{border-bottom:none}.postcta{padding:80px 20px}footer{padding:28px 20px;flex-direction:column;text-align:center}.flinks{justify-content:center}}
 </style>
 </head>
 <body>
+
+<!-- Transition overlays -->
+<div id="splash"></div>
+<div id="resurface"></div>
 
 <nav>
   <a href="index.html" class="logo">Get Found <em>Local</em></a>
@@ -162,42 +200,132 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
   <div class="dot" onclick="jmp(3)"></div>
   <div class="dot" onclick="jmp(4)"></div>
   <div class="dot" onclick="jmp(5)"></div>
+  <div class="dot" onclick="jmp(6)"></div>
+  <div class="dot" onclick="jmp(7)"></div>
+  <div class="dot" onclick="jmp(8)"></div>
+  <div class="dot" onclick="jmp(9)"></div>
+  <div class="dot" onclick="jmp(10)"></div>
+  <div class="dot" onclick="jmp(11)"></div>
+  <div class="dot" onclick="jmp(12)"></div>
+  <div class="dot" onclick="jmp(13)"></div>
 </div>
 
 <div class="track"></div>
 
 <!-- OVERLAYS -->
+
+<!-- 0: Opening -->
 <div class="ov live" id="ov0">
   <h1 class="t0">how <em>your</em> site<br>could <em>feel.</em></h1>
   <span class="t0-tag">Scroll to experience it</span>
   <div class="t0-hint"><span class="t0-ht">scroll</span><div class="t0-ln"></div></div>
 </div>
 
+<!-- 1: Statement -->
 <div class="ov" id="ov1">
   <h2 class="t1">
     <span class="wl"><span class="ws">Your business</span></span>
     <span class="wl"><span class="ws">tells a story.</span></span>
-    <span class="wl"><span class="ws gold">We help people find it.</span></span>
+    <span class="wl"><span class="ws" style="color:#d4a853;font-style:italic">We help people find it.</span></span>
   </h2>
 </div>
 
+<!-- 2: Dive invitation -->
 <div class="ov" id="ov2">
-  <div class="s2-ey"><span></span>Hover Each One<span></span></div>
-  <p class="s2-sub">These are the exact effects we build into your website.</p>
-  <div class="demo-grid">
-    <div class="demo-card d1"><div class="dc-fill"></div><div class="dc-cap">Color Reveal</div></div>
-    <div class="demo-card d2"><div class="dc-fill"></div><div class="dc-cap">Zoom In</div></div>
-    <div class="demo-card d3"><div class="dc-fill"></div><div class="dc-cap">Wipe Reveal</div></div>
-    <div class="demo-card d4"><div class="dc-fill"></div><div class="dc-cap">Blur to Sharp</div></div>
-    <div class="demo-card d5"><div class="dc-fill"></div><div class="dc-cap">Rotate</div></div>
-    <div class="demo-card d6"><div class="dc-fill"></div><div class="dc-cap">Slide Pan</div></div>
-    <div class="demo-card d7"><div class="dc-fill"></div><div class="dc-cap">Ken Burns</div></div>
-    <div class="demo-card d8"><div class="dc-fill"></div><div class="dc-cap">Flash</div></div>
-  </div>
-  <p class="hover-hint">hover each card</p>
+  <div class="dive-text">Let's dive in <em>deeper</em></div>
+  <span class="dive-dots" id="diveDots"></span>
+  <span class="dive-sub">Watch what we can do for your business</span>
 </div>
 
-<div class="ov" id="ov3">
+<!-- 3-10: Individual animation cards (positioned/angled) -->
+<div class="anim-card" id="ac1">
+  <div class="ac-inner">
+    <div class="ac-demo"><div class="ac-fill fill-1"></div></div>
+    <div class="ac-info">
+      <div><div class="ac-name">Color Reveal</div><div class="ac-desc">Photos transition from black and white to full color — drawing the eye and building emotion.</div></div>
+      <div><div class="ac-num">01</div><span class="ac-hint">auto-playing</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="anim-card" id="ac2">
+  <div class="ac-inner">
+    <div class="ac-demo"><div class="ac-fill fill-2"></div></div>
+    <div class="ac-info">
+      <div><div class="ac-name">Zoom In</div><div class="ac-desc">The photo slowly zooms in on hover, creating depth and drawing visitors into the image.</div></div>
+      <div><div class="ac-num">02</div><span class="ac-hint">auto-playing</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="anim-card" id="ac3">
+  <div class="ac-inner">
+    <div class="ac-demo"><div class="ac-fill fill-3"></div></div>
+    <div class="ac-info">
+      <div><div class="ac-name">Wipe Reveal</div><div class="ac-desc">The image sweeps in from one side — cinematic, purposeful, hard to ignore.</div></div>
+      <div><div class="ac-num">03</div><span class="ac-hint">auto-playing</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="anim-card" id="ac4">
+  <div class="ac-inner">
+    <div class="ac-demo"><div class="ac-fill fill-4"></div></div>
+    <div class="ac-info">
+      <div><div class="ac-name">Blur to Sharp</div><div class="ac-desc">Photos emerge from fog into sharp clarity — like something coming into focus as you watch.</div></div>
+      <div><div class="ac-num">04</div><span class="ac-hint">auto-playing</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="anim-card" id="ac5">
+  <div class="ac-inner">
+    <div class="ac-demo"><div class="ac-fill fill-5"></div></div>
+    <div class="ac-info">
+      <div><div class="ac-name">Rotate</div><div class="ac-desc">A subtle rotation that gives photos a sense of weight and arrival — satisfying every time.</div></div>
+      <div><div class="ac-num">05</div><span class="ac-hint">auto-playing</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="anim-card" id="ac6">
+  <div class="ac-inner">
+    <div class="ac-demo"><div class="ac-fill fill-6"></div></div>
+    <div class="ac-info">
+      <div><div class="ac-name">Slide Pan</div><div class="ac-desc">The photo pans across revealing more of the scene — like a camera move in a film.</div></div>
+      <div><div class="ac-num">06</div><span class="ac-hint">auto-playing</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="anim-card" id="ac7">
+  <div class="ac-inner">
+    <div class="ac-demo"><div class="ac-fill fill-7"></div></div>
+    <div class="ac-info">
+      <div><div class="ac-name">Ken Burns</div><div class="ac-desc">The classic film technique — photos slowly drift and zoom, making every still feel alive.</div></div>
+      <div><div class="ac-num">07</div><span class="ac-hint">auto-playing</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="anim-card" id="ac8">
+  <div class="ac-inner">
+    <div class="ac-demo"><div class="ac-fill fill-8"></div></div>
+    <div class="ac-info">
+      <div><div class="ac-name">Flash</div><div class="ac-desc">A dramatic brightness pulse — grabs attention instantly and doesn't let go.</div></div>
+      <div><div class="ac-num">08</div><span class="ac-hint">auto-playing</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11: Deep bottom message -->
+<div class="ov" id="ov11">
+  <div class="deep-msg">Every one of these<br>lives in your <em>website.</em></div>
+  <p class="deep-sub">Applied to your real photos, your real business — not stock images. Built into every site we make.</p>
+</div>
+
+<!-- 12: Stats (resurface) -->
+<div class="ov" id="ov12">
   <h2 class="t3">Right now, someone<br>just Googled <em>you</em> —<br>and found nothing.</h2>
   <p class="t3p">Every day without a website is customers choosing someone else. Let us fix that.</p>
   <div class="sr">
@@ -207,7 +335,8 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
   </div>
 </div>
 
-<div class="ov" id="ov4">
+<!-- 13: Pricing -->
+<div class="ov" id="ov13">
   <h2 class="t4h">One standard of quality.<br><em>Three tiers.</em></h2>
   <div class="pcards">
     <div class="pc"><div class="pct">Basic</div><div class="pcp">$399</div><div class="pcn">build + from $49/mo</div><ul class="pcl"><li>1–5 pages</li><li>Animated hero</li><li>SEO built in</li><li>Mobile perfect</li></ul></div>
@@ -216,7 +345,8 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
   </div>
 </div>
 
-<div class="ov" id="ov5">
+<!-- 14: CTA -->
+<div class="ov" id="ov14">
   <h2 class="t5h">Ready to get<br><em>found?</em></h2>
   <p class="t5p">Your customers are searching right now. Let us build something beautiful.</p>
   <a href="contact.html" class="t5b">Request Your Website</a>
@@ -238,333 +368,310 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-// ════════════════════════════════════════════════════════════
-// THREE.JS — ONE WORLD, TWO MODES
-// Mode A: Gold space tunnel (forward travel, Z axis)
-// Mode B: Deep ocean (downward travel, Y axis, teal palette)
-// We blend between them based on scroll position
-// ════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// THREE.JS BACKGROUND
+// ══════════════════════════════════════════════════
 const canvas = document.getElementById('bg');
-const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+const renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.setSize(innerWidth,innerHeight);
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 300);
+const camera = new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,300);
 camera.position.set(0,0,0);
 
-// Colors
-const GOLD  = new THREE.Color(0xd4a853);
-const TEAL  = new THREE.Color(0x4dd9c0);
-const WHITE = new THREE.Color(0xffffff);
+const GOLD=new THREE.Color(0xd4a853);
+const TEAL=new THREE.Color(0x4dd9c0);
+const WHITE=new THREE.Color(0xffffff);
 
-// ── SPACE PARTICLES (gold, horizontal tunnel) ──
-const N_SPACE = 2400;
-const spacePos = new Float32Array(N_SPACE * 3);
-const spaceSpd = [];
-for (let i = 0; i < N_SPACE; i++) {
-  const a = Math.random() * Math.PI * 2;
-  const r = 4 + Math.pow(Math.random(), .6) * 9;
-  spacePos[i*3]   = Math.cos(a) * r;
-  spacePos[i*3+1] = (Math.random()-.5) * 12;
-  spacePos[i*3+2] = -(Math.random() * 110);
-  spaceSpd.push({x:(Math.random()-.5)*.002, y:(Math.random()-.5)*.0015});
+// Space gold particles
+const NSP=2400,spaceArr=new Float32Array(NSP*3),spd1=[];
+for(let i=0;i<NSP;i++){
+  const a=Math.random()*Math.PI*2,r=4+Math.pow(Math.random(),.6)*9;
+  spaceArr[i*3]=Math.cos(a)*r; spaceArr[i*3+1]=(Math.random()-.5)*12; spaceArr[i*3+2]=-(Math.random()*110);
+  spd1.push({x:(Math.random()-.5)*.002,y:(Math.random()-.5)*.0015});
 }
-const spaceGeo = new THREE.BufferGeometry();
-spaceGeo.setAttribute('position', new THREE.BufferAttribute(spacePos, 3));
-const spacePts = new THREE.Points(spaceGeo, new THREE.PointsMaterial({
-  color: GOLD, size:.03, transparent:true, opacity:.5, sizeAttenuation:true
-}));
-scene.add(spacePts);
+const spGeo=new THREE.BufferGeometry(); spGeo.setAttribute('position',new THREE.BufferAttribute(spaceArr,3));
+const spPts=new THREE.Points(spGeo,new THREE.PointsMaterial({color:GOLD,size:.03,transparent:true,opacity:.5,sizeAttenuation:true})); scene.add(spPts);
 
-// ── STAR FIELD ──
-const N_STARS = 1500;
-const starPos = new Float32Array(N_STARS * 3);
-for (let i = 0; i < N_STARS; i++) {
-  starPos[i*3]   = (Math.random()-.5)*260;
-  starPos[i*3+1] = (Math.random()-.5)*160;
-  starPos[i*3+2] = -20 - Math.random()*240;
+// Stars
+const NST=1500,starArr=new Float32Array(NST*3);
+for(let i=0;i<NST;i++){starArr[i*3]=(Math.random()-.5)*260;starArr[i*3+1]=(Math.random()-.5)*160;starArr[i*3+2]=-20-Math.random()*240;}
+const stGeo=new THREE.BufferGeometry(); stGeo.setAttribute('position',new THREE.BufferAttribute(starArr,3));
+const stPts=new THREE.Points(stGeo,new THREE.PointsMaterial({color:WHITE,size:.05,transparent:true,opacity:.3,sizeAttenuation:true})); scene.add(stPts);
+
+// Ocean teal particles
+const NOC=2200,oceanArr=new Float32Array(NOC*3),spd2=[];
+for(let i=0;i<NOC;i++){
+  const a=Math.random()*Math.PI*2,r=3.5+Math.pow(Math.random(),.6)*9;
+  oceanArr[i*3]=Math.cos(a)*r; oceanArr[i*3+1]=-(Math.random()*110)-10; oceanArr[i*3+2]=Math.sin(a)*r*.6;
+  spd2.push({x:(Math.random()-.5)*.0018,z:(Math.random()-.5)*.0012});
 }
-const starGeo = new THREE.BufferGeometry();
-starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-const starPts = new THREE.Points(starGeo, new THREE.PointsMaterial({
-  color: WHITE, size:.05, transparent:true, opacity:.3, sizeAttenuation:true
-}));
-scene.add(starPts);
+const ocGeo=new THREE.BufferGeometry(); ocGeo.setAttribute('position',new THREE.BufferAttribute(oceanArr,3));
+const ocPts=new THREE.Points(ocGeo,new THREE.PointsMaterial({color:TEAL,size:.03,transparent:true,opacity:0,sizeAttenuation:true})); scene.add(ocPts);
 
-// ── OCEAN PARTICLES (teal, vertical tunnel) ──
-const N_OCEAN = 2000;
-const oceanPos = new Float32Array(N_OCEAN * 3);
-const oceanSpd = [];
-for (let i = 0; i < N_OCEAN; i++) {
-  const a = Math.random() * Math.PI * 2;
-  const r = 3.5 + Math.pow(Math.random(), .6) * 9;
-  oceanPos[i*3]   = Math.cos(a) * r;
-  oceanPos[i*3+1] = -(Math.random() * 110) - 10;
-  oceanPos[i*3+2] = Math.sin(a) * r * .6;
-  oceanSpd.push({x:(Math.random()-.5)*.0018, z:(Math.random()-.5)*.0012});
+// Splash particles — burst outward from center
+const NSPL=600,splArr=new Float32Array(NSPL*3),splVel=[];
+for(let i=0;i<NSPL;i++){
+  splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;
+  const theta=Math.random()*Math.PI*2,phi=Math.random()*Math.PI;
+  const spd=3+Math.random()*8;
+  splVel.push({x:Math.sin(phi)*Math.cos(theta)*spd,y:Math.abs(Math.cos(phi))*spd*.5+2,z:Math.sin(phi)*Math.sin(theta)*spd,vy:-0.15});
 }
-const oceanGeo = new THREE.BufferGeometry();
-oceanGeo.setAttribute('position', new THREE.BufferAttribute(oceanPos, 3));
-const oceanPts = new THREE.Points(oceanGeo, new THREE.PointsMaterial({
-  color: TEAL, size:.03, transparent:true, opacity:0, sizeAttenuation:true
-}));
-scene.add(oceanPts);
+const splGeo=new THREE.BufferGeometry(); splGeo.setAttribute('position',new THREE.BufferAttribute(splArr,3));
+const splPts=new THREE.Points(splGeo,new THREE.PointsMaterial({color:new THREE.Color(0x99eeff),size:.06,transparent:true,opacity:0,sizeAttenuation:true})); scene.add(splPts);
+let splashActive=false,splashT=0;
 
-// ── BUBBLES (rise upward, teal/white) ──
-const N_BUB = 350;
-const bubPos = new Float32Array(N_BUB * 3);
-const bubSpd = [];
-for (let i = 0; i < N_BUB; i++) {
-  bubPos[i*3]   = (Math.random()-.5)*16;
-  bubPos[i*3+1] = -(Math.random()*100) - 10;
-  bubPos[i*3+2] = (Math.random()-.5)*16;
-  bubSpd.push({rise:.025+Math.random()*.04, wobble:Math.random()*Math.PI*2});
-}
-const bubGeo = new THREE.BufferGeometry();
-bubGeo.setAttribute('position', new THREE.BufferAttribute(bubPos, 3));
-const bubPts = new THREE.Points(bubGeo, new THREE.PointsMaterial({
-  color: 0x99eeff, size:.05, transparent:true, opacity:0, sizeAttenuation:true
-}));
-scene.add(bubPts);
+// Bubbles
+const NBU=400,bubArr=new Float32Array(NBU*3),bubSpd=[];
+for(let i=0;i<NBU;i++){bubArr[i*3]=(Math.random()-.5)*16;bubArr[i*3+1]=-(Math.random()*100)-10;bubArr[i*3+2]=(Math.random()-.5)*16;bubSpd.push({rise:.025+Math.random()*.04,w:Math.random()*Math.PI*2});}
+const buGeo=new THREE.BufferGeometry(); buGeo.setAttribute('position',new THREE.BufferAttribute(bubArr,3));
+const buPts=new THREE.Points(buGeo,new THREE.PointsMaterial({color:new THREE.Color(0x99eeff),size:.05,transparent:true,opacity:0,sizeAttenuation:true})); scene.add(buPts);
 
-// ── GOLD ICOSAHEDRA (space) ──
-const icoMeshes = [
-  {p:[-5.5,2,-22], s:1.6, rx:.005, ry:.008},
-  {p:[6.5,-2.5,-44], s:2.0, rx:-.004, ry:.007},
-].map(d => {
-  const m = new THREE.Mesh(new THREE.IcosahedronGeometry(1,1),
-    new THREE.MeshBasicMaterial({color:GOLD,wireframe:true,transparent:true,opacity:.15}));
-  m.position.set(...d.p); m.scale.setScalar(d.s);
-  m.userData = {rx:d.rx, ry:d.ry}; scene.add(m); return m;
+// Gold icosahedra
+const icoMs=[[- 5.5,2,-22,1.6],[6.5,-2.5,-44,2.0]].map(d=>{
+  const m=new THREE.Mesh(new THREE.IcosahedronGeometry(1,1),new THREE.MeshBasicMaterial({color:GOLD,wireframe:true,transparent:true,opacity:.15}));
+  m.position.set(d[0],d[1],d[2]);m.scale.setScalar(d[3]);m.userData={rx:(Math.random()-.5)*.005,ry:(Math.random()-.5)*.008};scene.add(m);return m;
 });
 
-// ── TEAL DEEP-SEA GEOMETRY ──
-const seaMeshes = [
-  {p:[5,-20,-4], s:1.5, type:'ico'},
-  {p:[-6,-45,3], s:1.8, type:'oct'},
-].map(d => {
-  const geo = d.type==='ico' ? new THREE.IcosahedronGeometry(1,1) : new THREE.OctahedronGeometry(1,0);
-  const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:TEAL,wireframe:true,transparent:true,opacity:0}));
-  m.position.set(...d.p); m.scale.setScalar(d.s);
-  m.userData = {rx:(Math.random()-.5)*.005, ry:(Math.random()-.5)*.007}; scene.add(m); return m;
+// Teal deep geometry
+const seaMs=[[5,-20,-4,1.5,'ico'],[-6,-45,3,1.8,'oct']].map(d=>{
+  const g=d[4]==='ico'?new THREE.IcosahedronGeometry(1,1):new THREE.OctahedronGeometry(1,0);
+  const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:TEAL,wireframe:true,transparent:true,opacity:0}));
+  m.position.set(d[0],d[1],d[2]);m.scale.setScalar(d[3]);m.userData={rx:(Math.random()-.5)*.005,ry:(Math.random()-.5)*.007};scene.add(m);return m;
 });
 
-// ── JELLYFISH ──
-const jelly = new THREE.Group();
-const bPts = [];
-for (let i=0;i<=10;i++){const t=(i/10)*Math.PI*.62;bPts.push(new THREE.Vector2(Math.sin(t)*1.3,Math.cos(t)*.85-.85));}
-const bGeo = new THREE.LatheGeometry(bPts,12);
-const bWire = new THREE.Mesh(bGeo,new THREE.MeshBasicMaterial({color:new THREE.Color(0x99eeff),wireframe:true,transparent:true,opacity:0}));
-const bFill = new THREE.Mesh(bGeo,new THREE.MeshBasicMaterial({color:new THREE.Color(0x001a2e),transparent:true,opacity:0,side:THREE.DoubleSide}));
-jelly.add(bWire,bFill);
+// Jellyfish
+const jelly=new THREE.Group();
+const bP=[];for(let i=0;i<=10;i++){const t=(i/10)*Math.PI*.62;bP.push(new THREE.Vector2(Math.sin(t)*1.3,Math.cos(t)*.85-.85));}
+const bG=new THREE.LatheGeometry(bP,12);
+const bW=new THREE.Mesh(bG,new THREE.MeshBasicMaterial({color:new THREE.Color(0x99eeff),wireframe:true,transparent:true,opacity:0}));
+const bF=new THREE.Mesh(bG,new THREE.MeshBasicMaterial({color:new THREE.Color(0x001a2e),transparent:true,opacity:0,side:THREE.DoubleSide}));
+jelly.add(bW,bF);
 for(let i=0;i<8;i++){
   const a=(i/8)*Math.PI*2,r=.55+(i%2)*.2,pts=[];
   for(let j=0;j<=14;j++){const t=j/14;pts.push(new THREE.Vector3(Math.cos(a)*r*(1-t*.25)+Math.sin(t*3.5+i)*.13,-t*2.3-.85,Math.sin(a)*r*(1-t*.25)+Math.cos(t*3.5+i)*.13));}
   jelly.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:TEAL,transparent:true,opacity:0})));
 }
-jelly.scale.setScalar(1.1); jelly.position.set(3.5,0,0); scene.add(jelly);
+jelly.scale.setScalar(1.1);jelly.position.set(3.5,0,0);scene.add(jelly);
 
-// ── GRID FLOOR (space) ──
-const gridMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(50,100,26,52),
-  new THREE.MeshBasicMaterial({color:new THREE.Color(0x7a5a18),wireframe:true,transparent:true,opacity:.04})
-);
-gridMesh.rotation.x=-Math.PI/2; gridMesh.position.set(0,-5.5,-45); scene.add(gridMesh);
+// Camera state
+let mx=0,my=0,cX=0,cY=0,targetZ=0,targetY=0,worldBlend=0;
+document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*.6;my=(e.clientY/innerHeight-.5)*.35;});
 
-// ── CAMERA STATE ──
-let mx=0,my=0,cX=0,cY=0,cZ=0;
-let targetZ=0, targetY=0;
-let worldMode = 0; // 0=space, 1=ocean, interpolated between
-
-document.addEventListener('mousemove',e=>{
-  mx=(e.clientX/innerWidth-.5)*.6;
-  my=(e.clientY/innerHeight-.5)*.35;
-});
-
-// ── WORLD BLEND — called from scene system ──
-function setWorld(t) {
-  // t = 0 → full gold space, t = 1 → full teal ocean, t = 0 → back to gold
-  const ocean = t;
-  const space = 1 - t;
-
-  spacePts.material.opacity = .5 * space;
-  starPts.material.opacity = .3 * space;
-  icoMeshes.forEach(m => { m.material.opacity = .15 * space; });
-  gridMesh.material.opacity = .04 * space;
-
-  oceanPts.material.opacity = .5 * ocean;
-  bubPts.material.opacity = .38 * ocean;
-  seaMeshes.forEach(m => { m.material.opacity = .14 * ocean; });
-
-  // Jellyfish
-  const jellyParts = jelly.children;
-  jellyParts.forEach((p,i) => {
-    if (p.material) p.material.opacity = (i<2?[.55,.22][i]:.3) * ocean;
-  });
-
-  // Background color
-  const spaceColor = {r:7/255, g:8/255, b:16/255};
-  const oceanColor = {r:2/255, g:13/255, b:24/255};
-  const r = spaceColor.r + (oceanColor.r-spaceColor.r)*ocean;
-  const g = spaceColor.g + (oceanColor.g-spaceColor.g)*ocean;
-  const b = spaceColor.b + (oceanColor.b-spaceColor.b)*ocean;
-  document.body.style.background = `rgb(${Math.round(r*255)},${Math.round(g*255)},${Math.round(b*255)})`;
-
-  // Dot color
-  document.documentElement.style.setProperty('--dot-color', ocean > .5 ? '#4dd9c0' : '#d4a853');
+function setBlend(b){
+  worldBlend=b;
+  const sp=1-b,oc=b;
+  spPts.material.opacity=.5*sp; stPts.material.opacity=.3*sp;
+  icoMs.forEach(m=>m.material.opacity=.15*sp);
+  ocPts.material.opacity=.5*oc; buPts.material.opacity=.38*oc;
+  seaMs.forEach(m=>m.material.opacity=.14*oc);
+  const jo=oc>.3?oc:.0;
+  bW.material.opacity=.55*jo; bF.material.opacity=.22*jo;
+  jelly.children.slice(2).forEach(l=>{if(l.material)l.material.opacity=.3*jo;});
+  const r=Math.round((7+(-5)*oc)), g=Math.round((8+5*oc)), bl=Math.round((16+8*oc));
+  document.body.style.background=`rgb(${r},${g},${bl})`;
 }
 
-// ── RENDER LOOP ──
-function renderBG(t) {
+function triggerSplash(){
+  splashActive=true; splashT=0;
+  // Reset particles
+  for(let i=0;i<NSPL;i++){splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;}
+}
+
+function triggerResurface(){
+  gsap.to('#resurface',{opacity:1,duration:.6,ease:'power2.out',
+    onComplete:()=>gsap.to('#resurface',{opacity:0,duration:1.4,ease:'power2.in'})
+  });
+}
+
+function renderBG(t){
   requestAnimationFrame(renderBG);
-  const time = t*.001;
+  const time=t*.001;
+  camera.position.z+=(targetZ-camera.position.z)*.055;
+  camera.position.y+=(targetY-camera.position.y)*.055;
+  cX+=(mx*.3-cX)*.038; cY+=(-my*.2-cY)*.038;
+  camera.position.x=cX;
+  // Look direction blends between forward (space) and down (ocean)
+  const lx=cX*.2,ly=camera.position.y-8*worldBlend,lz=camera.position.z-10*(1-worldBlend);
+  camera.lookAt(lx,ly,lz);
 
-  // Camera smooth follow — blend Z travel (space) and Y travel (ocean)
-  camera.position.z += (targetZ - camera.position.z) * .06;
-  camera.position.y += (targetY - camera.position.y) * .06;
-  cX += (mx*.3-cX)*.04;
-  cY += (-my*.2-cY)*.04;
-  camera.position.x = cX;
-  camera.lookAt(cX*.2, camera.position.y-8*worldMode, camera.position.z-10*(1-worldMode));
+  for(let i=0;i<NSP;i++){spaceArr[i*3]+=spd1[i].x;spaceArr[i*3+1]+=spd1[i].y;if(Math.abs(spaceArr[i*3])>11)spd1[i].x*=-1;if(Math.abs(spaceArr[i*3+1])>7)spd1[i].y*=-1;}
+  spGeo.attributes.position.needsUpdate=true;
 
-  // Drift space particles
-  for(let i=0;i<N_SPACE;i++){
-    spacePos[i*3]+=spaceSpd[i].x; spacePos[i*3+1]+=spaceSpd[i].y;
-    if(Math.abs(spacePos[i*3])>11)spaceSpd[i].x*=-1;
-    if(Math.abs(spacePos[i*3+1])>7)spaceSpd[i].y*=-1;
-  }
-  spaceGeo.attributes.position.needsUpdate=true;
-
-  // Drift ocean particles
-  if(worldMode > .05){
-    for(let i=0;i<N_OCEAN;i++){
-      oceanPos[i*3]+=oceanSpd[i].x; oceanPos[i*3+2]+=oceanSpd[i].z;
-      if(Math.abs(oceanPos[i*3])>11)oceanSpd[i].x*=-1;
-      if(Math.abs(oceanPos[i*3+2])>9)oceanSpd[i].z*=-1;
-    }
-    oceanGeo.attributes.position.needsUpdate=true;
-
-    // Bubbles rise
-    for(let i=0;i<N_BUB;i++){
-      bubPos[i*3+1]+=bubSpd[i].rise;
-      bubPos[i*3]+=Math.sin(time*.8+bubSpd[i].wobble)*.01;
-      if(bubPos[i*3+1]>camera.position.y+8){
-        bubPos[i*3+1]=camera.position.y-55-Math.random()*50;
-        bubPos[i*3]=(Math.random()-.5)*16;
-        bubPos[i*3+2]=(Math.random()-.5)*16;
-      }
-    }
-    bubGeo.attributes.position.needsUpdate=true;
+  if(worldBlend>.05){
+    for(let i=0;i<NOC;i++){oceanArr[i*3]+=spd2[i].x;oceanArr[i*3+2]+=spd2[i].z;if(Math.abs(oceanArr[i*3])>11)spd2[i].x*=-1;if(Math.abs(oceanArr[i*3+2])>9)spd2[i].z*=-1;}
+    ocGeo.attributes.position.needsUpdate=true;
+    for(let i=0;i<NBU;i++){bubArr[i*3+1]+=bubSpd[i].rise;bubArr[i*3]+=Math.sin(time*.8+bubSpd[i].w)*.01;if(bubArr[i*3+1]>camera.position.y+8){bubArr[i*3+1]=camera.position.y-55-Math.random()*50;bubArr[i*3]=(Math.random()-.5)*16;bubArr[i*3+2]=(Math.random()-.5)*16;}}
+    buGeo.attributes.position.needsUpdate=true;
   }
 
-  // Rotate geometry
-  icoMeshes.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
-  seaMeshes.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
+  // Splash particles
+  if(splashActive){
+    splashT+=.016;
+    splPts.material.opacity=Math.max(0, .8-splashT*1.2);
+    for(let i=0;i<NSPL;i++){
+      splArr[i*3]+=splVel[i].x*.016*3; splArr[i*3+1]+=splVel[i].y*.016*3; splArr[i*3+2]+=splVel[i].z*.016*3;
+      splVel[i].y+=splVel[i].vy;
+    }
+    splGeo.attributes.position.needsUpdate=true;
+    if(splashT>1){splashActive=false;splPts.material.opacity=0;}
+  }
 
-  // Jellyfish follows camera
-  const jy = camera.position.y - 8 + Math.sin(time*.2)*1.5;
+  icoMs.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
+  seaMs.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
+
   jelly.position.x=Math.sin(time*.28)*3.5+2.5;
-  jelly.position.y=jy;
+  jelly.position.y=camera.position.y-8+Math.sin(time*.2)*1.5;
   jelly.position.z=camera.position.z-2+Math.cos(time*.22)*2;
   jelly.rotation.y=time*.14;
   const bp=1+Math.sin(time*1.3)*.07;
-  bWire.scale.set(bp,1/bp*.94+.06,bp);
-  bFill.scale.copy(bWire.scale);
-
-  gridMesh.position.z=-45+camera.position.z*.12;
+  bW.scale.set(bp,1/bp*.94+.06,bp); bF.scale.copy(bW.scale);
 
   renderer.render(scene,camera);
 }
 renderBG(0);
+window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 
-window.addEventListener('resize',()=>{
-  camera.aspect=innerWidth/innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth,innerHeight);
-});
-
-// ════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // SCENE SYSTEM
-// ════════════════════════════════════════════════════════════
-// Scenes: 0=space, 1=space, 2=OCEAN(flip down), 3=space(resurface), 4=space, 5=space
-const STOPS = [
-  {p:0,   zOff:-0,  yOff:0,   world:0,   id:'ov0'},
-  {p:.16, zOff:-18, yOff:0,   world:0,   id:'ov1'},
-  {p:.33, zOff:-30, yOff:-25, world:1,   id:'ov2'}, // DIVE
-  {p:.50, zOff:-42, yOff:0,   world:0,   id:'ov3'}, // RESURFACE
-  {p:.67, zOff:-58, yOff:0,   world:0,   id:'ov4'},
-  {p:.84, zOff:-76, yOff:0,   world:0,   id:'ov5'},
+// 0:opening 1:statement 2:dive-invite 
+// 3-10: animation cards underwater
+// 11:deep message 12:stats(resurface) 13:pricing 14:CTA
+// ══════════════════════════════════════════════════
+
+// Animation card config — angles alternate left/right for variety
+const CARD_IDS=['ac1','ac2','ac3','ac4','ac5','ac6','ac7','ac8'];
+const CARD_ANGLES=[-25,25,-20,22,-28,18,-22,26]; // alternating
+
+// All stops — p=progress, zOff/yOff=camera, world=blend
+const STOPS=[
+  {p:0,     z:0,   y:0,   w:0, type:'ov', id:'ov0'},
+  {p:.055,  z:-12, y:0,   w:0, type:'ov', id:'ov1'},
+  {p:.11,   z:-22, y:0,   w:0, type:'ov', id:'ov2'}, // dive invite
+  // Splash happens at p=.155, world transitions
+  {p:.17,   z:-28, y:-12, w:.7, type:'card', id:'ac1'},
+  {p:.225,  z:-30, y:-22, w:.9, type:'card', id:'ac2'},
+  {p:.28,   z:-30, y:-32, w:1,  type:'card', id:'ac3'},
+  {p:.335,  z:-30, y:-42, w:1,  type:'card', id:'ac4'},
+  {p:.39,   z:-30, y:-52, w:1,  type:'card', id:'ac5'},
+  {p:.445,  z:-30, y:-62, w:1,  type:'card', id:'ac6'},
+  {p:.50,   z:-30, y:-72, w:1,  type:'card', id:'ac7'},
+  {p:.555,  z:-30, y:-82, w:1,  type:'card', id:'ac8'},
+  {p:.61,   z:-30, y:-90, w:1,  type:'ov',   id:'ov11'}, // deep message
+  // Resurface happens at p=.655
+  {p:.68,   z:-42, y:-5,  w:.3, type:'ov',   id:'ov12'}, // stats
+  {p:.78,   z:-58, y:0,   w:0,  type:'ov',   id:'ov13'}, // pricing
+  {p:.88,   z:-76, y:0,   w:0,  type:'ov',   id:'ov14'}, // CTA
 ];
 
-const ovEls = STOPS.map(s=>document.getElementById(s.id));
-const dots  = document.querySelectorAll('.dot');
-let cur=0, busy=false;
+// All shown elements
+const allOvs=document.querySelectorAll('.ov');
+const allCards=document.querySelectorAll('.anim-card');
+const dots=document.querySelectorAll('.dot');
 
-function showScene(idx){
+let cur=-1, busy=false;
+let splashFired=false, resurfaceFired=false;
+
+function hideAll(){
+  allOvs.forEach(el=>{gsap.killTweensOf(el);gsap.set(el,{opacity:0});el.classList.remove('live');});
+  allCards.forEach(el=>{gsap.killTweensOf(el);gsap.set(el,{opacity:0});el.classList.remove('live');});
+}
+
+function showStop(idx){
   if(idx===cur||busy)return;
   busy=true;
   const prev=cur; cur=idx;
+  const stop=STOPS[idx];
 
   dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
+  targetZ=stop.z; targetY=stop.y;
 
-  const stop = STOPS[idx];
-  targetZ = stop.zOff;
-  targetY = stop.yOff;
-  worldMode = stop.world;
-
-  // Smooth world transition
-  gsap.to({w:STOPS[prev].world},{w:stop.world,duration:1.4,ease:'power2.inOut',
-    onUpdate:function(){setWorld(this.targets()[0].w);}
+  // World blend
+  gsap.to({w:prev>=0?STOPS[prev].w:0},{w:stop.w,duration:1.6,ease:'power2.inOut',
+    onUpdate:function(){setBlend(this.targets()[0].w);}
   });
 
-  // Camera tilt for dive/resurface
-  if(stop.world===1){
-    gsap.to(camera.rotation,{z:Math.PI*.04,duration:1.2,ease:'power2.inOut'});
-  } else {
-    gsap.to(camera.rotation,{z:0,duration:1.0,ease:'power2.out'});
+  // SPLASH at the dive transition
+  if(idx===3 && !splashFired){
+    splashFired=true;
+    gsap.to('#splash',{opacity:1,duration:.3,ease:'power2.out',
+      onComplete:()=>{
+        triggerSplash();
+        gsap.to('#splash',{opacity:0,duration:.8,ease:'power2.in'});
+      }
+    });
   }
 
-  gsap.killTweensOf(ovEls[prev]);
-  gsap.to(ovEls[prev],{opacity:0,y:16,duration:.4,ease:'power2.in',
-    onComplete:()=>ovEls[prev].classList.remove('live')
-  });
+  // RESURFACE at stats
+  if(idx===12 && !resurfaceFired){
+    resurfaceFired=true;
+    setTimeout(triggerResurface, 400);
+  }
 
-  ovEls[idx].classList.add('live');
-  setTimeout(()=>{
-    gsap.fromTo(ovEls[idx],{opacity:0,y:-18},{opacity:1,y:0,duration:.65,ease:'power3.out',
-      onComplete:()=>{busy=false;}
-    });
+  // Dots animation for dive invite
+  if(stop.id==='ov2'){
+    const dotsEl=document.getElementById('diveDots');
+    dotsEl.textContent='';
+    let count=0;
+    const interval=setInterval(()=>{
+      count++;
+      dotsEl.textContent='.'.repeat(count);
+      if(count>=5)clearInterval(interval);
+    },300);
+  }
+
+  // Hide previous
+  if(prev>=0){
+    const prevStop=STOPS[prev];
+    const prevEl=document.getElementById(prevStop.id);
+    if(prevEl){
+      gsap.killTweensOf(prevEl);
+      gsap.to(prevEl,{opacity:0,duration:.4,ease:'power2.in',
+        onComplete:()=>{prevEl.classList.remove('live');}
+      });
+    }
+  }
+
+  // Show new
+  const el=document.getElementById(stop.id);
+  if(!el){busy=false;return;}
+  el.classList.add('live');
+
+  if(stop.type==='card'){
+    const angleIdx=CARD_IDS.indexOf(stop.id);
+    const angle=CARD_ANGLES[angleIdx]||0;
+    gsap.fromTo(el,
+      {opacity:0,y:60,rotateY:angle*1.5,rotateX:15,scale:.92},
+      {opacity:1,y:0,rotateY:angle,rotateX:10,scale:1,
+       duration:.85,ease:'power3.out',
+       onComplete:()=>{busy=false;}
+      }
+    );
+    // Also set the auto-play class
+    const fill=el.querySelector('.ac-fill');
+    if(fill)fill.classList.add('live');
+  } else {
+    gsap.fromTo(el,
+      {opacity:0,y:-20},
+      {opacity:1,y:0,duration:.65,ease:'power3.out',
+        onComplete:()=>{busy=false;}
+      }
+    );
+    // Scene-specific entrances
     const id=stop.id;
     if(id==='ov1') gsap.fromTo('#ov1 .ws',{y:'108%'},{y:0,stagger:.1,duration:.85,ease:'power4.out',delay:.1});
-    if(id==='ov2'){
-      gsap.fromTo('#ov2 .s2-ey',{opacity:0},{opacity:1,duration:.5,delay:.1});
-      gsap.fromTo('#ov2 .s2-sub',{opacity:0},{opacity:1,duration:.5,delay:.3});
-      gsap.fromTo('#ov2 .demo-card',{opacity:0,y:20,scale:.94},{opacity:1,y:0,scale:1,stagger:.06,duration:.5,delay:.4,ease:'back.out(1.4)'});
-      gsap.fromTo('#ov2 .hover-hint',{opacity:0},{opacity:1,duration:.5,delay:1.2});
-    }
-    if(id==='ov3'){
-      gsap.fromTo('#ov3 .t3',{opacity:0,scale:.92},{opacity:1,scale:1,duration:.75,delay:.1,ease:'back.out(1.3)'});
-      gsap.fromTo('#ov3 .t3p',{opacity:0},{opacity:1,duration:.6,delay:.55});
-      gsap.fromTo('#ov3 .ss',{opacity:0,y:22},{opacity:1,y:0,stagger:.12,duration:.6,delay:.7,ease:'back.out(1.6)'});
-    }
-    if(id==='ov4'){
-      gsap.fromTo('#ov4 .t4h',{opacity:0,y:18},{opacity:1,y:0,duration:.65,delay:.1,ease:'power3.out'});
-      gsap.fromTo('#ov4 .pc',{opacity:0,y:28},{opacity:1,y:0,stagger:.1,duration:.6,delay:.3,ease:'back.out(1.4)'});
-    }
-    if(id==='ov5'){
-      gsap.fromTo('#ov5 .t5h',{opacity:0,scale:.9},{opacity:1,scale:1,duration:.9,delay:.1,ease:'power3.out'});
-      gsap.fromTo('#ov5 .t5p',{opacity:0},{opacity:1,duration:.65,delay:.75});
-      gsap.fromTo('#ov5 .t5b',{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:1.0,ease:'back.out(1.4)'});
-    }
-  },140);
+    if(id==='ov12'){gsap.fromTo('#ov12 .t3',{opacity:0,scale:.92},{opacity:1,scale:1,duration:.75,delay:.1,ease:'back.out(1.3)'});gsap.fromTo('#ov12 .t3p',{opacity:0},{opacity:1,duration:.6,delay:.55});gsap.fromTo('#ov12 .ss',{opacity:0,y:22},{opacity:1,y:0,stagger:.12,duration:.6,delay:.7,ease:'back.out(1.6)'});}
+    if(id==='ov13'){gsap.fromTo('#ov13 .t4h',{opacity:0,y:18},{opacity:1,y:0,duration:.65,delay:.1,ease:'power3.out'});gsap.fromTo('#ov13 .pc',{opacity:0,y:28},{opacity:1,y:0,stagger:.1,duration:.6,delay:.3,ease:'back.out(1.4)'});}
+    if(id==='ov14'){gsap.fromTo('#ov14 .t5h',{opacity:0,scale:.9},{opacity:1,scale:1,duration:.9,delay:.1,ease:'power3.out'});gsap.fromTo('#ov14 .t5p',{opacity:0},{opacity:1,duration:.65,delay:.75});gsap.fromTo('#ov14 .t5b',{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:1.0,ease:'back.out(1.4)'});}
+  }
 }
 
 ScrollTrigger.create({
   trigger:'.track',start:'top top',end:'bottom bottom',
   onUpdate:self=>{
     let best=0;
-    STOPS.forEach((s,i)=>{if(self.progress>=s.p-.06)best=i;});
-    showScene(best);
+    STOPS.forEach((s,i)=>{if(self.progress>=s.p-.03)best=i;});
+    showStop(best);
   }
 });
 
@@ -572,8 +679,7 @@ function jmp(i){
   window.scrollTo({top:document.querySelector('.track').offsetHeight*STOPS[i].p,behavior:'smooth'});
 }
 
-// Init
-setWorld(0);
+setBlend(0);
 gsap.fromTo('#ov0',{opacity:0,y:18},{opacity:1,y:0,duration:1.1,ease:'power3.out',delay:.35});
 </script>
 </body>
