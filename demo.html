@@ -13,35 +13,23 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:#070810;color:#fff;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
-
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.55);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
 .logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#d4a853}
 .nl{display:flex;align-items:center;gap:2px}.nl a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.45);border-radius:8px;transition:color .2s}.nl a:hover,.nl a.active{color:#fff}
 .nc{background:#d4a853!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:700!important}.nc:hover{background:#f0c87a!important}
 .hb{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}.hb span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px}
 .mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(7,8,16,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
-
 #bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-
-/* Splash overlay — covers screen during transition */
-#splash{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 10%,rgba(77,217,192,.45) 0%,rgba(10,40,80,.35) 40%,transparent 70%)}
-
-/* Resurface overlay — light breaking through water */
-#resurface{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.95) 0%,rgba(180,240,255,.8) 25%,rgba(100,200,220,.5) 55%,transparent 80%)}
-
+#splash{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 10%,rgba(77,217,192,.4) 0%,rgba(10,40,80,.3) 50%,transparent 75%)}
+#resurface{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.95) 0%,rgba(180,240,255,.75) 25%,rgba(100,200,220,.4) 55%,transparent 80%)}
 .track{height:2000vh;position:relative;z-index:1}
-
-/* All overlays */
 .ov{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;pointer-events:none;opacity:0;width:90%;max-width:1000px;text-align:center}
 .ov.live{pointer-events:auto}
-
-/* Progress dots */
-.dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:500}
+.dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:500}
 .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .45s;cursor:pointer}
 .dot.on{background:#d4a853;transform:scale(2.2)}
-.dot:hover{background:rgba(255,255,255,.45)}
 
-/* ── S0 Opening ── */
+/* S0 */
 .t0{font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,5rem);font-weight:400;line-height:1.05;letter-spacing:-.5px;color:rgba(255,255,255,.92)}
 .t0 em{font-style:italic;color:#d4a853}
 .t0-tag{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:18px;display:block}
@@ -50,89 +38,77 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;al
 .t0-ln{width:1px;height:38px;background:linear-gradient(to bottom,#d4a853,transparent);animation:lp 2s ease infinite}
 @keyframes lp{0%,100%{opacity:.4}50%{opacity:1}}
 
-/* ── S1 Statement ── */
+/* Statements */
 .t1{font-family:'Instrument Serif',serif;font-size:clamp(2.4rem,6vw,5.5rem);font-weight:400;line-height:1.0;letter-spacing:-.5px}
 .t1 em{font-style:italic;color:#d4a853}
 .wl{overflow:hidden;display:block}.ws{display:inline-block;transform:translateY(108%)}
 
-/* ── S2 Dive invitation ── */
-.dive-text{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;line-height:1.1;letter-spacing:-.3px}
-.dive-text em{font-style:italic;color:#4dd9c0}
-.dive-dots{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;color:#4dd9c0;letter-spacing:4px;margin-top:8px;display:block;min-height:1.2em}
-.dive-sub{font-size:.82rem;color:rgba(255,255,255,.35);margin-top:28px;letter-spacing:2px;text-transform:uppercase}
+/* Dive invite */
+.dive-h{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;line-height:1.1;letter-spacing:-.3px}
+.dive-h em{font-style:italic;color:#4dd9c0}
+.dive-dots{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;color:#4dd9c0;margin-top:8px;display:block;min-height:1.2em;letter-spacing:6px}
+.dive-sub{font-size:.8rem;color:rgba(255,255,255,.32);margin-top:28px;letter-spacing:2.5px;text-transform:uppercase}
 
-/* ── S3-S10: Individual animation cards ── */
-/* Each card appears at an angle, like it's drifting toward you */
-.anim-card{
-  position:fixed;top:50%;left:50%;
-  transform:translate(-50%,-50%) perspective(800px) rotateY(-25deg) rotateX(10deg);
-  z-index:3;pointer-events:none;opacity:0;
-  width:min(85vw,600px);
-}
+/* Animation cards */
+.anim-card{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) perspective(900px) rotateY(-25deg) rotateX(10deg);z-index:3;pointer-events:none;opacity:0;width:min(88vw,580px)}
 .anim-card.live{pointer-events:auto}
-.ac-inner{
-  background:rgba(2,20,40,.85);
-  border:1px solid rgba(77,217,192,.2);
-  border-radius:20px;
-  overflow:hidden;
-  backdrop-filter:blur(16px);
-  box-shadow:0 24px 80px rgba(0,0,0,.5), 0 0 60px rgba(77,217,192,.08);
-}
-.ac-demo{height:260px;position:relative;overflow:hidden;background:#0a2030}
-.ac-fill{width:100%;height:100%;transition:all .7s cubic-bezier(.4,0,.2,1)}
-.ac-info{padding:24px 28px;display:flex;align-items:center;justify-content:space-between}
-.ac-name{font-family:'Instrument Serif',serif;font-size:1.3rem;font-weight:400;color:#fff}
-.ac-desc{font-size:.8rem;color:rgba(255,255,255,.45);margin-top:4px;line-height:1.5;max-width:340px}
-.ac-num{font-family:'Instrument Serif',serif;font-style:italic;font-size:2.5rem;color:rgba(77,217,192,.25);font-weight:400}
-.ac-hint{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(77,217,192,.5);margin-top:4px;display:block;text-align:right}
+.ac-inner{background:rgba(2,20,40,.88);border:1px solid rgba(77,217,192,.18);border-radius:20px;overflow:hidden;backdrop-filter:blur(16px);box-shadow:0 24px 80px rgba(0,0,0,.55),0 0 60px rgba(77,217,192,.06)}
+.ac-demo{height:250px;position:relative;overflow:hidden;background:#0a2030}
+.ac-fill{width:100%;height:100%}
+.ac-info{padding:22px 26px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.ac-name{font-family:'Instrument Serif',serif;font-size:1.25rem;font-weight:400;color:#fff;margin-bottom:5px}
+.ac-desc{font-size:.8rem;color:rgba(255,255,255,.48);line-height:1.55;max-width:320px}
+.ac-num{font-family:'Instrument Serif',serif;font-style:italic;font-size:2.2rem;color:rgba(77,217,192,.22);font-weight:400;flex-shrink:0}
 
-/* Card fill gradients — each unique teal */
-.fill-1{background:repeating-linear-gradient(45deg,#1a1a1a 0px,#1a1a1a 20px,#f0f0f0 20px,#f0f0f0 40px);filter:grayscale(100%);transition:filter 1.4s ease 0.3s}
-.anim-card.anim-card.live .fill-1{filter:grayscale(0%);background:repeating-linear-gradient(45deg,#1a3a52 0px,#1a3a52 20px,#4dd9c0 20px,#4dd9c0 40px)}
-
-.fill-2{background:radial-gradient(circle,#f0f0f0 20%,#333 20%,#333 40%,#f0f0f0 40%,#f0f0f0 60%,#333 60%);background-size:80px 80px;transform:scale(1);transition:transform .8s cubic-bezier(.4,0,.2,1)}
-.anim-card.live .fill-2{animation:zoom2 3.5s ease-in-out infinite alternate}
-@keyframes zoom2{from{transform:scale(1)}to{transform:scale(1.15)}}
-
-.fill-3{background:repeating-linear-gradient(90deg,#eee 0px,#eee 30px,#222 30px,#222 60px);clip-path:inset(0 100% 0 0)}
-.anim-card.live .fill-3{animation:wipe3 3.5s cubic-bezier(.4,0,.2,1) infinite alternate}
-@keyframes wipe3{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0% 0 0)}}
-
+/* Fill animations — geometric B&W that auto-play when card is live */
+.ac-fill{width:100%;height:100%;transition:none}
+.fill-1{background:repeating-linear-gradient(45deg,#1a1a1a 0,#1a1a1a 20px,#f0f0f0 20px,#f0f0f0 40px);filter:grayscale(100%)}
+.anim-card.live .fill-1{animation:cf1 2.5s ease-in-out infinite alternate}
+@keyframes cf1{from{filter:grayscale(100%)}to{filter:grayscale(0%) hue-rotate(160deg)}}
+.fill-2{background:radial-gradient(circle,#f0f0f0 20%,#333 20%,#333 40%,#f0f0f0 40%,#f0f0f0 60%,#333 60%);background-size:80px 80px;transform:scale(1)}
+.anim-card.live .fill-2{animation:cf2 3s ease-in-out infinite alternate}
+@keyframes cf2{from{transform:scale(1)}to{transform:scale(1.2)}}
+.fill-3{background:repeating-linear-gradient(90deg,#eee 0,#eee 30px,#222 30px,#222 60px);clip-path:inset(0 100% 0 0)}
+.anim-card.live .fill-3{animation:cf3 3s cubic-bezier(.4,0,.2,1) infinite alternate}
+@keyframes cf3{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0% 0 0)}}
 .fill-4{background:radial-gradient(circle,#fff 15%,transparent 15%) #111;background-size:24px 24px;filter:blur(6px) brightness(.4);transform:scale(1.06)}
-.anim-card.live .fill-4{animation:blursharp4 3.5s ease-in-out infinite alternate}
-@keyframes blursharp4{from{filter:blur(8px) brightness(.4);transform:scale(1.06)}to{filter:blur(0) brightness(1);transform:scale(1)}}
-
-.fill-5{background:conic-gradient(from 0deg,#eee 0deg,#eee 120deg,#333 120deg,#333 240deg,#999 240deg,#999 360deg);transform:scale(1.1) rotate(-5deg)}
-.anim-card.live .fill-5{animation:rotate5 5s ease-in-out infinite alternate}
-@keyframes rotate5{from{transform:scale(1.1) rotate(-5deg)}to{transform:scale(1) rotate(0deg)}}
-
-.fill-6{background:repeating-linear-gradient(180deg,#eee 0px,#eee 16px,#222 16px,#222 32px);transform:translateX(-18%)}
-.anim-card.live .fill-6{animation:slide6 3.5s ease-in-out infinite alternate}
-@keyframes slide6{from{transform:translateX(-15%)}to{transform:translateX(0)}}
-
-.fill-7{background:linear-gradient(135deg,#111 25%,#e8e8e8 25%,#e8e8e8 50%,#111 50%,#111 75%,#e8e8e8 75%);background-size:60px 60px;animation:kb7 7s ease infinite alternate}
-@keyframes kb7{from{transform:scale(1) translate(0,0)}to{transform:scale(1.14) translate(-3%,-2%)}}
-
+.anim-card.live .fill-4{animation:cf4 3s ease-in-out infinite alternate}
+@keyframes cf4{from{filter:blur(6px) brightness(.4);transform:scale(1.06)}to{filter:blur(0) brightness(1);transform:scale(1)}}
+.fill-5{background:conic-gradient(from 0deg,#eee 0,#eee 120deg,#333 120deg,#333 240deg,#999 240deg,#999 360deg);transform:scale(1.1) rotate(-5deg)}
+.anim-card.live .fill-5{animation:cf5 4s ease-in-out infinite alternate}
+@keyframes cf5{from{transform:scale(1.1) rotate(-5deg)}to{transform:scale(1) rotate(0deg)}}
+.fill-6{background:repeating-linear-gradient(180deg,#eee 0,#eee 16px,#222 16px,#222 32px);transform:translateX(-18%)}
+.anim-card.live .fill-6{animation:cf6 3s ease-in-out infinite alternate}
+@keyframes cf6{from{transform:translateX(-18%)}to{transform:translateX(0)}}
+.fill-7{background:linear-gradient(135deg,#111 25%,#e8e8e8 25%,#e8e8e8 50%,#111 50%,#111 75%,#e8e8e8 75%);background-size:60px 60px}
+.anim-card.live .fill-7{animation:cf7 7s ease infinite alternate}
+@keyframes cf7{from{transform:scale(1) translate(0,0)}to{transform:scale(1.14) translate(-3%,-2%)}}
 .fill-8{background:repeating-conic-gradient(#eee 0% 25%,#222 25% 50%);background-size:40px 40px;filter:brightness(.5)}
-.anim-card.live .fill-8{animation:flash8 3s ease-in-out infinite alternate}
-@keyframes flash8{from{filter:brightness(.5)}to{filter:brightness(1.15)}}
+.anim-card.live .fill-8{animation:cf8 2.5s ease-in-out infinite alternate}
+@keyframes cf8{from{filter:brightness(.5)}to{filter:brightness(1.2)}}
 
-/* ── S11: Deep bottom message ── */
-.deep-msg{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,4vw,3.2rem);font-weight:400;line-height:1.2}
-.deep-msg em{font-style:italic;color:#4dd9c0}
-.deep-sub{font-size:.9rem;color:rgba(255,255,255,.5);margin-top:16px;line-height:1.75;max-width:480px;margin-left:auto;margin-right:auto;font-weight:300}
+/* Deep message */
+.deep-h{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4.5vw,3.5rem);font-weight:400;line-height:1.15}
+.deep-h em{font-style:italic;color:#4dd9c0}
+.deep-p{font-size:.92rem;color:rgba(255,255,255,.5);margin-top:14px;line-height:1.75;max-width:480px;margin-left:auto;margin-right:auto;font-weight:300}
 
-/* ── S12: Stats (resurface) ── */
-.t3{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4.5vw,4rem);font-weight:400;line-height:1.1;margin-bottom:16px}
+/* Reality */
+.reality-a{font-family:'Instrument Serif',serif;font-size:clamp(1.2rem,3vw,2.2rem);font-weight:400;color:rgba(255,255,255,.65);letter-spacing:-.2px}
+.reality-b{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;color:rgba(255,255,255,.92);margin-top:8px;letter-spacing:-.5px}
+.reality-b em{font-style:italic;color:#d4a853}
+.reality-c{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:20px;display:block}
+
+/* Stats */
+.t3{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4.5vw,4rem);font-weight:400;line-height:1.1;margin-bottom:14px}
 .t3 em{font-style:italic;color:#d4a853}
-.t3p{font-size:.95rem;color:rgba(255,255,255,.55);line-height:1.75;max-width:500px;margin:0 auto 28px;font-weight:300}
+.t3p{font-size:.95rem;color:rgba(255,255,255,.55);line-height:1.75;max-width:500px;margin:0 auto 26px;font-weight:300}
 .sr{display:flex;gap:0;justify-content:center}
 .ss{padding:0 36px;border-right:1px solid rgba(255,255,255,.07)}.ss:last-child{border-right:none}
 .sv{font-family:'Instrument Serif',serif;font-size:clamp(2.5rem,7vw,6rem);font-weight:400;color:#fff;line-height:1;display:block}
 .sv em{font-style:italic;color:#d4a853;font-size:.6em}
 .sl{font-size:.66rem;color:rgba(255,255,255,.42);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;display:block}
 
-/* ── S13: Pricing ── */
+/* Pricing */
 .t4h{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:400;letter-spacing:-.3px;margin-bottom:22px}
 .t4h em{font-style:italic;color:#d4a853}
 .pcards{display:flex;gap:10px}
@@ -145,14 +121,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;al
 .pcl li{font-size:.75rem;color:rgba(255,255,255,.58);display:flex;gap:6px;align-items:flex-start}
 .pcl li::before{content:'';width:3px;height:3px;background:#d4a853;border-radius:50%;flex-shrink:0;margin-top:5px}
 
-/* ── S14: CTA ── */
+/* CTA */
 .t5h{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:400;letter-spacing:-1.5px;line-height:.92;color:#fff}
 .t5h em{font-style:italic;color:#d4a853}
 .t5p{font-size:.98rem;color:rgba(255,255,255,.55);margin-top:18px;max-width:360px;margin-left:auto;margin-right:auto;line-height:1.75;font-weight:300}
 .t5b{display:inline-block;background:#d4a853;color:#070810;padding:15px 42px;border-radius:50px;font-weight:700;font-size:.9rem;margin-top:28px;transition:all .25s;pointer-events:auto}
 .t5b:hover{background:#f0c87a;transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,83,.35)}
 
-/* Post */
 .post{position:relative;z-index:3;margin-top:2000vh;background:#070810}
 .postcta{padding:110px 52px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
 .postcta h2{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:400;letter-spacing:-1px;margin-bottom:16px}
@@ -169,335 +144,153 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 </style>
 </head>
 <body>
-
-<!-- Transition overlays -->
 <div id="splash"></div>
 <div id="resurface"></div>
-
 <nav>
   <a href="index.html" class="logo">Get Found <em>Local</em></a>
-  <div class="nl">
-    <a href="index.html">Home</a><a href="demo.html" class="active">Demo</a>
-    <a href="services.html">Services</a><a href="pricing.html">Pricing</a>
-    <a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a>
-    <a href="contact.html" class="nc">Get a Website</a>
-  </div>
+  <div class="nl"><a href="index.html">Home</a><a href="demo.html" class="active">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a><a href="contact.html" class="nc">Get a Website</a></div>
   <div class="hb" onclick="document.getElementById('mob').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
-<div class="mob" id="mob">
-  <a href="index.html">Home</a><a href="demo.html">Demo</a><a href="services.html">Services</a>
-  <a href="pricing.html">Pricing</a>
-  <a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a>
-  <a href="contact.html">Get a Website</a>
-</div>
-
+<div class="mob" id="mob"><a href="index.html">Home</a><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="https://tawk.to/chat/69dd997b9ef2731c3237ae64/1jm4pv30t" target="_blank" rel="noopener">Chat</a><a href="contact.html">Get a Website</a></div>
 <canvas id="bg"></canvas>
-
 <div class="dots" id="dots">
-  <div class="dot on" onclick="jmp(0)"></div>
-  <div class="dot" onclick="jmp(1)"></div>
-  <div class="dot" onclick="jmp(2)"></div>
-  <div class="dot" onclick="jmp(3)"></div>
-  <div class="dot" onclick="jmp(4)"></div>
-  <div class="dot" onclick="jmp(5)"></div>
-  <div class="dot" onclick="jmp(6)"></div>
-  <div class="dot" onclick="jmp(7)"></div>
-  <div class="dot" onclick="jmp(8)"></div>
-  <div class="dot" onclick="jmp(9)"></div>
-  <div class="dot" onclick="jmp(10)"></div>
-  <div class="dot" onclick="jmp(11)"></div>
-  <div class="dot" onclick="jmp(12)"></div>
-  <div class="dot" onclick="jmp(13)"></div>
+  <div class="dot on" onclick="jmp(0)"></div><div class="dot" onclick="jmp(1)"></div><div class="dot" onclick="jmp(2)"></div>
+  <div class="dot" onclick="jmp(3)"></div><div class="dot" onclick="jmp(4)"></div><div class="dot" onclick="jmp(5)"></div>
+  <div class="dot" onclick="jmp(6)"></div><div class="dot" onclick="jmp(7)"></div><div class="dot" onclick="jmp(8)"></div>
+  <div class="dot" onclick="jmp(9)"></div><div class="dot" onclick="jmp(10)"></div><div class="dot" onclick="jmp(11)"></div>
+  <div class="dot" onclick="jmp(12)"></div><div class="dot" onclick="jmp(13)"></div><div class="dot" onclick="jmp(14)"></div>
+  <div class="dot" onclick="jmp(15)"></div><div class="dot" onclick="jmp(16)"></div>
 </div>
-
 <div class="track"></div>
 
 <!-- OVERLAYS -->
+<div class="ov live" id="ov0"><h1 class="t0">how <em>your</em> site<br>could <em>feel.</em></h1><span class="t0-tag">Scroll to experience it</span><div class="t0-hint"><span class="t0-ht">scroll</span><div class="t0-ln"></div></div></div>
 
-<!-- 0: Opening -->
-<div class="ov live" id="ov0">
-  <h1 class="t0">how <em>your</em> site<br>could <em>feel.</em></h1>
-  <span class="t0-tag">Scroll to experience it</span>
-  <div class="t0-hint"><span class="t0-ht">scroll</span><div class="t0-ln"></div></div>
-</div>
+<div class="ov" id="ov1"><h2 class="t1"><span class="wl"><span class="ws">Your business</span></span><span class="wl"><span class="ws">tells a story.</span></span><span class="wl"><span class="ws" style="color:#d4a853;font-style:italic">We help people find it.</span></span></h2></div>
 
-<!-- sub1 and sub2: extra gold scenes before dive -->
-<div class="ov" id="ovsub1">
-  <h2 class="t1">
-    <span class="wl"><span class="ws">Beautiful websites.</span></span>
-    <span class="wl"><span class="ws">Built from your real</span></span>
-    <span class="wl"><span class="ws" style="color:#d4a853;font-style:italic">Google listing.</span></span>
-  </h2>
-</div>
-<div class="ov" id="ovsub2">
-  <h2 class="t4h" style="margin-bottom:16px">Live in <em>3–4 days.</em><br>No technical skills needed.</h2>
-  <p style="font-size:.95rem;color:rgba(255,255,255,.55);line-height:1.75;max-width:460px;margin:0 auto;font-weight:300">We pull your photos, reviews, and hours from Google. You approve the design. We launch it. That is the whole process.</p>
-</div>
+<div class="ov" id="ovsub1"><h2 class="t1"><span class="wl"><span class="ws">Beautiful websites.</span></span><span class="wl"><span class="ws">Built from your real</span></span><span class="wl"><span class="ws" style="color:#d4a853;font-style:italic">Google listing.</span></span></h2></div>
 
-<!-- 1: Statement -->
-<div class="ov" id="ov1">
-  <h2 class="t1">
-    <span class="wl"><span class="ws">Your business</span></span>
-    <span class="wl"><span class="ws">tells a story.</span></span>
-    <span class="wl"><span class="ws" style="color:#d4a853;font-style:italic">We help people find it.</span></span>
-  </h2>
-</div>
+<div class="ov" id="ovsub2"><h2 class="t4h" style="margin-bottom:14px">Live in <em>3–4 days.</em><br>No technical skills needed.</h2><p style="font-size:.92rem;color:rgba(255,255,255,.52);line-height:1.75;max-width:460px;margin:0 auto;font-weight:300">We pull your photos, reviews, and hours from Google. You approve the design. We launch it. That is the whole process.</p></div>
 
-<!-- 2: Dive invitation -->
 <div class="ov" id="ov2">
-  <div class="dive-text">Let's dive in <em>deeper</em></div>
+  <div class="dive-h">Let's dive in <em>deeper</em></div>
   <span class="dive-dots" id="diveDots"></span>
   <span class="dive-sub">Watch what we can do for your business</span>
 </div>
 
-<!-- 3-10: Individual animation cards (positioned/angled) -->
-<div class="anim-card" id="ac1">
-  <div class="ac-inner">
-    <div class="ac-demo"><div class="ac-fill fill-1"></div></div>
-    <div class="ac-info">
-      <div><div class="ac-name">Color Reveal</div><div class="ac-desc">Photos transition from black and white to full color — drawing the eye and building emotion.</div></div>
-      <div><div class="ac-num">01</div></div>
-    </div>
-  </div>
-</div>
+<div class="anim-card" id="ac1"><div class="ac-inner"><div class="ac-demo"><div class="ac-fill fill-1"></div></div><div class="ac-info"><div><div class="ac-name">Color Reveal</div><div class="ac-desc">Photos transition from black and white to full color — drawing the eye and building emotion.</div></div><div class="ac-num">01</div></div></div></div>
 
-<div class="anim-card" id="ac2">
-  <div class="ac-inner">
-    <div class="ac-demo"><div class="ac-fill fill-2"></div></div>
-    <div class="ac-info">
-      <div><div class="ac-name">Zoom In</div><div class="ac-desc">The photo slowly zooms in on hover, creating depth and drawing visitors into the image.</div></div>
-      <div><div class="ac-num">02</div></div>
-    </div>
-  </div>
-</div>
+<div class="anim-card" id="ac2"><div class="ac-inner"><div class="ac-demo"><div class="ac-fill fill-2"></div></div><div class="ac-info"><div><div class="ac-name">Zoom In</div><div class="ac-desc">The photo slowly zooms in, creating depth and drawing visitors into the image.</div></div><div class="ac-num">02</div></div></div></div>
 
-<div class="anim-card" id="ac3">
-  <div class="ac-inner">
-    <div class="ac-demo"><div class="ac-fill fill-3"></div></div>
-    <div class="ac-info">
-      <div><div class="ac-name">Wipe Reveal</div><div class="ac-desc">The image sweeps in from one side — cinematic, purposeful, hard to ignore.</div></div>
-      <div><div class="ac-num">03</div></div>
-    </div>
-  </div>
-</div>
+<div class="anim-card" id="ac3"><div class="ac-inner"><div class="ac-demo"><div class="ac-fill fill-3"></div></div><div class="ac-info"><div><div class="ac-name">Wipe Reveal</div><div class="ac-desc">The image sweeps in from one side — cinematic, purposeful, hard to ignore.</div></div><div class="ac-num">03</div></div></div></div>
 
-<div class="anim-card" id="ac4">
-  <div class="ac-inner">
-    <div class="ac-demo"><div class="ac-fill fill-4"></div></div>
-    <div class="ac-info">
-      <div><div class="ac-name">Blur to Sharp</div><div class="ac-desc">Photos emerge from fog into sharp clarity — like something coming into focus as you watch.</div></div>
-      <div><div class="ac-num">04</div></div>
-    </div>
-  </div>
-</div>
+<div class="anim-card" id="ac4"><div class="ac-inner"><div class="ac-demo"><div class="ac-fill fill-4"></div></div><div class="ac-info"><div><div class="ac-name">Blur to Sharp</div><div class="ac-desc">Photos emerge from fog into sharp clarity — like something coming into focus as you watch.</div></div><div class="ac-num">04</div></div></div></div>
 
-<div class="anim-card" id="ac5">
-  <div class="ac-inner">
-    <div class="ac-demo"><div class="ac-fill fill-5"></div></div>
-    <div class="ac-info">
-      <div><div class="ac-name">Rotate</div><div class="ac-desc">A subtle rotation that gives photos a sense of weight and arrival — satisfying every time.</div></div>
-      <div><div class="ac-num">05</div></div>
-    </div>
-  </div>
-</div>
+<div class="anim-card" id="ac5"><div class="ac-inner"><div class="ac-demo"><div class="ac-fill fill-5"></div></div><div class="ac-info"><div><div class="ac-name">Rotate</div><div class="ac-desc">A subtle rotation that gives photos a sense of weight and arrival.</div></div><div class="ac-num">05</div></div></div></div>
 
-<div class="anim-card" id="ac6">
-  <div class="ac-inner">
-    <div class="ac-demo"><div class="ac-fill fill-6"></div></div>
-    <div class="ac-info">
-      <div><div class="ac-name">Slide Pan</div><div class="ac-desc">The photo pans across revealing more of the scene — like a camera move in a film.</div></div>
-      <div><div class="ac-num">06</div></div>
-    </div>
-  </div>
-</div>
+<div class="anim-card" id="ac6"><div class="ac-inner"><div class="ac-demo"><div class="ac-fill fill-6"></div></div><div class="ac-info"><div><div class="ac-name">Slide Pan</div><div class="ac-desc">The photo pans across revealing more of the scene — like a camera move in a film.</div></div><div class="ac-num">06</div></div></div></div>
 
-<div class="anim-card" id="ac7">
-  <div class="ac-inner">
-    <div class="ac-demo"><div class="ac-fill fill-7"></div></div>
-    <div class="ac-info">
-      <div><div class="ac-name">Ken Burns</div><div class="ac-desc">The classic film technique — photos slowly drift and zoom, making every still feel alive.</div></div>
-      <div><div class="ac-num">07</div></div>
-    </div>
-  </div>
-</div>
+<div class="anim-card" id="ac7"><div class="ac-inner"><div class="ac-demo"><div class="ac-fill fill-7"></div></div><div class="ac-info"><div><div class="ac-name">Ken Burns</div><div class="ac-desc">The classic film technique — photos slowly drift and zoom, making every still feel alive.</div></div><div class="ac-num">07</div></div></div></div>
 
-<div class="anim-card" id="ac8">
-  <div class="ac-inner">
-    <div class="ac-demo"><div class="ac-fill fill-8"></div></div>
-    <div class="ac-info">
-      <div><div class="ac-name">Flash</div><div class="ac-desc">A dramatic brightness pulse — grabs attention instantly and doesn't let go.</div></div>
-      <div><div class="ac-num">08</div></div>
-    </div>
-  </div>
-</div>
+<div class="anim-card" id="ac8"><div class="ac-inner"><div class="ac-demo"><div class="ac-fill fill-8"></div></div><div class="ac-info"><div><div class="ac-name">Flash</div><div class="ac-desc">A dramatic brightness pulse — grabs attention instantly and doesn't let go.</div></div><div class="ac-num">08</div></div></div></div>
 
-<!-- 11: Deep bottom message -->
 <div class="ov" id="ov11">
-  <div class="deep-msg">Every one of these<br>lives in your <em>website.</em></div>
-  <p class="deep-sub">Applied to your real photos, your real business — not stock images. Built into every site we make.</p>
+  <div class="deep-h">Every one of these<br>lives in your <em>website.</em></div>
+  <p class="deep-p">Applied to your real photos, your real business. Built into every site we make.</p>
 </div>
 
-<!-- reality: Coming back to reality transition -->
 <div class="ov" id="ovreality">
-  <div style="font-family:'Instrument Serif',serif;font-size:clamp(1.4rem,3.5vw,3rem);font-weight:400;color:rgba(255,255,255,.75);letter-spacing:-.3px">coming back to reality</div>
-  <div style="font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;color:rgba(255,255,255,.92);margin-top:8px;letter-spacing:-.5px">well, <em style="font-style:italic;color:#d4a853">your</em> reality.</div>
-  <div style="font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:22px">(the pricing page)</div>
+  <div class="reality-a">coming back to reality</div>
+  <div class="reality-b">well, <em>your</em> reality.</div>
+  <span class="reality-c">(the pricing page)</span>
 </div>
 
-<!-- 12: Stats (resurface) -->
-<div class="ov" id="ov12">
-  <h2 class="t3">Right now, someone<br>just Googled <em>you</em> —<br>and found nothing.</h2>
-  <p class="t3p">Every day without a website is customers choosing someone else. Let us fix that.</p>
-  <div class="sr">
-    <div class="ss"><span class="sv">3–4<em> days</em></span><span class="sl">To go live</span></div>
-    <div class="ss"><span class="sv">$0</span><span class="sl">Until you approve</span></div>
-    <div class="ss"><span class="sv">100<em>%</em></span><span class="sl">Mobile ready</span></div>
-  </div>
-</div>
+<div class="ov" id="ov12"><h2 class="t3">Right now, someone<br>just Googled <em>you</em> —<br>and found nothing.</h2><p class="t3p">Every day without a website is customers choosing someone else. Let us fix that.</p><div class="sr"><div class="ss"><span class="sv">3–4<em> days</em></span><span class="sl">To go live</span></div><div class="ss"><span class="sv">$0</span><span class="sl">Until you approve</span></div><div class="ss"><span class="sv">100<em>%</em></span><span class="sl">Mobile ready</span></div></div></div>
 
-<!-- 13: Pricing -->
-<div class="ov" id="ov13">
-  <h2 class="t4h">One standard of quality.<br><em>Three tiers.</em></h2>
-  <div class="pcards">
-    <div class="pc"><div class="pct">Basic</div><div class="pcp">$399</div><div class="pcn">build + from $49/mo</div><ul class="pcl"><li>1–5 pages</li><li>Animated hero</li><li>SEO built in</li><li>Mobile perfect</li></ul></div>
-    <div class="pc hot"><div class="pct">Standard — Most Popular</div><div class="pcp">$799</div><div class="pcn">build + from $49/mo</div><ul class="pcl"><li>6–10 pages</li><li>Photo effects</li><li>Contact form</li><li>Booking button</li></ul></div>
-    <div class="pc"><div class="pct">Premium</div><div class="pcp">$1,499</div><div class="pcn">build + from $49/mo</div><ul class="pcl"><li>Online booking</li><li>Stripe payments</li><li>Analytics setup</li></ul></div>
-  </div>
-</div>
+<div class="ov" id="ov13"><h2 class="t4h">One standard of quality.<br><em>Three tiers.</em></h2><div class="pcards"><div class="pc"><div class="pct">Basic</div><div class="pcp">$399</div><div class="pcn">build + from $49/mo</div><ul class="pcl"><li>1–5 pages</li><li>Animated hero</li><li>SEO built in</li><li>Mobile perfect</li></ul></div><div class="pc hot"><div class="pct">Standard — Most Popular</div><div class="pcp">$799</div><div class="pcn">build + from $49/mo</div><ul class="pcl"><li>6–10 pages</li><li>Photo effects</li><li>Contact form</li><li>Booking button</li></ul></div><div class="pc"><div class="pct">Premium</div><div class="pcp">$1,499</div><div class="pcn">build + from $49/mo</div><ul class="pcl"><li>Online booking</li><li>Stripe payments</li><li>Analytics</li></ul></div></div></div>
 
-<!-- 14: CTA -->
-<div class="ov" id="ov14">
-  <h2 class="t5h">Ready to get<br><em>found?</em></h2>
-  <p class="t5p">Your customers are searching right now. Let us build something beautiful.</p>
-  <a href="contact.html" class="t5b">Request Your Website</a>
-</div>
+<div class="ov" id="ov14"><h2 class="t5h">Ready to get<br><em>found?</em></h2><p class="t5p">Your customers are searching right now. Let us build something beautiful.</p><a href="contact.html" class="t5b">Request Your Website</a></div>
 
 <div class="post">
-  <section class="postcta">
-    <h2>Let us build your site <em>together.</em></h2>
-    <p>Fill out the form and we will reach out within 24 hours. No payment until you approve.</p>
-    <a href="contact.html" class="bgold">Get Started</a>
-  </section>
-  <footer>
-    <div class="fl">Get Found <em>Local</em></div>
-    <div class="flinks"><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="contact.html">Contact</a></div>
-    <div class="fcp">Get-Found-Local@outlook.com</div>
-  </footer>
+  <section class="postcta"><h2>Let us build your site <em>together.</em></h2><p>Fill out the form and we will reach out within 24 hours. No payment until you approve.</p><a href="contact.html" class="bgold">Get Started</a></section>
+  <footer><div class="fl">Get Found <em>Local</em></div><div class="flinks"><a href="demo.html">Demo</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="contact.html">Contact</a></div><div class="fcp">Get-Found-Local@outlook.com</div></footer>
 </div>
 
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-// ══════════════════════════════════════════════════
-// THREE.JS BACKGROUND
-// ══════════════════════════════════════════════════
-const canvas = document.getElementById('bg');
-const renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+// ══════════════════════════════════════════
+// THREE.JS
+// ══════════════════════════════════════════
+const canvas=document.getElementById('bg');
+const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.setSize(innerWidth,innerHeight);
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,300);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,300);
 camera.position.set(0,0,0);
+const GOLD=new THREE.Color(0xd4a853),TEAL=new THREE.Color(0x4dd9c0),WHITE=new THREE.Color(0xffffff);
 
-const GOLD=new THREE.Color(0xd4a853);
-const TEAL=new THREE.Color(0x4dd9c0);
-const WHITE=new THREE.Color(0xffffff);
-
-// Space gold particles
-const NSP=2400,spaceArr=new Float32Array(NSP*3),spd1=[];
-for(let i=0;i<NSP;i++){
-  const a=Math.random()*Math.PI*2,r=4+Math.pow(Math.random(),.6)*9;
-  spaceArr[i*3]=Math.cos(a)*r; spaceArr[i*3+1]=(Math.random()-.5)*12; spaceArr[i*3+2]=-(Math.random()*110);
-  spd1.push({x:(Math.random()-.5)*.002,y:(Math.random()-.5)*.0015});
-}
-const spGeo=new THREE.BufferGeometry(); spGeo.setAttribute('position',new THREE.BufferAttribute(spaceArr,3));
-const spPts=new THREE.Points(spGeo,new THREE.PointsMaterial({color:GOLD,size:.03,transparent:true,opacity:.5,sizeAttenuation:true})); scene.add(spPts);
+// Space particles
+const NSP=2400,spArr=new Float32Array(NSP*3),sp1=[];
+for(let i=0;i<NSP;i++){const a=Math.random()*Math.PI*2,r=4+Math.pow(Math.random(),.6)*9;spArr[i*3]=Math.cos(a)*r;spArr[i*3+1]=(Math.random()-.5)*12;spArr[i*3+2]=-(Math.random()*110);sp1.push({x:(Math.random()-.5)*.002,y:(Math.random()-.5)*.0015});}
+const spGeo=new THREE.BufferGeometry();spGeo.setAttribute('position',new THREE.BufferAttribute(spArr,3));
+const spPts=new THREE.Points(spGeo,new THREE.PointsMaterial({color:GOLD,size:.03,transparent:true,opacity:.5,sizeAttenuation:true}));scene.add(spPts);
 
 // Stars
-const NST=1500,starArr=new Float32Array(NST*3);
-for(let i=0;i<NST;i++){starArr[i*3]=(Math.random()-.5)*260;starArr[i*3+1]=(Math.random()-.5)*160;starArr[i*3+2]=-20-Math.random()*240;}
-const stGeo=new THREE.BufferGeometry(); stGeo.setAttribute('position',new THREE.BufferAttribute(starArr,3));
-const stPts=new THREE.Points(stGeo,new THREE.PointsMaterial({color:WHITE,size:.05,transparent:true,opacity:.3,sizeAttenuation:true})); scene.add(stPts);
+const NST=1500,stArr=new Float32Array(NST*3);
+for(let i=0;i<NST;i++){stArr[i*3]=(Math.random()-.5)*260;stArr[i*3+1]=(Math.random()-.5)*160;stArr[i*3+2]=-20-Math.random()*240;}
+const stGeo=new THREE.BufferGeometry();stGeo.setAttribute('position',new THREE.BufferAttribute(stArr,3));
+const stPts=new THREE.Points(stGeo,new THREE.PointsMaterial({color:WHITE,size:.05,transparent:true,opacity:.3,sizeAttenuation:true}));scene.add(stPts);
 
-// Ocean teal particles
-const NOC=2200,oceanArr=new Float32Array(NOC*3),spd2=[];
-for(let i=0;i<NOC;i++){
-  const a=Math.random()*Math.PI*2,r=3.5+Math.pow(Math.random(),.6)*9;
-  oceanArr[i*3]=Math.cos(a)*r; oceanArr[i*3+1]=-(Math.random()*110)-10; oceanArr[i*3+2]=Math.sin(a)*r*.6;
-  spd2.push({x:(Math.random()-.5)*.0018,z:(Math.random()-.5)*.0012});
-}
-const ocGeo=new THREE.BufferGeometry(); ocGeo.setAttribute('position',new THREE.BufferAttribute(oceanArr,3));
-const ocPts=new THREE.Points(ocGeo,new THREE.PointsMaterial({color:TEAL,size:.03,transparent:true,opacity:0,sizeAttenuation:true})); scene.add(ocPts);
-
-// Splash particles — burst outward from center
-const NSPL=600,splArr=new Float32Array(NSPL*3),splVel=[];
-for(let i=0;i<NSPL;i++){
-  splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;
-  const theta=Math.random()*Math.PI*2,phi=Math.random()*Math.PI;
-  const spd=3+Math.random()*8;
-  splVel.push({x:Math.sin(phi)*Math.cos(theta)*spd,y:Math.abs(Math.cos(phi))*spd*.5+2,z:Math.sin(phi)*Math.sin(theta)*spd,vy:-0.15});
-}
-const splGeo=new THREE.BufferGeometry(); splGeo.setAttribute('position',new THREE.BufferAttribute(splArr,3));
-const splPts=new THREE.Points(splGeo,new THREE.PointsMaterial({color:new THREE.Color(0x99eeff),size:.06,transparent:true,opacity:0,sizeAttenuation:true})); scene.add(splPts);
-let splashActive=false,splashT=0;
-
-// Bubbles
-const NBU=400,bubArr=new Float32Array(NBU*3),bubSpd=[];
-for(let i=0;i<NBU;i++){bubArr[i*3]=(Math.random()-.5)*16;bubArr[i*3+1]=-(Math.random()*100)-10;bubArr[i*3+2]=(Math.random()-.5)*16;bubSpd.push({rise:.025+Math.random()*.04,w:Math.random()*Math.PI*2});}
-const buGeo=new THREE.BufferGeometry(); buGeo.setAttribute('position',new THREE.BufferAttribute(bubArr,3));
-const buPts=new THREE.Points(buGeo,new THREE.PointsMaterial({color:new THREE.Color(0x99eeff),size:.05,transparent:true,opacity:0,sizeAttenuation:true})); scene.add(buPts);
+// Nebula planet
+const nebula=new THREE.Mesh(new THREE.SphereGeometry(18,28,28),new THREE.MeshBasicMaterial({color:new THREE.Color(.12,.08,.35),transparent:true,opacity:.15}));
+nebula.position.set(0,0,-80);scene.add(nebula);
+const nebulaRing=new THREE.Mesh(new THREE.TorusGeometry(23,.07,4,120),new THREE.MeshBasicMaterial({color:GOLD,transparent:true,opacity:.07}));
+nebulaRing.rotation.x=Math.PI/3;nebulaRing.position.set(0,0,-80);scene.add(nebulaRing);
 
 // Gold icosahedra
-const icoMs=[[- 5.5,2,-22,1.6],[6.5,-2.5,-44,2.0]].map(d=>{
-  const m=new THREE.Mesh(new THREE.IcosahedronGeometry(1,1),new THREE.MeshBasicMaterial({color:GOLD,wireframe:true,transparent:true,opacity:.15}));
-  m.position.set(d[0],d[1],d[2]);m.scale.setScalar(d[3]);m.userData={rx:(Math.random()-.5)*.005,ry:(Math.random()-.5)*.008};scene.add(m);return m;
-});
+const icoMs=[[- 5.5,2,-22,1.6],[6.5,-2.5,-44,2.0]].map(d=>{const m=new THREE.Mesh(new THREE.IcosahedronGeometry(1,1),new THREE.MeshBasicMaterial({color:GOLD,wireframe:true,transparent:true,opacity:.15}));m.position.set(d[0],d[1],d[2]);m.scale.setScalar(d[3]);m.userData={rx:(Math.random()-.5)*.005,ry:(Math.random()-.5)*.008};scene.add(m);return m;});
+
+// Ocean particles
+const NOC=2200,ocArr=new Float32Array(NOC*3),sp2=[];
+for(let i=0;i<NOC;i++){const a=Math.random()*Math.PI*2,r=3.5+Math.pow(Math.random(),.6)*9;ocArr[i*3]=Math.cos(a)*r;ocArr[i*3+1]=-(Math.random()*110)-10;ocArr[i*3+2]=Math.sin(a)*r*.6;sp2.push({x:(Math.random()-.5)*.0018,z:(Math.random()-.5)*.0012});}
+const ocGeo=new THREE.BufferGeometry();ocGeo.setAttribute('position',new THREE.BufferAttribute(ocArr,3));
+const ocPts=new THREE.Points(ocGeo,new THREE.PointsMaterial({color:TEAL,size:.03,transparent:true,opacity:0,sizeAttenuation:true}));scene.add(ocPts);
+
+// Bubbles
+const NBU=450,buArr=new Float32Array(NBU*3),buSpd=[];
+for(let i=0;i<NBU;i++){buArr[i*3]=(Math.random()-.5)*16;buArr[i*3+1]=-(Math.random()*100)-10;buArr[i*3+2]=(Math.random()-.5)*16;buSpd.push({rise:.025+Math.random()*.04,w:Math.random()*Math.PI*2});}
+const buGeo=new THREE.BufferGeometry();buGeo.setAttribute('position',new THREE.BufferAttribute(buArr,3));
+const buPts=new THREE.Points(buGeo,new THREE.PointsMaterial({color:new THREE.Color(0x99eeff),size:.05,transparent:true,opacity:0,sizeAttenuation:true}));scene.add(buPts);
+
+// Bioluminescent orbs
+const orbMs=[];
+for(let i=0;i<20;i++){const orb=new THREE.Mesh(new THREE.SphereGeometry(.15+Math.random()*.22,7,7),new THREE.MeshBasicMaterial({color:new THREE.Color(.25+Math.random()*.3,.82+Math.random()*.18,.75+Math.random()*.25),transparent:true,opacity:0}));orb.position.set((Math.random()-.5)*14,-(Math.random()*90+8),(Math.random()-.5)*12);orb.userData={ox:Math.random()*Math.PI*2,ospd:.3+Math.random()*.8,od:(Math.random()-.5)*.007};scene.add(orb);orbMs.push(orb);}
+
+// Fish
+const fishMs=[];
+for(let f=0;f<20;f++){const fish=new THREE.Mesh(new THREE.ConeGeometry(.16,.55,4),new THREE.MeshBasicMaterial({color:new THREE.Color(.3+Math.random()*.4,.8+Math.random()*.2,.7),transparent:true,opacity:0}));fish.userData={fspd:.4+Math.random()*.8,frad:3+Math.random()*7,fdy:-(20+Math.random()*70),fph:Math.random()*Math.PI*2,fvp:Math.random()*Math.PI*2};scene.add(fish);fishMs.push(fish);}
+
+// Plankton
+const NPL=800,plArr=new Float32Array(NPL*3),plSpd=[];
+for(let i=0;i<NPL;i++){plArr[i*3]=(Math.random()-.5)*20;plArr[i*3+1]=-(Math.random()*110+5);plArr[i*3+2]=(Math.random()-.5)*18;plSpd.push({x:(Math.random()-.5)*.001,y:(Math.random()-.5)*.0008,z:(Math.random()-.5)*.001});}
+const plGeo=new THREE.BufferGeometry();plGeo.setAttribute('position',new THREE.BufferAttribute(plArr,3));
+const plPts=new THREE.Points(plGeo,new THREE.PointsMaterial({color:new THREE.Color(.6,.95,.9),size:.018,transparent:true,opacity:0,sizeAttenuation:true}));scene.add(plPts);
+
+// Dust/snow
+const NDU=400,duArr=new Float32Array(NDU*3),duSpd=[];
+for(let i=0;i<NDU;i++){duArr[i*3]=(Math.random()-.5)*18;duArr[i*3+1]=-(Math.random()*100+5);duArr[i*3+2]=(Math.random()-.5)*16;duSpd.push({fall:.008+Math.random()*.012,w:Math.random()*Math.PI*2});}
+const duGeo=new THREE.BufferGeometry();duGeo.setAttribute('position',new THREE.BufferAttribute(duArr,3));
+const duPts=new THREE.Points(duGeo,new THREE.PointsMaterial({color:new THREE.Color(.8,.95,1),size:.022,transparent:true,opacity:0,sizeAttenuation:true}));scene.add(duPts);
+
+// Light rays
+const rayGrp=new THREE.Group();
+for(let i=0;i<8;i++){const a=(i/8)*Math.PI*2,rp=[];rp.push(new THREE.Vector3(Math.cos(a)*.5,0,Math.sin(a)*.5));rp.push(new THREE.Vector3(Math.cos(a)*4,-50,Math.sin(a)*4));rayGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:new THREE.Color(0x99eeff),transparent:true,opacity:.07+Math.random()*.04})));}
+rayGrp.position.set(0,5,-5);rayGrp.userData={isRays:true};scene.add(rayGrp);
 
 // Teal deep geometry
-const seaMs=[[5,-20,-4,1.5,'ico'],[-6,-45,3,1.8,'oct']].map(d=>{
-  const g=d[4]==='ico'?new THREE.IcosahedronGeometry(1,1):new THREE.OctahedronGeometry(1,0);
-  const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:TEAL,wireframe:true,transparent:true,opacity:0}));
-  m.position.set(d[0],d[1],d[2]);m.scale.setScalar(d[3]);m.userData={rx:(Math.random()-.5)*.005,ry:(Math.random()-.5)*.007};scene.add(m);return m;
-});
-
-// ── NEBULA/PLANET in background ──
-const nebulaGeo = new THREE.SphereGeometry(18,28,28);
-const nebula = new THREE.Mesh(nebulaGeo, new THREE.MeshBasicMaterial({color:new THREE.Color(.12,.08,.35),transparent:true,opacity:.14}));
-nebula.position.set(0,0,-80); scene.add(nebula);
-const nebulaRing = new THREE.Mesh(new THREE.TorusGeometry(23,.07,4,120),new THREE.MeshBasicMaterial({color:GOLD,transparent:true,opacity:.06}));
-nebulaRing.rotation.x=Math.PI/3; nebulaRing.position.set(0,0,-80); scene.add(nebulaRing);
-
-// ── FISH (12 cone shapes swimming in arcs) ──
-const fishArr=[];
-for(let f=0;f<22;f++){
-  const fish=new THREE.Mesh(new THREE.ConeGeometry(.16,.55,4),new THREE.MeshBasicMaterial({color:new THREE.Color(.3+Math.random()*.4,.8+Math.random()*.2,.7),transparent:true,opacity:0}));
-  fish.userData={fspd:.4+Math.random()*.8,frad:3+Math.random()*7,fdy:-(20+Math.random()*70),fph:Math.random()*Math.PI*2,fvp:Math.random()*Math.PI*2};
-  scene.add(fish); fishArr.push(fish);
-}
-
-// ── PLANKTON (500 micro particles) ──
-const N_PLANK=900,plankArr=new Float32Array(N_PLANK*3),plankSpd=[];
-for(let i=0;i<N_PLANK;i++){plankArr[i*3]=(Math.random()-.5)*20;plankArr[i*3+1]=-(Math.random()*110+5);plankArr[i*3+2]=(Math.random()-.5)*18;plankSpd.push({x:(Math.random()-.5)*.001,y:(Math.random()-.5)*.0008,z:(Math.random()-.5)*.001});}
-const plankGeo=new THREE.BufferGeometry();plankGeo.setAttribute('position',new THREE.BufferAttribute(plankArr,3));
-const plankPts=new THREE.Points(plankGeo,new THREE.PointsMaterial({color:new THREE.Color(.6,.95,.9),size:.018,transparent:true,opacity:0,sizeAttenuation:true}));
-scene.add(plankPts);
-
-// ── UNDERWATER SNOW/DUST (300 particles, fall slowly) ──
-const N_DUST=500,dustArr=new Float32Array(N_DUST*3),dustSpd=[];
-for(let i=0;i<N_DUST;i++){dustArr[i*3]=(Math.random()-.5)*18;dustArr[i*3+1]=-(Math.random()*100+5);dustArr[i*3+2]=(Math.random()-.5)*16;dustSpd.push({fall:.008+Math.random()*.012,wob:Math.random()*Math.PI*2});}
-const dustGeo=new THREE.BufferGeometry();dustGeo.setAttribute('position',new THREE.BufferAttribute(dustArr,3));
-const dustPts=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:new THREE.Color(.8,.95,1),size:.022,transparent:true,opacity:0,sizeAttenuation:true}));
-scene.add(dustPts);
-
-// ── ANEMONE TENTACLES ──
-for(let t=0;t<6;t++){
-  const tx=(Math.random()-.5)*14,tz=(Math.random()-.5)*12;
-  for(let arm=0;arm<4;arm++){
-    const tpts=[],aa=(arm/4)*Math.PI*2;
-    for(let j=0;j<=14;j++){const tt=j/14;tpts.push(new THREE.Vector3(tx+Math.cos(aa)*tt*1.5+Math.sin(tt*Math.PI*2+t)*.4,-(58+t*4)+tt*4,tz+Math.sin(aa)*tt*1.5+Math.cos(tt*Math.PI*2+arm)*.3));}
-    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(tpts),new THREE.LineBasicMaterial({color:new THREE.Color(.2+Math.random()*.3,.7+Math.random()*.3,.6),transparent:true,opacity:.16})));
-  }
-}
+const seaMs=[[5,-20,-4,1.5,'ico'],[-6,-45,3,1.8,'oct']].map(d=>{const g=d[4]==='ico'?new THREE.IcosahedronGeometry(1,1):new THREE.OctahedronGeometry(1,0);const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:TEAL,wireframe:true,transparent:true,opacity:0}));m.position.set(d[0],d[1],d[2]);m.scale.setScalar(d[3]);m.userData={rx:(Math.random()-.5)*.005,ry:(Math.random()-.5)*.007};scene.add(m);return m;});
 
 // Jellyfish
 const jelly=new THREE.Group();
@@ -506,374 +299,170 @@ const bG=new THREE.LatheGeometry(bP,12);
 const bW=new THREE.Mesh(bG,new THREE.MeshBasicMaterial({color:new THREE.Color(0x99eeff),wireframe:true,transparent:true,opacity:0}));
 const bF=new THREE.Mesh(bG,new THREE.MeshBasicMaterial({color:new THREE.Color(0x001a2e),transparent:true,opacity:0,side:THREE.DoubleSide}));
 jelly.add(bW,bF);
-for(let i=0;i<8;i++){
-  const a=(i/8)*Math.PI*2,r=.55+(i%2)*.2,pts=[];
-  for(let j=0;j<=14;j++){const t=j/14;pts.push(new THREE.Vector3(Math.cos(a)*r*(1-t*.25)+Math.sin(t*3.5+i)*.13,-t*2.3-.85,Math.sin(a)*r*(1-t*.25)+Math.cos(t*3.5+i)*.13));}
-  jelly.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:TEAL,transparent:true,opacity:0})));
-}
+for(let i=0;i<8;i++){const a=(i/8)*Math.PI*2,r=.55+(i%2)*.2,pts=[];for(let j=0;j<=14;j++){const t=j/14;pts.push(new THREE.Vector3(Math.cos(a)*r*(1-t*.25)+Math.sin(t*3.5+i)*.13,-t*2.3-.85,Math.sin(a)*r*(1-t*.25)+Math.cos(t*3.5+i)*.13));}jelly.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:TEAL,transparent:true,opacity:0})));}
 jelly.scale.setScalar(1.1);jelly.position.set(3.5,0,0);scene.add(jelly);
 
+// Splash particles
+const NSPL=600,splArr=new Float32Array(NSPL*3),splVel=[];
+for(let i=0;i<NSPL;i++){splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;const th=Math.random()*Math.PI*2,ph=Math.random()*Math.PI,sp=3+Math.random()*8;splVel.push({x:Math.sin(ph)*Math.cos(th)*sp,y:Math.abs(Math.cos(ph))*sp*.5+2,z:Math.sin(ph)*Math.sin(th)*sp,vy:-.15});}
+const splGeo=new THREE.BufferGeometry();splGeo.setAttribute('position',new THREE.BufferAttribute(splArr,3));
+const splPts=new THREE.Points(splGeo,new THREE.PointsMaterial({color:new THREE.Color(0x99eeff),size:.06,transparent:true,opacity:0,sizeAttenuation:true}));scene.add(splPts);
+let splashActive=false,splashT=0;
+
 // Camera state
-let mx=0,my=0,cX=0,cY=0,targetZ=0,targetY=0,worldBlend=0;
+let mx=0,my=0,cX=0,worldBlend=0,targetZ=0,targetY=0;
 document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*.6;my=(e.clientY/innerHeight-.5)*.35;});
 
 function setBlend(b){
   worldBlend=b;
   const sp=1-b,oc=b;
-  spPts.material.opacity=.5*sp; stPts.material.opacity=.3*sp;
+  spPts.material.opacity=.5*sp;stPts.material.opacity=.3*sp;
   icoMs.forEach(m=>m.material.opacity=.15*sp);
-  ocPts.material.opacity=.5*oc; buPts.material.opacity=.38*oc;
+  nebula.material.opacity=.2*sp;nebulaRing.material.opacity=.09*sp;
+  ocPts.material.opacity=.5*oc;buPts.material.opacity=.38*oc;
   seaMs.forEach(m=>m.material.opacity=.14*oc);
-  const jo=oc>.3?oc:.0;
-  bW.material.opacity=.55*jo; bF.material.opacity=.22*jo;
+  const jo=Math.max(0,oc-.1)/.9;
+  bW.material.opacity=.55*jo;bF.material.opacity=.22*jo;
   jelly.children.slice(2).forEach(l=>{if(l.material)l.material.opacity=.3*jo;});
-  const r=Math.round((7+(-5)*oc)), g=Math.round((8+5*oc)), bl=Math.round((16+8*oc));
+  const r=Math.round(7+(-5)*oc),g=Math.round(8+5*oc),bl=Math.round(16+8*oc);
   document.body.style.background=`rgb(${r},${g},${bl})`;
 }
-
-// Flash state
 
 function renderBG(t){
   requestAnimationFrame(renderBG);
   const time=t*.001;
   camera.position.z+=(targetZ-camera.position.z)*.055;
   camera.position.y+=(targetY-camera.position.y)*.055;
-  // Zero mouse influence underwater
-  const mInf = Math.max(0, 0.3 * (1 - worldBlend * 2));
-  cX += (mx * mInf - cX) * .035;
-  camera.position.x = cX;
-  // Camera direction — look far ahead so movement feels immersive
-  if(worldBlend > 0.6){
-    // Ocean: look straight down far below
-    camera.lookAt(cX * .05, camera.position.y - 50, 0);
-  } else if(worldBlend > 0.1){
-    // Transitioning
-    const bl = worldBlend / 0.6;
-    camera.lookAt(cX * .1 * (1-bl), camera.position.y - 50*bl, camera.position.z - 80*(1-bl));
-  } else {
-    // Space: look FAR forward — makes the tunnel feel like you're actually flying through it
-    camera.lookAt(cX * .1, cY * .1, camera.position.z - 80);
-  }
+  const mInf=Math.max(0,.3*(1-worldBlend*2));
+  cX+=(mx*mInf-cX)*.035;
+  camera.position.x=cX;
+  if(worldBlend>.6){camera.lookAt(cX*.05,camera.position.y-50,0);}
+  else if(worldBlend>.1){const bl=worldBlend/.6;camera.lookAt(cX*.1*(1-bl),camera.position.y-50*bl,camera.position.z-80*(1-bl));}
+  else{camera.lookAt(cX*.1,0,camera.position.z-80);}
 
-  for(let i=0;i<NSP;i++){spaceArr[i*3]+=spd1[i].x;spaceArr[i*3+1]+=spd1[i].y;if(Math.abs(spaceArr[i*3])>11)spd1[i].x*=-1;if(Math.abs(spaceArr[i*3+1])>7)spd1[i].y*=-1;}
+  // Drift space particles
+  for(let i=0;i<NSP;i++){spArr[i*3]+=sp1[i].x;spArr[i*3+1]+=sp1[i].y;if(Math.abs(spArr[i*3])>11)sp1[i].x*=-1;if(Math.abs(spArr[i*3+1])>7)sp1[i].y*=-1;}
   spGeo.attributes.position.needsUpdate=true;
 
-  if(worldBlend>.05){
-    for(let i=0;i<NOC;i++){oceanArr[i*3]+=spd2[i].x;oceanArr[i*3+2]+=spd2[i].z;if(Math.abs(oceanArr[i*3])>11)spd2[i].x*=-1;if(Math.abs(oceanArr[i*3+2])>9)spd2[i].z*=-1;}
-    ocGeo.attributes.position.needsUpdate=true;
-    for(let i=0;i<NBU;i++){bubArr[i*3+1]+=bubSpd[i].rise;bubArr[i*3]+=Math.sin(time*.8+bubSpd[i].w)*.01;if(bubArr[i*3+1]>camera.position.y+8){bubArr[i*3+1]=camera.position.y-55-Math.random()*50;bubArr[i*3]=(Math.random()-.5)*16;bubArr[i*3+2]=(Math.random()-.5)*16;}}
-    buGeo.attributes.position.needsUpdate=true;
-  }
-
-  // Splash particles
-  if(splashActive){
-    splashT+=.016;
-    splPts.material.opacity=Math.max(0, .8-splashT*1.2);
-    for(let i=0;i<NSPL;i++){
-      splArr[i*3]+=splVel[i].x*.016*3; splArr[i*3+1]+=splVel[i].y*.016*3; splArr[i*3+2]+=splVel[i].z*.016*3;
-      splVel[i].y+=splVel[i].vy;
-    }
-    splGeo.attributes.position.needsUpdate=true;
-    if(splashT>1){splashActive=false;splPts.material.opacity=0;}
-  }
-
+  // Nebula + icosahedra
+  nebula.rotation.y=time*.04;nebulaRing.rotation.y=time*.07;
   icoMs.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
-  seaMs.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
-  
-  // Nebula slow rotation
-  nebula.rotation.y = time * .04;
-  nebula.rotation.z = time * .02;
-  nebulaRing.rotation.y = time * .06;
-  // Nebula opacity increases when we're in stats/pricing area
-  const nearStats = worldBlend < .3 && camera.position.z < -35;
-  nebula.material.opacity = nearStats ? .22 : .1;
-  nebulaRing.material.opacity = nearStats ? .09 : .04;
-  
-  // Animate light rays
-  if(worldBlend>.1){
-    scene.children.forEach(ch=>{
-      if(ch.userData&&ch.userData.isRays){
-        ch.children.forEach((ray,i)=>{
-          ray.material.opacity=((.06+Math.sin(time*.4+i*.8)*.04)*worldBlend);
-          ray.rotation.y=time*.03+i*.15;
-        });
-      }
-    });
-  }
-  // Fish swimming in arcs
-  if(worldBlend>.1){
-    fishGroup.children.forEach((fish,i)=>{
-      const d=fish.userData;
-      const angle=time*d.speed+d.phase;
-      fish.position.x=Math.cos(angle)*d.radius;
-      fish.position.y=d.depthY+Math.sin(time*d.speed*.5+d.vertPhase)*2;
-      fish.position.z=Math.sin(angle)*d.radius*.7;
-      fish.rotation.y=-angle+Math.PI/2;
-      fish.rotation.z=Math.sin(time*d.speed*.8)*0.15;
-      fish.material.opacity=.35*worldBlend;
-      fish.visible=worldBlend>.2;
-    });
-    // Plankton drift
-    for(let i=0;i<N_PLANK;i++){
-      plankArr[i*3]+=plankSpd[i].x; plankArr[i*3+1]+=plankSpd[i].y; plankArr[i*3+2]+=plankSpd[i].z;
-      if(Math.abs(plankArr[i*3])>12)plankSpd[i].x*=-1;
-      if(plankArr[i*3+1]>-3||plankArr[i*3+1]<-115)plankSpd[i].y*=-1;
-    }
-    plankGeo.attributes.position.needsUpdate=true;
-    plankPts.material.opacity=.28*worldBlend;
-    // Dust falling slowly
-    for(let i=0;i<N_DUST;i++){
-      dustArr[i*3+1]-=dustSpd[i].fall;
-      dustArr[i*3]+=Math.sin(time*.3+dustSpd[i].wobble)*.003;
-      if(dustArr[i*3+1]<camera.position.y-60)dustArr[i*3+1]=camera.position.y-5;
-    }
-    dustGeo.attributes.position.needsUpdate=true;
-    dustPts.material.opacity=.22*worldBlend;
-  }
-  // Nebula rotate
-  nebula.rotation.y=time*.04; nebulaRing.rotation.y=time*.07;
-  // Nebula visible whenever in gold space mode
-  const spaceAmt = Math.max(0, 1-worldBlend*2);
-  nebula.material.opacity = .22 * spaceAmt;
-  nebulaRing.material.opacity = .1 * spaceAmt;
-  
-  // Fish + plankton + dust (only underwater)
-  if(worldBlend>.1){
-    fishArr.forEach((fish,i)=>{
-      const d=fish.userData,angle=time*d.fspd+d.fph;
-      fish.position.x=Math.cos(angle)*d.frad;
-      fish.position.y=d.fdy+Math.sin(time*d.fspd*.5+d.fvp)*2;
-      fish.position.z=Math.sin(angle)*d.frad*.7;
-      fish.rotation.y=-angle+Math.PI/2;
-      fish.material.opacity=.35*worldBlend;
-    });
-    for(let i=0;i<N_PLANK;i++){plankArr[i*3]+=plankSpd[i].x;plankArr[i*3+1]+=plankSpd[i].y;plankArr[i*3+2]+=plankSpd[i].z;if(Math.abs(plankArr[i*3])>12)plankSpd[i].x*=-1;if(plankArr[i*3+1]>-2||plankArr[i*3+1]<-115)plankSpd[i].y*=-1;}
-    plankGeo.attributes.position.needsUpdate=true;plankPts.material.opacity=.26*worldBlend;
-    for(let i=0;i<N_DUST;i++){dustArr[i*3+1]-=dustSpd[i].fall;dustArr[i*3]+=Math.sin(time*.3+dustSpd[i].wob)*.003;if(dustArr[i*3+1]<camera.position.y-65)dustArr[i*3+1]=camera.position.y-3;}
-    dustGeo.attributes.position.needsUpdate=true;dustPts.material.opacity=.2*worldBlend;
-  } else {
-    plankPts.material.opacity=0;dustPts.material.opacity=0;fishArr.forEach(f=>f.material.opacity=0);
-  }
-    // Ocean life animations
+
   if(worldBlend>.05){
-    scene.children.forEach(ch=>{
-      if(!ch.isMesh||!ch.userData)return;
-      if(ch.userData.ox!==undefined){
-        // Orb: pulse opacity, gentle drift
-        ch.userData.ox+=ch.userData.ospd*.016;
-        ch.material.opacity=Math.max(0,(.4+Math.sin(ch.userData.ox)*.3)*worldBlend);
-        ch.position.x+=ch.userData.odrift;
-        if(Math.abs(ch.position.x)>9)ch.userData.odrift*=-1;
-        ch.scale.setScalar(.85+Math.sin(ch.userData.ox*.6)*.18);
-      }
-      if(ch.userData.coral){
-        ch.rotation.x+=ch.userData.rx;ch.rotation.y+=ch.userData.ry;
-        ch.material.opacity=(.15+Math.sin(time*.9+ch.position.x)*.08)*Math.min(1,worldBlend*1.5);
-      }
-    });
+    // Ocean particles
+    for(let i=0;i<NOC;i++){ocArr[i*3]+=sp2[i].x;ocArr[i*3+2]+=sp2[i].z;if(Math.abs(ocArr[i*3])>11)sp2[i].x*=-1;if(Math.abs(ocArr[i*3+2])>9)sp2[i].z*=-1;}
+    ocGeo.attributes.position.needsUpdate=true;
+    // Bubbles
+    for(let i=0;i<NBU;i++){buArr[i*3+1]+=buSpd[i].rise;buArr[i*3]+=Math.sin(time*.8+buSpd[i].w)*.01;if(buArr[i*3+1]>camera.position.y+8){buArr[i*3+1]=camera.position.y-55-Math.random()*50;buArr[i*3]=(Math.random()-.5)*16;buArr[i*3+2]=(Math.random()-.5)*16;}}
+    buGeo.attributes.position.needsUpdate=true;
+    // Orbs
+    orbMs.forEach(o=>{o.userData.ox+=o.userData.ospd*.016;o.material.opacity=Math.max(0,(.4+Math.sin(o.userData.ox)*.3)*worldBlend);o.position.x+=o.userData.od;if(Math.abs(o.position.x)>9)o.userData.od*=-1;o.scale.setScalar(.85+Math.sin(o.userData.ox*.6)*.18);});
+    // Fish
+    fishMs.forEach(fish=>{const d=fish.userData,angle=time*d.fspd+d.fph;fish.position.x=Math.cos(angle)*d.frad;fish.position.y=d.fdy+Math.sin(time*d.fspd*.5+d.fvp)*2;fish.position.z=Math.sin(angle)*d.frad*.7;fish.rotation.y=-angle+Math.PI/2;fish.material.opacity=.35*worldBlend;});
+    // Plankton
+    for(let i=0;i<NPL;i++){plArr[i*3]+=plSpd[i].x;plArr[i*3+1]+=plSpd[i].y;plArr[i*3+2]+=plSpd[i].z;if(Math.abs(plArr[i*3])>12)plSpd[i].x*=-1;if(plArr[i*3+1]>-2||plArr[i*3+1]<-115)plSpd[i].y*=-1;}
+    plGeo.attributes.position.needsUpdate=true;plPts.material.opacity=.25*worldBlend;
+    // Dust
+    for(let i=0;i<NDU;i++){duArr[i*3+1]-=duSpd[i].fall;duArr[i*3]+=Math.sin(time*.3+duSpd[i].w)*.003;if(duArr[i*3+1]<camera.position.y-65)duArr[i*3+1]=camera.position.y-3;}
+    duGeo.attributes.position.needsUpdate=true;duPts.material.opacity=.2*worldBlend;
+    // Light rays
+    rayGrp.children.forEach((ray,i)=>{ray.material.opacity=(.06+Math.sin(time*.4+i*.8)*.04)*worldBlend;});
+    // Teal geo + jellyfish
+    seaMs.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
+    jelly.position.x=Math.sin(time*.28)*3.5+2.5;jelly.position.y=camera.position.y-8+Math.sin(time*.2)*1.5;jelly.position.z=camera.position.z-2+Math.cos(time*.22)*2;jelly.rotation.y=time*.14;const bp=1+Math.sin(time*1.3)*.07;bW.scale.set(bp,1/bp*.94+.06,bp);bF.scale.copy(bW.scale);
+  } else {
+    plPts.material.opacity=0;duPts.material.opacity=0;fishMs.forEach(f=>f.material.opacity=0);orbMs.forEach(o=>o.material.opacity=0);
   }
-  
-  // Animate ocean life
-  if(worldBlend>.1){
-    scene.children.forEach(child=>{
-      if(child.isMesh&&child.geometry.type==='SphereGeometry'&&child.userData.fx!==undefined){
-        // Orb pulse and drift
-        child.userData.fx+=child.userData.speed*.016;
-        child.material.opacity=(.45+Math.sin(child.userData.fx)*.3)*worldBlend;
-        child.position.x+=child.userData.drift;
-        if(Math.abs(child.position.x)>8)child.userData.drift*=-1;
-        child.scale.setScalar(.9+Math.sin(child.userData.fx*.7)*.15);
-      }
-      if(child.isMesh&&child.userData.rx!==undefined&&child.geometry.type==='IcosahedronGeometry'&&child.position.y<-10){
-        child.rotation.x+=child.userData.rx;
-        child.rotation.y+=child.userData.ry;
-        child.material.opacity=(.18+Math.sin(time*.8+child.position.x)*.08)*worldBlend;
-      }
-    });
-  }
-
-  jelly.position.x=Math.sin(time*.28)*3.5+2.5;
-  jelly.position.y=camera.position.y-8+Math.sin(time*.2)*1.5;
-  jelly.position.z=camera.position.z-2+Math.cos(time*.22)*2;
-  jelly.rotation.y=time*.14;
-  const bp=1+Math.sin(time*1.3)*.07;
-  bW.scale.set(bp,1/bp*.94+.06,bp); bF.scale.copy(bW.scale);
-
-  // Flash: driven purely by scene index transitions (cleanest approach)
-
+  // Splash
+  if(splashActive){splashT+=.016;splPts.material.opacity=Math.max(0,.8-splashT*1.2);for(let i=0;i<NSPL;i++){splArr[i*3]+=splVel[i].x*.016*3;splArr[i*3+1]+=splVel[i].y*.016*3;splArr[i*3+2]+=splVel[i].z*.016*3;splVel[i].y+=splVel[i].vy;}splGeo.attributes.position.needsUpdate=true;if(splashT>1){splashActive=false;splPts.material.opacity=0;}}
   renderer.render(scene,camera);
 }
 renderBG(0);
 window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 
-// ══════════════════════════════════════════════════
+// ══════════════════════════════════════════
 // SCENE SYSTEM
-// 0:opening 1:statement 2:dive-invite 
-// 3-10: animation cards underwater
-// 11:deep message 12:stats(resurface) 13:pricing 14:CTA
-// ══════════════════════════════════════════════════
-
-// Animation card config — angles alternate left/right for variety
-const CARD_IDS=['ac1','ac2','ac3','ac4','ac5','ac6','ac7','ac8'];
-const CARD_ANGLES=[-25,25,-20,22,-28,18,-22,26]; // alternating
-
-// All stops — p=progress, zOff/yOff=camera, world=blend
+// ══════════════════════════════════════════
+// idx: 0=ov0 1=ov1 2=ovsub1 3=ovsub2 4=ov2(dive) 5=ac1 6=ac2 7=ac3 8=ac4 9=ac5 10=ac6 11=ac7 12=ac8 13=ov11(deep) 14=ovreality 15=ov12(stats) 16=ov13(pricing) 17=ov14(CTA)
 const STOPS=[
-  {p:0,     z:0,   y:0,   w:0, type:'ov', id:'ov0'},
-  {p:.04,   z:-12, y:0,   w:0, type:'ov', id:'ov1'},
-  {p:.09,   z:-22, y:0,   w:0, type:'ov', id:'ovsub1'}, // extra gold scene
-  {p:.14,   z:-32, y:0,   w:0, type:'ov', id:'ovsub2'}, // extra gold scene 2
-  {p:.19,   z:-38, y:0,   w:0, type:'ov', id:'ov2'}, // dive invite — now later
-  // Splash happens here, world transitions
-  {p:.24,   z:-42, y:-12, w:.6, type:'card', id:'ac1'},
-  {p:.28,   z:-30, y:-22, w:.9, type:'card', id:'ac2'},
-  {p:.33,   z:-30, y:-32, w:1,  type:'card', id:'ac3'},
-  {p:.38,   z:-30, y:-42, w:1,  type:'card', id:'ac4'},
-  {p:.43,   z:-30, y:-52, w:1,  type:'card', id:'ac5'},
-  {p:.47,   z:-30, y:-62, w:1,  type:'card', id:'ac6'},
-  {p:.51,   z:-30, y:-72, w:1,  type:'card', id:'ac7'},
-  {p:.55,   z:-30, y:-82, w:1,  type:'card', id:'ac8'},
-  {p:.59,  z:-30, y:-90, w:1,  type:'ov',   id:'ov11'}, // deep message
-  // Resurface happens at p=.655
-  {p:.62,  z:-38, y:-70, w:.6, type:'ov',   id:'ovreality'}, // reality check
-  {p:.67,  z:-42, y:-30, w:.15, type:'ov',  id:'ov12'}, // stats
-  {p:.74,  z:-58, y:0,   w:0,  type:'ov',   id:'ov13'}, // pricing — fully surfaced
-  {p:.83,  z:-76, y:0,   w:0,  type:'ov',   id:'ov14'}, // CTA
+  {p:0,    z:0,   y:0,   w:0,  id:'ov0'},
+  {p:.04,  z:-12, y:0,   w:0,  id:'ov1'},
+  {p:.08,  z:-22, y:0,   w:0,  id:'ovsub1'},
+  {p:.12,  z:-32, y:0,   w:0,  id:'ovsub2'},
+  {p:.17,  z:-38, y:0,   w:0,  id:'ov2'},
+  {p:.22,  z:-42, y:-12, w:.6, id:'ac1'},
+  {p:.26,  z:-30, y:-22, w:.9, id:'ac2'},
+  {p:.30,  z:-30, y:-32, w:1,  id:'ac3'},
+  {p:.34,  z:-30, y:-42, w:1,  id:'ac4'},
+  {p:.38,  z:-30, y:-52, w:1,  id:'ac5'},
+  {p:.42,  z:-30, y:-62, w:1,  id:'ac6'},
+  {p:.46,  z:-30, y:-72, w:1,  id:'ac7'},
+  {p:.50,  z:-30, y:-82, w:1,  id:'ac8'},
+  {p:.54,  z:-30, y:-90, w:1,  id:'ov11'},
+  {p:.60,  z:-36, y:-65, w:.5, id:'ovreality'},
+  {p:.66,  z:-42, y:-30, w:.1, id:'ov12'},
+  {p:.74,  z:-58, y:0,   w:0,  id:'ov13'},
+  {p:.83,  z:-76, y:0,   w:0,  id:'ov14'},
 ];
-
-// All shown elements
-const allOvs=document.querySelectorAll('.ov');
-const allCards=document.querySelectorAll('.anim-card');
+const ovEls=STOPS.map(s=>document.getElementById(s.id));
 const dots=document.querySelectorAll('.dot');
+let cur=0,busy=false;
 
-let cur=-1, busy=false;
-let splashFired=false, resurfaceFired=false;
-
-function hideAll(){
-  allOvs.forEach(el=>{gsap.killTweensOf(el);gsap.set(el,{opacity:0});el.classList.remove('live');});
-  allCards.forEach(el=>{gsap.killTweensOf(el);gsap.set(el,{opacity:0});el.classList.remove('live');});
-}
-
-function showStop(idx){
+function showScene(idx){
   if(idx===cur||busy)return;
-  // Extra guard: ignore rapid-fire same-direction changes
   busy=true;
-  const prev=cur; cur=idx;
-  const stop=STOPS[idx];
-
+  const prev=cur;cur=idx;
   dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
-  targetZ=stop.z; targetY=stop.y;
+  const stop=STOPS[idx];
+  targetZ=stop.z;targetY=stop.y;
+  gsap.to({w:STOPS[prev].w},{w:stop.w,duration:2.2,ease:'power2.inOut',onUpdate:function(){setBlend(this.targets()[0].w);}});
 
-  // World blend
-  gsap.to({w:prev>=0?STOPS[prev].w:0},{w:stop.w,duration:2.4,ease:'power2.inOut',
-    onUpdate:function(){setBlend(this.targets()[0].w);}
-  });
-
-  // Dive flash: fires exactly when entering first underwater card (ac1 = stop index 5)
-  // Small delay so camera has started moving before flash
-  if(idx===5 && (prev<5)){
+  // Dive flash — fires when entering first card (idx 5) from gold side
+  if(idx===5&&prev<5){
     setTimeout(()=>{
-      gsap.killTweensOf('#splash');
-      gsap.fromTo('#splash',{opacity:0},{opacity:1,duration:.4,ease:'power2.out',
-        onComplete:()=>{
-          splashActive=true;splashT=0;
-          for(let i=0;i<NSPL;i++){splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;}
-          gsap.to('#splash',{opacity:0,duration:1.1,ease:'power2.in'});
-        }
-      });
-    }, 300);
+      gsap.fromTo('#splash',{opacity:0},{opacity:1,duration:.4,ease:'power2.out',onComplete:()=>{
+        splashActive=true;splashT=0;for(let i=0;i<NSPL;i++){splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;}
+        gsap.to('#splash',{opacity:0,duration:1.1,ease:'power2.in'});
+      }});
+    },300);
   }
-
-  // Resurface flash: fires immediately when transitioning from ov11 → ov12
-  // Flash starts NOW (camera begins rising), text fades in AFTER the flash starts
-  if(idx===15 && prev===14){
-    gsap.killTweensOf('#resurface');
-    gsap.fromTo('#resurface',{opacity:0},{opacity:1,duration:.4,ease:'power3.out',
-      onComplete:()=>gsap.to('#resurface',{opacity:0,duration:2.4,ease:'power1.in'})
-    });
-  }
-
-  // Splash and resurface are handled by the world blend watcher, not here
-
-  // Dots animation for dive invite
-  if(stop.id==='ov2'){
-    const dotsEl=document.getElementById('diveDots');
-    dotsEl.textContent='';
-    let count=0;
-    const addDot=()=>{
-      count++;
-      dotsEl.textContent='.'.repeat(count);
-      if(count<8) setTimeout(addDot, 600 + count*120);
-    };
-    setTimeout(addDot, 400);
+  // Resurface flash — fires when going from ovreality (14) to ov12 (15)
+  if(idx===15&&prev===14){
+    gsap.fromTo('#resurface',{opacity:0},{opacity:1,duration:.4,ease:'power3.out',onComplete:()=>gsap.to('#resurface',{opacity:0,duration:2.2,ease:'power1.in'})});
   }
 
   // Hide previous
-  if(prev>=0){
-    const prevStop=STOPS[prev];
-    const prevEl=document.getElementById(prevStop.id);
-    if(prevEl){
-      gsap.killTweensOf(prevEl);
-      gsap.to(prevEl,{opacity:0,duration:.4,ease:'power2.in',
-        onComplete:()=>{prevEl.classList.remove('live');}
-      });
-    }
-  }
+  const prevEl=ovEls[prev];
+  if(prevEl){gsap.killTweensOf(prevEl);gsap.to(prevEl,{opacity:0,y:16,duration:.38,ease:'power2.in',onComplete:()=>prevEl.classList.remove('live')});}
 
   // Show new
-  const el=document.getElementById(stop.id);
-  if(!el){busy=false;return;}
+  const el=ovEls[idx];if(!el){busy=false;return;}
   el.classList.add('live');
+  const isCard=stop.id.startsWith('ac');
 
-  if(stop.type==='card'){
-    const angleIdx=CARD_IDS.indexOf(stop.id);
-    const angle=CARD_ANGLES[angleIdx]||0;
-    gsap.fromTo(el,
-      {opacity:0,y:60,rotateY:angle*1.5,rotateX:15,scale:.92},
-      {opacity:1,y:0,rotateY:angle,rotateX:10,scale:1,
-       duration:.85,ease:'power3.out',
-       onComplete:()=>{busy=false;}
-      }
-    );
-    // live class is on the card container, fills use .anim-card.live .fill-X
-  } else {
-    gsap.fromTo(el,
-      {opacity:0,y:-20},
-      {opacity:1,y:0,duration:.65,ease:'power3.out',
-        onComplete:()=>{busy=false;}
-      }
-    );
-    // Scene-specific entrances
+  setTimeout(()=>{
+    if(isCard){
+      const angle=[-25,25,-20,22,-28,18,-22,26][idx-5]||0;
+      gsap.fromTo(el,{opacity:0,y:50,rotateY:angle*1.5,rotateX:15},{opacity:1,y:0,rotateY:angle,rotateX:10,duration:.8,ease:'power3.out',onComplete:()=>{busy=false;}});
+    } else {
+      gsap.fromTo(el,{opacity:0,y:-18},{opacity:1,y:0,duration:.65,ease:'power3.out',onComplete:()=>{busy=false;}});
+    }
+    // Entrances
     const id=stop.id;
-    if(id==='ov1'||id==='ovsub1'||id==='ovsub2'){
-      const wsEls=document.querySelectorAll('#'+id+' .ws');
-      if(wsEls.length) gsap.fromTo(wsEls,{y:'108%'},{y:0,stagger:.1,duration:.85,ease:'power4.out',delay:.1});
-      else gsap.fromTo('#'+id+' .t4h',{opacity:0,y:20},{opacity:1,y:0,duration:.7,delay:.15,ease:'power3.out'});
-    }
-    if(id==='ovreality'){
-      gsap.fromTo('#ovreality div:nth-child(1)',{opacity:0,y:16},{opacity:1,y:0,duration:.7,delay:.1,ease:'power3.out'});
-      gsap.fromTo('#ovreality div:nth-child(2)',{opacity:0,y:16},{opacity:1,y:0,duration:.8,delay:.45,ease:'power3.out'});
-      gsap.fromTo('#ovreality div:nth-child(3)',{opacity:0},{opacity:1,duration:.6,delay:1.0});
-    }
-    if(id==='ov12'){gsap.fromTo('#ov12 .t3',{opacity:0,scale:.92},{opacity:1,scale:1,duration:.75,delay:.1,ease:'back.out(1.3)'});gsap.fromTo('#ov12 .t3p',{opacity:0},{opacity:1,duration:.6,delay:.55});gsap.fromTo('#ov12 .ss',{opacity:0,y:22},{opacity:1,y:0,stagger:.12,duration:.6,delay:.7,ease:'back.out(1.6)'});}
-    }
-    if(id==='ov13'){gsap.fromTo('#ov13 .t4h',{opacity:0,y:18},{opacity:1,y:0,duration:.65,delay:.1,ease:'power3.out'});gsap.fromTo('#ov13 .pc',{opacity:0,y:28},{opacity:1,y:0,stagger:.1,duration:.6,delay:.3,ease:'back.out(1.4)'});}
-    if(id==='ov14'){gsap.fromTo('#ov14 .t5h',{opacity:0,scale:.9},{opacity:1,scale:1,duration:.9,delay:.1,ease:'power3.out'});gsap.fromTo('#ov14 .t5p',{opacity:0},{opacity:1,duration:.65,delay:.75});gsap.fromTo('#ov14 .t5b',{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:1.0,ease:'back.out(1.4)'});}
-  }
+    if(id==='ov1'||id==='ovsub1'){const ws=el.querySelectorAll('.ws');if(ws.length)gsap.fromTo(ws,{y:'108%'},{y:0,stagger:.1,duration:.85,ease:'power4.out',delay:.1});}
+    if(id==='ovsub2'){gsap.fromTo(el.querySelector('.t4h'),{opacity:0,y:18},{opacity:1,y:0,duration:.7,delay:.1,ease:'power3.out'});gsap.fromTo(el.querySelector('p'),{opacity:0},{opacity:1,duration:.6,delay:.55});}
+    if(id==='ov2'){const dotsEl=document.getElementById('diveDots');dotsEl.textContent='';let cnt=0;const add=()=>{cnt++;dotsEl.textContent='.'.repeat(cnt);if(cnt<8)setTimeout(add,600+cnt*100);};setTimeout(add,500);}
+    if(id==='ovreality'){gsap.fromTo('.reality-a',{opacity:0,y:14},{opacity:1,y:0,duration:.7,delay:.1,ease:'power3.out'});gsap.fromTo('.reality-b',{opacity:0,y:14},{opacity:1,y:0,duration:.8,delay:.5,ease:'power3.out'});gsap.fromTo('.reality-c',{opacity:0},{opacity:1,duration:.6,delay:1.1});}
+    if(id==='ov12'){gsap.fromTo('.t3',{opacity:0,scale:.92},{opacity:1,scale:1,duration:.75,delay:.1,ease:'back.out(1.3)'});gsap.fromTo('.t3p',{opacity:0},{opacity:1,duration:.6,delay:.55});gsap.fromTo('.ss',{opacity:0,y:22},{opacity:1,y:0,stagger:.12,duration:.6,delay:.7,ease:'back.out(1.6)'});}
+    if(id==='ov13'){gsap.fromTo('.t4h',{opacity:0,y:18},{opacity:1,y:0,duration:.65,delay:.1,ease:'power3.out'});gsap.fromTo('.pc',{opacity:0,y:28},{opacity:1,y:0,stagger:.1,duration:.6,delay:.3,ease:'back.out(1.4)'});}
+    if(id==='ov14'){gsap.fromTo('.t5h',{opacity:0,scale:.9},{opacity:1,scale:1,duration:.9,delay:.1,ease:'power3.out'});gsap.fromTo('.t5p',{opacity:0},{opacity:1,duration:.65,delay:.75});gsap.fromTo('.t5b',{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:1.0,ease:'back.out(1.4)'});}
+  },140);
 }
 
-ScrollTrigger.create({
-  trigger:'.track',start:'top top',end:'bottom bottom',
-  onUpdate:self=>{
-    let best=0;
-    STOPS.forEach((s,i)=>{if(self.progress>=s.p-.03)best=i;});
-    showStop(best);
-  }
+ScrollTrigger.create({trigger:'.track',start:'top top',end:'bottom bottom',
+  onUpdate:self=>{let best=0;STOPS.forEach((s,i)=>{if(self.progress>=s.p-.03)best=i;});showScene(best);}
 });
-
-function jmp(i){
-  window.scrollTo({top:document.querySelector('.track').offsetHeight*STOPS[i].p,behavior:'smooth'});
-}
+function jmp(i){window.scrollTo({top:document.querySelector('.track').offsetHeight*STOPS[i].p,behavior:'smooth'});}
 
 setBlend(0);
 gsap.fromTo('#ov0',{opacity:0,y:18},{opacity:1,y:0,duration:1.1,ease:'power3.out',delay:.35});
