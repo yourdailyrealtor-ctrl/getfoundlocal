@@ -496,15 +496,17 @@ function renderBG(t){
   const mInf = Math.max(0, 0.3 * (1 - worldBlend * 2));
   cX += (mx * mInf - cX) * .035;
   camera.position.x = cX;
-  // Look direction: space=forward, ocean=straight down — no lerping on Y that causes drift
+  // Camera direction — look far ahead so movement feels immersive
   if(worldBlend > 0.6){
-    // Straight down — camera stays still regardless of position.y changes
-    camera.lookAt(cX * .08, camera.position.y - 12, 0);
+    // Ocean: look straight down far below
+    camera.lookAt(cX * .05, camera.position.y - 50, 0);
+  } else if(worldBlend > 0.1){
+    // Transitioning
+    const bl = worldBlend / 0.6;
+    camera.lookAt(cX * .1 * (1-bl), camera.position.y - 50*bl, camera.position.z - 80*(1-bl));
   } else {
-    const blend = worldBlend / 0.6;
-    const lz = -10 * (1 - blend);
-    const ly = camera.position.y - 12 * blend;
-    camera.lookAt(cX * (1-blend) * .2, ly, lz);
+    // Space: look FAR forward — makes the tunnel feel like you're actually flying through it
+    camera.lookAt(cX * .1, cY * .1, camera.position.z - 80);
   }
 
   for(let i=0;i<NSP;i++){spaceArr[i*3]+=spd1[i].x;spaceArr[i*3+1]+=spd1[i].y;if(Math.abs(spaceArr[i*3])>11)spd1[i].x*=-1;if(Math.abs(spaceArr[i*3+1])>7)spd1[i].y*=-1;}
