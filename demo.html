@@ -337,6 +337,13 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
   <p class="deep-sub">Applied to your real photos, your real business — not stock images. Built into every site we make.</p>
 </div>
 
+<!-- reality: Coming back to reality transition -->
+<div class="ov" id="ovreality">
+  <div style="font-family:'Instrument Serif',serif;font-size:clamp(1.4rem,3.5vw,3rem);font-weight:400;color:rgba(255,255,255,.75);letter-spacing:-.3px">coming back to reality</div>
+  <div style="font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;color:rgba(255,255,255,.92);margin-top:8px;letter-spacing:-.5px">well, <em style="font-style:italic;color:#d4a853">your</em> reality.</div>
+  <div style="font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:22px">(the pricing page)</div>
+</div>
+
 <!-- 12: Stats (resurface) -->
 <div class="ov" id="ov12">
   <h2 class="t3">Right now, someone<br>just Googled <em>you</em> —<br>and found nothing.</h2>
@@ -456,27 +463,27 @@ const seaMs=[[5,-20,-4,1.5,'ico'],[-6,-45,3,1.8,'oct']].map(d=>{
 // ── NEBULA/PLANET in background ──
 const nebulaGeo = new THREE.SphereGeometry(18,28,28);
 const nebula = new THREE.Mesh(nebulaGeo, new THREE.MeshBasicMaterial({color:new THREE.Color(.12,.08,.35),transparent:true,opacity:.14}));
-nebula.position.set(0,0,-105); scene.add(nebula);
+nebula.position.set(0,0,-80); scene.add(nebula);
 const nebulaRing = new THREE.Mesh(new THREE.TorusGeometry(23,.07,4,120),new THREE.MeshBasicMaterial({color:GOLD,transparent:true,opacity:.06}));
-nebulaRing.rotation.x=Math.PI/3; nebulaRing.position.set(0,0,-105); scene.add(nebulaRing);
+nebulaRing.rotation.x=Math.PI/3; nebulaRing.position.set(0,0,-80); scene.add(nebulaRing);
 
 // ── FISH (12 cone shapes swimming in arcs) ──
 const fishArr=[];
-for(let f=0;f<12;f++){
+for(let f=0;f<22;f++){
   const fish=new THREE.Mesh(new THREE.ConeGeometry(.16,.55,4),new THREE.MeshBasicMaterial({color:new THREE.Color(.3+Math.random()*.4,.8+Math.random()*.2,.7),transparent:true,opacity:0}));
   fish.userData={fspd:.4+Math.random()*.8,frad:3+Math.random()*7,fdy:-(20+Math.random()*70),fph:Math.random()*Math.PI*2,fvp:Math.random()*Math.PI*2};
   scene.add(fish); fishArr.push(fish);
 }
 
 // ── PLANKTON (500 micro particles) ──
-const N_PLANK=500,plankArr=new Float32Array(N_PLANK*3),plankSpd=[];
+const N_PLANK=900,plankArr=new Float32Array(N_PLANK*3),plankSpd=[];
 for(let i=0;i<N_PLANK;i++){plankArr[i*3]=(Math.random()-.5)*20;plankArr[i*3+1]=-(Math.random()*110+5);plankArr[i*3+2]=(Math.random()-.5)*18;plankSpd.push({x:(Math.random()-.5)*.001,y:(Math.random()-.5)*.0008,z:(Math.random()-.5)*.001});}
 const plankGeo=new THREE.BufferGeometry();plankGeo.setAttribute('position',new THREE.BufferAttribute(plankArr,3));
 const plankPts=new THREE.Points(plankGeo,new THREE.PointsMaterial({color:new THREE.Color(.6,.95,.9),size:.018,transparent:true,opacity:0,sizeAttenuation:true}));
 scene.add(plankPts);
 
 // ── UNDERWATER SNOW/DUST (300 particles, fall slowly) ──
-const N_DUST=300,dustArr=new Float32Array(N_DUST*3),dustSpd=[];
+const N_DUST=500,dustArr=new Float32Array(N_DUST*3),dustSpd=[];
 for(let i=0;i<N_DUST;i++){dustArr[i*3]=(Math.random()-.5)*18;dustArr[i*3+1]=-(Math.random()*100+5);dustArr[i*3+2]=(Math.random()-.5)*16;dustSpd.push({fall:.008+Math.random()*.012,wob:Math.random()*Math.PI*2});}
 const dustGeo=new THREE.BufferGeometry();dustGeo.setAttribute('position',new THREE.BufferAttribute(dustArr,3));
 const dustPts=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:new THREE.Color(.8,.95,1),size:.022,transparent:true,opacity:0,sizeAttenuation:true}));
@@ -625,8 +632,10 @@ function renderBG(t){
   }
   // Nebula rotate
   nebula.rotation.y=time*.04; nebulaRing.rotation.y=time*.07;
-  const nearStats=worldBlend<.3&&camera.position.z<-35;
-  nebula.material.opacity=nearStats?.2:.1; nebulaRing.material.opacity=nearStats?.08:.04;
+  // Nebula visible whenever in gold space mode
+  const spaceAmt = Math.max(0, 1-worldBlend*2);
+  nebula.material.opacity = .22 * spaceAmt;
+  nebulaRing.material.opacity = .1 * spaceAmt;
   
   // Fish + plankton + dust (only underwater)
   if(worldBlend>.1){
@@ -726,7 +735,8 @@ const STOPS=[
   {p:.55,   z:-30, y:-82, w:1,  type:'card', id:'ac8'},
   {p:.59,  z:-30, y:-90, w:1,  type:'ov',   id:'ov11'}, // deep message
   // Resurface happens at p=.655
-  {p:.65,  z:-42, y:-45, w:.2, type:'ov',   id:'ov12'}, // stats — camera still rising
+  {p:.62,  z:-38, y:-70, w:.6, type:'ov',   id:'ovreality'}, // reality check
+  {p:.67,  z:-42, y:-30, w:.15, type:'ov',  id:'ov12'}, // stats
   {p:.74,  z:-58, y:0,   w:0,  type:'ov',   id:'ov13'}, // pricing — fully surfaced
   {p:.83,  z:-76, y:0,   w:0,  type:'ov',   id:'ov14'}, // CTA
 ];
@@ -776,7 +786,7 @@ function showStop(idx){
 
   // Resurface flash: fires immediately when transitioning from ov11 → ov12
   // Flash starts NOW (camera begins rising), text fades in AFTER the flash starts
-  if(idx===14 && prev===13){
+  if(idx===15 && prev===14){
     gsap.killTweensOf('#resurface');
     gsap.fromTo('#resurface',{opacity:0},{opacity:1,duration:.4,ease:'power3.out',
       onComplete:()=>gsap.to('#resurface',{opacity:0,duration:2.4,ease:'power1.in'})
@@ -840,7 +850,13 @@ function showStop(idx){
       if(wsEls.length) gsap.fromTo(wsEls,{y:'108%'},{y:0,stagger:.1,duration:.85,ease:'power4.out',delay:.1});
       else gsap.fromTo('#'+id+' .t4h',{opacity:0,y:20},{opacity:1,y:0,duration:.7,delay:.15,ease:'power3.out'});
     }
+    if(id==='ovreality'){
+      gsap.fromTo('#ovreality div:nth-child(1)',{opacity:0,y:16},{opacity:1,y:0,duration:.7,delay:.1,ease:'power3.out'});
+      gsap.fromTo('#ovreality div:nth-child(2)',{opacity:0,y:16},{opacity:1,y:0,duration:.8,delay:.45,ease:'power3.out'});
+      gsap.fromTo('#ovreality div:nth-child(3)',{opacity:0},{opacity:1,duration:.6,delay:1.0});
+    }
     if(id==='ov12'){gsap.fromTo('#ov12 .t3',{opacity:0,scale:.92},{opacity:1,scale:1,duration:.75,delay:.1,ease:'back.out(1.3)'});gsap.fromTo('#ov12 .t3p',{opacity:0},{opacity:1,duration:.6,delay:.55});gsap.fromTo('#ov12 .ss',{opacity:0,y:22},{opacity:1,y:0,stagger:.12,duration:.6,delay:.7,ease:'back.out(1.6)'});}
+    }
     if(id==='ov13'){gsap.fromTo('#ov13 .t4h',{opacity:0,y:18},{opacity:1,y:0,duration:.65,delay:.1,ease:'power3.out'});gsap.fromTo('#ov13 .pc',{opacity:0,y:28},{opacity:1,y:0,stagger:.1,duration:.6,delay:.3,ease:'back.out(1.4)'});}
     if(id==='ov14'){gsap.fromTo('#ov14 .t5h',{opacity:0,scale:.9},{opacity:1,scale:1,duration:.9,delay:.1,ease:'power3.out'});gsap.fromTo('#ov14 .t5p',{opacity:0},{opacity:1,duration:.65,delay:.75});gsap.fromTo('#ov14 .t5b',{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:1.0,ease:'back.out(1.4)'});}
   }
