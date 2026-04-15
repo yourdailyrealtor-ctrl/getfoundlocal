@@ -227,6 +227,7 @@ const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.setSize(innerWidth,innerHeight);
 const scene=new THREE.Scene();
+scene.fog = null; // will set per world mode
 const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,300);
 camera.position.set(0,0,0);
 const GOLD=new THREE.Color(0xd4a853),TEAL=new THREE.Color(0x4dd9c0),WHITE=new THREE.Color(0xffffff);
@@ -253,34 +254,43 @@ nebulaRing.rotation.x=Math.PI/3;nebulaRing.position.set(0,0,-80);scene.add(nebul
 const icoMs=[[- 5.5,2,-22,1.6],[6.5,-2.5,-44,2.0]].map(d=>{const m=new THREE.Mesh(new THREE.IcosahedronGeometry(1,1),new THREE.MeshBasicMaterial({color:GOLD,wireframe:true,transparent:true,opacity:.15}));m.position.set(d[0],d[1],d[2]);m.scale.setScalar(d[3]);m.userData={rx:(Math.random()-.5)*.005,ry:(Math.random()-.5)*.008};scene.add(m);return m;});
 
 // Ocean particles
-const NOC=2200,ocArr=new Float32Array(NOC*3),sp2=[];
-for(let i=0;i<NOC;i++){const a=Math.random()*Math.PI*2,r=3.5+Math.pow(Math.random(),.6)*9;ocArr[i*3]=Math.cos(a)*r;ocArr[i*3+1]=-(Math.random()*110)-10;ocArr[i*3+2]=Math.sin(a)*r*.6;sp2.push({x:(Math.random()-.5)*.0018,z:(Math.random()-.5)*.0012});}
+const NOC=3800,ocArr=new Float32Array(NOC*3),sp2=[];
+for(let i=0;i<NOC;i++){
+  // Mix: 40% in tight tunnel, 60% spread wide to fill screen edges
+  const wide = Math.random() < .6;
+  const a=Math.random()*Math.PI*2;
+  const r = wide ? (8+Math.random()*18) : (2+Math.pow(Math.random(),.6)*7);
+  ocArr[i*3]=Math.cos(a)*r + (wide?(Math.random()-.5)*8:0);
+  ocArr[i*3+1]=-(Math.random()*115)-5;
+  ocArr[i*3+2]=Math.sin(a)*r*.8 + (wide?(Math.random()-.5)*6:0);
+  sp2.push({x:(Math.random()-.5)*.0015,z:(Math.random()-.5)*.001});
+}
 const ocGeo=new THREE.BufferGeometry();ocGeo.setAttribute('position',new THREE.BufferAttribute(ocArr,3));
 const ocPts=new THREE.Points(ocGeo,new THREE.PointsMaterial({color:TEAL,size:.03,transparent:true,opacity:0,sizeAttenuation:true}));scene.add(ocPts);
 
 // Bubbles
-const NBU=450,buArr=new Float32Array(NBU*3),buSpd=[];
-for(let i=0;i<NBU;i++){buArr[i*3]=(Math.random()-.5)*16;buArr[i*3+1]=-(Math.random()*100)-10;buArr[i*3+2]=(Math.random()-.5)*16;buSpd.push({rise:.025+Math.random()*.04,w:Math.random()*Math.PI*2});}
+const NBU=600,buArr=new Float32Array(NBU*3),buSpd=[];
+for(let i=0;i<NBU;i++){buArr[i*3]=(Math.random()-.5)*32;buArr[i*3+1]=-(Math.random()*100)-10;buArr[i*3+2]=(Math.random()-.5)*28;buSpd.push({rise:.025+Math.random()*.04,w:Math.random()*Math.PI*2});}
 const buGeo=new THREE.BufferGeometry();buGeo.setAttribute('position',new THREE.BufferAttribute(buArr,3));
 const buPts=new THREE.Points(buGeo,new THREE.PointsMaterial({color:new THREE.Color(0x99eeff),size:.05,transparent:true,opacity:0,sizeAttenuation:true}));scene.add(buPts);
 
 // Bioluminescent orbs
 const orbMs=[];
-for(let i=0;i<20;i++){const orb=new THREE.Mesh(new THREE.SphereGeometry(.15+Math.random()*.22,7,7),new THREE.MeshBasicMaterial({color:new THREE.Color(.25+Math.random()*.3,.82+Math.random()*.18,.75+Math.random()*.25),transparent:true,opacity:0}));orb.position.set((Math.random()-.5)*14,-(Math.random()*90+8),(Math.random()-.5)*12);orb.userData={ox:Math.random()*Math.PI*2,ospd:.3+Math.random()*.8,od:(Math.random()-.5)*.007};scene.add(orb);orbMs.push(orb);}
+for(let i=0;i<20;i++){const orb=new THREE.Mesh(new THREE.SphereGeometry(.15+Math.random()*.22,7,7),new THREE.MeshBasicMaterial({color:new THREE.Color(.25+Math.random()*.3,.82+Math.random()*.18,.75+Math.random()*.25),transparent:true,opacity:0}));orb.position.set((Math.random()-.5)*26,-(Math.random()*90+8),(Math.random()-.5)*22);orb.userData={ox:Math.random()*Math.PI*2,ospd:.3+Math.random()*.8,od:(Math.random()-.5)*.007};scene.add(orb);orbMs.push(orb);}
 
 // Fish
 const fishMs=[];
-for(let f=0;f<20;f++){const fish=new THREE.Mesh(new THREE.ConeGeometry(.16,.55,4),new THREE.MeshBasicMaterial({color:new THREE.Color(.3+Math.random()*.4,.8+Math.random()*.2,.7),transparent:true,opacity:0}));fish.userData={fspd:.4+Math.random()*.8,frad:3+Math.random()*7,fdy:-(20+Math.random()*70),fph:Math.random()*Math.PI*2,fvp:Math.random()*Math.PI*2};scene.add(fish);fishMs.push(fish);}
+for(let f=0;f<20;f++){const fish=new THREE.Mesh(new THREE.ConeGeometry(.16,.55,4),new THREE.MeshBasicMaterial({color:new THREE.Color(.3+Math.random()*.4,.8+Math.random()*.2,.7),transparent:true,opacity:0}));fish.userData={fspd:.4+Math.random()*.8,frad:4+Math.random()*14,fdy:-(20+Math.random()*70),fph:Math.random()*Math.PI*2,fvp:Math.random()*Math.PI*2};scene.add(fish);fishMs.push(fish);}
 
 // Plankton
-const NPL=800,plArr=new Float32Array(NPL*3),plSpd=[];
-for(let i=0;i<NPL;i++){plArr[i*3]=(Math.random()-.5)*20;plArr[i*3+1]=-(Math.random()*110+5);plArr[i*3+2]=(Math.random()-.5)*18;plSpd.push({x:(Math.random()-.5)*.001,y:(Math.random()-.5)*.0008,z:(Math.random()-.5)*.001});}
+const NPL=1200,plArr=new Float32Array(NPL*3),plSpd=[];
+for(let i=0;i<NPL;i++){plArr[i*3]=(Math.random()-.5)*36;plArr[i*3+1]=-(Math.random()*115+5);plArr[i*3+2]=(Math.random()-.5)*32;plSpd.push({x:(Math.random()-.5)*.001,y:(Math.random()-.5)*.0008,z:(Math.random()-.5)*.001});}
 const plGeo=new THREE.BufferGeometry();plGeo.setAttribute('position',new THREE.BufferAttribute(plArr,3));
 const plPts=new THREE.Points(plGeo,new THREE.PointsMaterial({color:new THREE.Color(.6,.95,.9),size:.018,transparent:true,opacity:0,sizeAttenuation:true}));scene.add(plPts);
 
 // Dust/snow
-const NDU=400,duArr=new Float32Array(NDU*3),duSpd=[];
-for(let i=0;i<NDU;i++){duArr[i*3]=(Math.random()-.5)*18;duArr[i*3+1]=-(Math.random()*100+5);duArr[i*3+2]=(Math.random()-.5)*16;duSpd.push({fall:.008+Math.random()*.012,w:Math.random()*Math.PI*2});}
+const NDU=600,duArr=new Float32Array(NDU*3),duSpd=[];
+for(let i=0;i<NDU;i++){duArr[i*3]=(Math.random()-.5)*34;duArr[i*3+1]=-(Math.random()*110+5);duArr[i*3+2]=(Math.random()-.5)*30;duSpd.push({fall:.008+Math.random()*.012,w:Math.random()*Math.PI*2});}
 const duGeo=new THREE.BufferGeometry();duGeo.setAttribute('position',new THREE.BufferAttribute(duArr,3));
 const duPts=new THREE.Points(duGeo,new THREE.PointsMaterial({color:new THREE.Color(.8,.95,1),size:.022,transparent:true,opacity:0,sizeAttenuation:true}));scene.add(duPts);
 
@@ -326,6 +336,12 @@ function setBlend(b){
   jelly.children.slice(2).forEach(l=>{if(l.material)l.material.opacity=.3*jo;});
   const r=Math.round(7+(-5)*oc),g=Math.round(8+5*oc),bl=Math.round(16+8*oc);
   document.body.style.background=`rgb(${r},${g},${bl})`;
+  // Ocean fog — fills black edges with deep blue haze
+  if(oc > .1){
+    scene.fog = new THREE.FogExp2(new THREE.Color(0x02101e), 0.012 * oc);
+  } else {
+    scene.fog = null;
+  }
 }
 
 function renderBG(t){
@@ -353,7 +369,7 @@ function renderBG(t){
     for(let i=0;i<NOC;i++){ocArr[i*3]+=sp2[i].x;ocArr[i*3+2]+=sp2[i].z;if(Math.abs(ocArr[i*3])>11)sp2[i].x*=-1;if(Math.abs(ocArr[i*3+2])>9)sp2[i].z*=-1;}
     ocGeo.attributes.position.needsUpdate=true;
     // Bubbles
-    for(let i=0;i<NBU;i++){buArr[i*3+1]+=buSpd[i].rise;buArr[i*3]+=Math.sin(time*.8+buSpd[i].w)*.01;if(buArr[i*3+1]>camera.position.y+8){buArr[i*3+1]=camera.position.y-55-Math.random()*50;buArr[i*3]=(Math.random()-.5)*16;buArr[i*3+2]=(Math.random()-.5)*16;}}
+    for(let i=0;i<NBU;i++){buArr[i*3+1]+=buSpd[i].rise;buArr[i*3]+=Math.sin(time*.8+buSpd[i].w)*.01;if(buArr[i*3+1]>camera.position.y+8){buArr[i*3+1]=camera.position.y-55-Math.random()*50;buArr[i*3]=(Math.random()-.5)*32;buArr[i*3+2]=(Math.random()-.5)*28;}}
     buGeo.attributes.position.needsUpdate=true;
     // Orbs
     orbMs.forEach(o=>{o.userData.ox+=o.userData.ospd*.016;o.material.opacity=Math.max(0,(.4+Math.sin(o.userData.ox)*.3)*worldBlend);o.position.x+=o.userData.od;if(Math.abs(o.position.x)>9)o.userData.od*=-1;o.scale.setScalar(.85+Math.sin(o.userData.ox*.6)*.18);});
