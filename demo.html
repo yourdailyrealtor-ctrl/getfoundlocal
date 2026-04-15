@@ -278,17 +278,7 @@ scene.add(new THREE.Points(gpGeo, new THREE.PointsMaterial({
   color: GOLD, size: .032, transparent: true, opacity: .52, sizeAttenuation: true
 })));
 
-// Subtle tunnel rings — just 4, very faint
-[-14,-32,-55,-80].forEach((z, i) => {
-  const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(4.8, .03, 3, 64),
-    new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: .08 + i*.012 })
-  );
-  ring.rotation.x = Math.PI / 2;
-  ring.position.z = z;
-  ring.userData.ri = i;
-  scene.add(ring);
-});
+// no rings
 
 // 3. Wireframe icosahedra
 const icoConfigs = [
@@ -384,12 +374,7 @@ function renderBG(t) {
 
   icoMeshes.forEach(m => { m.rotation.x += m.userData.rx; m.rotation.y += m.userData.ry; });
   
-  // Ring pulse
-  scene.children.forEach(child => {
-    if (child.geometry && child.geometry.type === 'TorusGeometry') {
-      child.rotation.z = time * (.03 + child.userData.ri * .005);
-    }
-  });
+  // no rings
 
   // Jellyfish
   jelly.position.x = Math.sin(time * .28) * 3.8 + 2.5;
