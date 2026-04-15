@@ -27,7 +27,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;al
 #splash{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 10%,rgba(77,217,192,.45) 0%,rgba(10,40,80,.35) 40%,transparent 70%)}
 
 /* Resurface overlay — light breaking through water */
-#resurface{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:linear-gradient(to bottom,rgba(200,240,255,.9) 0%,rgba(150,200,255,.6) 30%,transparent 100%)}
+#resurface{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.95) 0%,rgba(180,240,255,.8) 25%,rgba(100,200,220,.5) 55%,transparent 80%)}
 
 .track{height:2000vh;position:relative;z-index:1}
 
@@ -485,26 +485,32 @@ function setBlend(b){
   document.body.style.background=`rgb(${r},${g},${bl})`;
 }
 
-// Splash fires when camera is actually moving down (worldBlend crossing 0.5 going up)
-// Resurface fires when worldBlend crossing 0.5 going down
-let lastBlend=0;
-function checkTransitions(newBlend){
-  // Diving: blend crosses 0.45 going UP → flash teal
-  if(lastBlend<0.45 && newBlend>=0.45){
-    gsap.to('#splash',{opacity:1,duration:.4,ease:'power2.out',
-      onComplete:()=>gsap.to('#splash',{opacity:0,duration:1.0,ease:'power2.in'})
-    });
-    // Activate splash particles
-    splashActive=true; splashT=0;
-    for(let i=0;i<NSPL;i++){splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;}
-  }
-  // Resurfacing: blend crosses 0.45 going DOWN → flash light
-  if(lastBlend>=0.45 && newBlend<0.45){
-    gsap.to('#resurface',{opacity:1,duration:.5,ease:'power2.out',
-      onComplete:()=>gsap.to('#resurface',{opacity:0,duration:1.2,ease:'power2.in'})
+// Transitions triggered by camera Y crossing thresholds
+let diveFired=false, resurfacedFired=false;
+let lastCamY=0;
+function checkCameraTransitions(camY){
+  // Diving: camera passes Y=-8 going down
+  if(lastCamY>-8 && camY<=-8 && !diveFired){
+    diveFired=true;
+    gsap.to('#splash',{opacity:1,duration:.45,ease:'power1.out',
+      onComplete:()=>{
+        splashActive=true;splashT=0;
+        for(let i=0;i<NSPL;i++){splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;}
+        gsap.to('#splash',{opacity:0,duration:1.1,ease:'power2.in'});
+      }
     });
   }
-  lastBlend=newBlend;
+  // Resurfacing: camera passes Y=-8 going back up
+  if(lastCamY<=-8 && camY>-8 && !resurfacedFired){
+    resurfacedFired=true;
+    // Big dramatic resurface — bright white flash fading to gold tint
+    gsap.to('#resurface',{opacity:1,duration:.35,ease:'power3.out',
+      onComplete:()=>gsap.to('#resurface',{opacity:0,duration:1.8,ease:'power1.in'})
+    });
+  }
+  // Reset flags when fully back in space
+  if(camY>-2){ diveFired=false; resurfacedFired=false; }
+  lastCamY=camY;
 }
 
 function renderBG(t){
@@ -512,13 +518,20 @@ function renderBG(t){
   const time=t*.001;
   camera.position.z+=(targetZ-camera.position.z)*.055;
   camera.position.y+=(targetY-camera.position.y)*.055;
-  // NO mouse movement when underwater — background stays locked
-  const mouseInfluence = worldBlend > 0.7 ? 0 : (0.3 * (1 - worldBlend));
-  cX += (mx*mouseInfluence - cX) * .035;
+  // Zero mouse influence underwater
+  const mInf = Math.max(0, 0.3 * (1 - worldBlend * 2));
+  cX += (mx * mInf - cX) * .035;
   camera.position.x = cX;
-  // Look direction blends between forward (space) and down (ocean)
-  const lx=cX*.15, ly=camera.position.y-8*worldBlend, lz=camera.position.z-10*(1-worldBlend);
-  camera.lookAt(lx,ly,lz);
+  // Look direction: space=forward, ocean=straight down — no lerping on Y that causes drift
+  if(worldBlend > 0.6){
+    // Straight down — camera stays still regardless of position.y changes
+    camera.lookAt(cX * .08, camera.position.y - 12, 0);
+  } else {
+    const blend = worldBlend / 0.6;
+    const lz = -10 * (1 - blend);
+    const ly = camera.position.y - 12 * blend;
+    camera.lookAt(cX * (1-blend) * .2, ly, lz);
+  }
 
   for(let i=0;i<NSP;i++){spaceArr[i*3]+=spd1[i].x;spaceArr[i*3+1]+=spd1[i].y;if(Math.abs(spaceArr[i*3])>11)spd1[i].x*=-1;if(Math.abs(spaceArr[i*3+1])>7)spd1[i].y*=-1;}
   spGeo.attributes.position.needsUpdate=true;
@@ -545,6 +558,17 @@ function renderBG(t){
   icoMs.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
   seaMs.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;});
   
+  // Animate light rays
+  if(worldBlend>.1){
+    scene.children.forEach(ch=>{
+      if(ch.userData&&ch.userData.isRays){
+        ch.children.forEach((ray,i)=>{
+          ray.material.opacity=((.06+Math.sin(time*.4+i*.8)*.04)*worldBlend);
+          ray.rotation.y=time*.03+i*.15;
+        });
+      }
+    });
+  }
   // Ocean life animations
   if(worldBlend>.05){
     scene.children.forEach(ch=>{
@@ -655,9 +679,7 @@ function showStop(idx){
   // World blend
   gsap.to({w:prev>=0?STOPS[prev].w:0},{w:stop.w,duration:2.4,ease:'power2.inOut',
     onUpdate:function(){
-      const bv=this.targets()[0].w;
-      setBlend(bv);
-      checkTransitions(bv);
+      setBlend(this.targets()[0].w);
     }
   });
 
