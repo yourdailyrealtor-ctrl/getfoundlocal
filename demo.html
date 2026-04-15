@@ -11,112 +11,128 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:#070810;color:#fff;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:#020d18;color:#fff;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(7,8,16,.55);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)}
-.logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#d4a853}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(2,13,24,.6);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-family:'Instrument Serif',serif;font-size:1.2rem;color:#fff}.logo em{font-style:italic;color:#4dd9c0}
 .nl{display:flex;align-items:center;gap:2px}.nl a{padding:7px 14px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.45);border-radius:8px;transition:color .2s}.nl a:hover,.nl a.active{color:#fff}
-.nc{background:#d4a853!important;color:#070810!important;border-radius:50px!important;padding:8px 22px!important;font-weight:600!important}.nc:hover{background:#f0c87a!important}
+.nc{background:#4dd9c0!important;color:#020d18!important;border-radius:50px!important;padding:8px 22px!important;font-weight:700!important}.nc:hover{background:#7ee8d8!important}
 .hb{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}.hb span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px}
-.mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(7,8,16,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
+.mob{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(2,13,24,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;z-index:999}.mob.open{display:flex}.mob a{padding:11px 14px;font-size:.9rem;color:rgba(255,255,255,.5);border-radius:8px}.mob a:hover{color:#fff}
 
-/* CANVAS */
 #bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+.track{height:1000vh;position:relative;z-index:1}
 
-/* SCROLL SPACER */
-.track{height:900vh;position:relative;z-index:1}
+/* Depth meter - left side */
+.depth-meter{position:fixed;left:28px;top:50%;transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:8px}
+.depth-line{width:1px;height:120px;background:linear-gradient(to bottom,transparent,rgba(77,217,192,.4),transparent)}
+.depth-val{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(77,217,192,.5);writing-mode:vertical-rl}
 
-/* OVERLAYS — all fixed center */
-.ov{
-  position:fixed;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  z-index:3;pointer-events:none;opacity:0;
-  width:90%;max-width:960px;text-align:center;
-}
+/* Overlays */
+.ov{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;pointer-events:none;opacity:0;width:90%;max-width:1000px;text-align:center}
 .ov.live{pointer-events:auto}
+
+/* Teal accent */
+em.teal{color:#4dd9c0;font-style:italic}
 
 /* S0 opening */
 .t0{font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5.5vw,5rem);font-weight:400;line-height:1.05;letter-spacing:-.5px;color:rgba(255,255,255,.92)}
-.t0 em{font-style:italic;color:#f0c87a}
+.t0 em{font-style:italic;color:#4dd9c0}
 .t0-tag{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:18px;display:block}
 .t0-hint{margin-top:50px;display:flex;flex-direction:column;align-items:center;gap:9px}
 .t0-ht{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.22)}
-.t0-ln{width:1px;height:38px;background:linear-gradient(to bottom,#d4a853,transparent);animation:lp 2s ease infinite}
-@keyframes lp{0%,100%{opacity:.45}50%{opacity:1}}
+.t0-ln{width:1px;height:40px;background:linear-gradient(to bottom,#4dd9c0,transparent);animation:lp 2s ease infinite}
+@keyframes lp{0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.15)}}
 
 /* S1 statement */
 .t1{font-family:'Instrument Serif',serif;font-size:clamp(2.4rem,6vw,5.5rem);font-weight:400;line-height:1.0;letter-spacing:-.5px}
-.t1 em{font-style:italic;color:#f0c87a}
+.t1 em{font-style:italic;color:#4dd9c0}
 .wl{overflow:hidden;display:block}
 .ws{display:inline-block;transform:translateY(108%)}
 
-/* S2 features */
-.s2ey{font-size:.65rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#d4a853;margin-bottom:26px;display:flex;align-items:center;justify-content:center;gap:12px}
-.s2ey span{width:22px;height:1px;background:#d4a853;display:inline-block}
-.fg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left}
-.fc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:22px 20px;backdrop-filter:blur(10px);transition:border-color .3s}
-.fc:hover{border-color:rgba(212,168,83,.3)}
-.fcn{font-family:'Instrument Serif',serif;font-style:italic;font-size:.8rem;color:rgba(212,168,83,.38);margin-bottom:8px}
-.fch{font-size:.9rem;font-weight:600;margin-bottom:4px;color:#fff}
-.fcp{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.55}
+/* S2 — LIVE animation showcase */
+.s2-label{font-size:.65rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:#4dd9c0;margin-bottom:22px;display:flex;align-items:center;justify-content:center;gap:12px}
+.s2-label span{width:22px;height:1px;background:#4dd9c0;display:inline-block}
+.s2-sub{font-size:.9rem;color:rgba(255,255,255,.5);margin-bottom:36px;font-weight:300}
+/* Live demo cards - each shows an actual animation on hover */
+.demo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:900px;margin:0 auto}
+.demo-card{border-radius:14px;overflow:hidden;aspect-ratio:1;position:relative;border:1px solid rgba(255,255,255,.07);cursor:pointer;background:#0a1f30}
+.demo-card .fill{width:100%;height:100%;background:linear-gradient(135deg,#0d2e42 0%,#4dd9c0 100%)}
+.demo-card .cap{position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:rgba(2,13,24,.8);font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.7);backdrop-filter:blur(4px)}
+/* Individual effects */
+.d1 .fill{transform:scale(1);filter:grayscale(100%);transition:filter .6s}
+.d1:hover .fill{filter:grayscale(0%)}
+.d2 .fill{transform:scale(1);transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.d2:hover .fill{transform:scale(1.18)}
+.d3 .fill{clip-path:inset(0 100% 0 0);transition:clip-path .7s cubic-bezier(.4,0,.2,1)}
+.d3:hover .fill{clip-path:inset(0 0% 0 0)}
+.d4 .fill{filter:blur(6px) brightness(.5);transform:scale(1.04);transition:filter .5s,transform .5s}
+.d4:hover .fill{filter:blur(0) brightness(1);transform:scale(1)}
+.d5 .fill{transform:scale(1.1) rotate(-4deg);transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.d5:hover .fill{transform:scale(1) rotate(0deg)}
+.d6 .fill{transform:translateX(-12%);transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.d6:hover .fill{transform:translateX(0)}
+.d7 .fill{animation:kb 6s ease infinite alternate}
+@keyframes kb{from{transform:scale(1) translate(0,0)}to{transform:scale(1.12) translate(-2%,-1%)}}
+.d8 .fill{filter:brightness(.55);transition:filter .45s}
+.d8:hover .fill{filter:brightness(1.15)}
+.hover-hint{font-size:.6rem;color:rgba(255,255,255,.3);margin-top:16px;letter-spacing:2px;text-transform:uppercase}
 
-/* S3 funny */
+/* S3 stat */
 .t3{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4.5vw,4rem);font-weight:400;line-height:1.1;margin-bottom:16px}
-.t3 em{font-style:italic;color:#f0c87a}
-.t3p{font-size:.95rem;color:rgba(255,255,255,.58);line-height:1.75;max-width:500px;margin:0 auto 28px;font-weight:300}
+.t3 em{font-style:italic;color:#4dd9c0}
+.t3p{font-size:.95rem;color:rgba(255,255,255,.55);line-height:1.75;max-width:500px;margin:0 auto 28px;font-weight:300}
 .sr{display:flex;gap:0;justify-content:center}
 .ss{padding:0 36px;border-right:1px solid rgba(255,255,255,.07)}
 .ss:last-child{border-right:none}
 .sv{font-family:'Instrument Serif',serif;font-size:clamp(2.5rem,7vw,6rem);font-weight:400;color:#fff;line-height:1;display:block}
-.sv em{font-style:italic;color:#f0c87a;font-size:.6em}
+.sv em{font-style:italic;color:#4dd9c0;font-size:.6em}
 .sl{font-size:.66rem;color:rgba(255,255,255,.42);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;display:block}
 
 /* S4 pricing */
 .t4h{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:400;letter-spacing:-.3px;margin-bottom:22px}
-.t4h em{font-style:italic;color:#f0c87a}
+.t4h em{font-style:italic;color:#4dd9c0}
 .pcards{display:flex;gap:10px}
 .pc{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:24px 20px;text-align:left;backdrop-filter:blur(10px)}
-.pc.hot{border-color:rgba(212,168,83,.32);background:rgba(212,168,83,.05)}
+.pc.hot{border-color:rgba(77,217,192,.32);background:rgba(77,217,192,.04)}
 .pct{font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px}
 .pcp{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;color:#fff;line-height:1;margin-bottom:2px}
 .pcn{font-size:.65rem;color:rgba(255,255,255,.26);margin-bottom:12px}
 .pcl{list-style:none;display:flex;flex-direction:column;gap:6px}
 .pcl li{font-size:.75rem;color:rgba(255,255,255,.58);display:flex;gap:6px;align-items:flex-start}
-.pcl li::before{content:'';width:3px;height:3px;background:#d4a853;border-radius:50%;flex-shrink:0;margin-top:5px}
+.pcl li::before{content:'';width:3px;height:3px;background:#4dd9c0;border-radius:50%;flex-shrink:0;margin-top:5px}
 
 /* S5 CTA */
 .t5h{font-family:'Instrument Serif',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:400;letter-spacing:-1.5px;line-height:.92;color:#fff}
-.t5h em{font-style:italic;color:#f0c87a}
+.t5h em{font-style:italic;color:#4dd9c0}
 .t5p{font-size:.98rem;color:rgba(255,255,255,.55);margin-top:18px;max-width:360px;margin-left:auto;margin-right:auto;line-height:1.75;font-weight:300}
-.t5b{display:inline-block;background:#d4a853;color:#070810;padding:15px 42px;border-radius:50px;font-weight:600;font-size:.9rem;margin-top:28px;transition:all .25s;pointer-events:auto}
-.t5b:hover{background:#f0c87a;transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,83,.35)}
+.t5b{display:inline-block;background:#4dd9c0;color:#020d18;padding:15px 42px;border-radius:50px;font-weight:700;font-size:.9rem;margin-top:28px;transition:all .25s;pointer-events:auto}
+.t5b:hover{background:#7ee8d8;transform:translateY(-2px);box-shadow:0 8px 28px rgba(77,217,192,.35)}
 
-/* DOTS */
+/* Dots */
 .dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:500}
 .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .45s;cursor:pointer}
-.dot.on{background:#d4a853;transform:scale(2.2)}
+.dot.on{background:#4dd9c0;transform:scale(2.2)}
 .dot:hover{background:rgba(255,255,255,.45)}
 
-/* POST CINEMA */
-.post{position:relative;z-index:3;margin-top:900vh;background:#070810}
+/* Post */
+.post{position:relative;z-index:3;margin-top:1000vh;background:#020d18}
 .postcta{padding:110px 52px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
 .postcta h2{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:400;letter-spacing:-1px;margin-bottom:16px}
-.postcta h2 em{font-style:italic;color:#f0c87a}
+.postcta h2 em{font-style:italic;color:#4dd9c0}
 .postcta p{font-size:.98rem;color:rgba(255,255,255,.55);max-width:380px;margin:0 auto 30px;line-height:1.75;font-weight:300}
-.bgold{display:inline-block;background:#d4a853;color:#070810;padding:14px 36px;border-radius:50px;font-weight:600;font-size:.9rem;transition:all .3s}
-.bgold:hover{background:#f0c87a;transform:translateY(-2px)}
-footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.06)}
-.fl{font-family:'Instrument Serif',serif;font-size:1.05rem;color:#fff}.fl em{font-style:italic;color:#f0c87a}
-.flinks{display:flex;gap:22px}.flinks a{font-size:.78rem;color:rgba(255,255,255,.28);transition:color .2s}.flinks a:hover{color:#f0c87a}
+.bteal{display:inline-block;background:#4dd9c0;color:#020d18;padding:14px 36px;border-radius:50px;font-weight:700;font-size:.9rem;transition:all .3s}
+.bteal:hover{background:#7ee8d8;transform:translateY(-2px)}
+footer{background:#010a12;padding:40px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.06)}
+.fl{font-family:'Instrument Serif',serif;font-size:1.05rem;color:#fff}.fl em{font-style:italic;color:#4dd9c0}
+.flinks{display:flex;gap:22px}.flinks a{font-size:.78rem;color:rgba(255,255,255,.28);transition:color .2s}.flinks a:hover{color:#4dd9c0}
 .fcp{font-size:.76rem;color:rgba(255,255,255,.18)}
 
 @media(max-width:768px){
   nav{padding:0 20px}.nl{display:none}.hb{display:flex}
-  .dots{display:none}
-  .ov{padding:0 16px}
-  .fg{grid-template-columns:1fr}
+  .dots{display:none}.depth-meter{display:none}
+  .demo-grid{grid-template-columns:repeat(2,1fr)}
   .sr{flex-direction:column;gap:20px}.ss{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:18px}.ss:last-child{border-bottom:none}
   .pcards{flex-direction:column}
   .postcta{padding:80px 20px}
@@ -147,6 +163,13 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 
 <canvas id="bg"></canvas>
 
+<!-- Depth meter -->
+<div class="depth-meter">
+  <div class="depth-line"></div>
+  <div class="depth-val" id="dval">0m</div>
+  <div class="depth-line"></div>
+</div>
+
 <div class="dots" id="dots">
   <div class="dot on" onclick="jmp(0)"></div>
   <div class="dot" onclick="jmp(1)"></div>
@@ -158,11 +181,11 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 
 <div class="track"></div>
 
-<!-- ════ OVERLAYS ════ -->
+<!-- OVERLAYS -->
 
 <div class="ov live" id="ov0">
-  <h1 class="t0">how <em>your</em> site<br>could <em>feel.</em></h1>
-  <span class="t0-tag">Scroll to experience it</span>
+  <h1 class="t0">dive into<br><em>what's possible.</em></h1>
+  <span class="t0-tag">Scroll down to descend</span>
   <div class="t0-hint"><span class="t0-ht">scroll</span><div class="t0-ln"></div></div>
 </div>
 
@@ -170,18 +193,25 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
   <h2 class="t1">
     <span class="wl"><span class="ws">Your business</span></span>
     <span class="wl"><span class="ws">tells a story.</span></span>
-    <span class="wl"><span class="ws" style="color:#f0c87a;font-style:italic">We help people find it.</span></span>
+    <span class="wl"><span class="ws" style="color:#4dd9c0;font-style:italic">We help people find it.</span></span>
   </h2>
 </div>
 
+<!-- S2 — LIVE ANIMATION DEMO -->
 <div class="ov" id="ov2">
-  <div class="s2ey"><span></span>What We Build<span></span></div>
-  <div class="fg">
-    <div class="fc"><div class="fcn">01</div><div class="fch">Custom Design</div><div class="fcp">Built from scratch — your photos, your story. Never a template.</div></div>
-    <div class="fc"><div class="fcn">02</div><div class="fch">Scroll Animations</div><div class="fcp">Ken Burns, reveals, smooth transitions that build instant trust.</div></div>
-    <div class="fc"><div class="fcn">03</div><div class="fch">Local SEO</div><div class="fcp">Schema markup and Google Business so people can find you.</div></div>
-    <div class="fc"><div class="fcn">04</div><div class="fch">Fully Managed</div><div class="fcp">Domain, hosting, updates — handled every month. You do nothing.</div></div>
+  <div class="s2-label"><span></span>Hover Each One<span></span></div>
+  <p class="s2-sub">These are the exact effects we build into your website. Try them.</p>
+  <div class="demo-grid">
+    <div class="demo-card d1"><div class="fill"></div><div class="cap">Color Reveal</div></div>
+    <div class="demo-card d2"><div class="fill"></div><div class="cap">Zoom In</div></div>
+    <div class="demo-card d3"><div class="fill"></div><div class="cap">Wipe Reveal</div></div>
+    <div class="demo-card d4"><div class="fill"></div><div class="cap">Blur to Sharp</div></div>
+    <div class="demo-card d5"><div class="fill"></div><div class="cap">Rotate</div></div>
+    <div class="demo-card d6"><div class="fill"></div><div class="cap">Slide Pan</div></div>
+    <div class="demo-card d7"><div class="fill"></div><div class="cap">Ken Burns</div></div>
+    <div class="demo-card d8"><div class="fill"></div><div class="cap">Flash</div></div>
   </div>
+  <p class="hover-hint">hover each card</p>
 </div>
 
 <div class="ov" id="ov3">
@@ -209,12 +239,11 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
   <a href="contact.html" class="t5b">Request Your Website</a>
 </div>
 
-<!-- POST -->
 <div class="post">
   <section class="postcta">
     <h2>Let us build your site <em>together.</em></h2>
     <p>Fill out the form and we will reach out within 24 hours. No payment until you approve.</p>
-    <a href="contact.html" class="bgold">Get Started</a>
+    <a href="contact.html" class="bteal">Get Started</a>
   </section>
   <footer>
     <div class="fl">Get Found <em>Local</em></div>
@@ -227,259 +256,273 @@ footer{background:#03040a;padding:40px 52px;display:flex;justify-content:space-b
 gsap.registerPlugin(ScrollTrigger);
 
 // ════════════════════════════════════════════════════════════
-// THREE.JS BACKGROUND
-// Clean space scene — no fog, no rings, just particles + geometry + jellyfish
+// THREE.JS — DEEP SEA DESCENT
+// Camera moves DOWNWARD (negative Y) through the ocean
 // ════════════════════════════════════════════════════════════
 const canvas = document.getElementById('bg');
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderer.setSize(innerWidth, innerHeight);
+const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 300);
+// Deep ocean fog — gets darker as you descend
+scene.fog = new THREE.FogExp2(0x020d18, 0.012);
+const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 300);
 camera.position.set(0, 0, 0);
 
-const GOLD = new THREE.Color(0xd4a853);
-const GOLDL = new THREE.Color(0xf0c87a);
+const TEAL  = new THREE.Color(0x4dd9c0);
+const TEALM = new THREE.Color(0x1a7a6e);
+const BLUE  = new THREE.Color(0x0a4a6e);
 
-// 1. Star field
-const N_STARS = 1800;
-const starPos = new Float32Array(N_STARS * 3);
-for (let i = 0; i < N_STARS; i++) {
-  starPos[i*3]   = (Math.random() - .5) * 280;
-  starPos[i*3+1] = (Math.random() - .5) * 180;
-  starPos[i*3+2] = -20 - Math.random() * 260;
-}
-const starGeo = new THREE.BufferGeometry();
-starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({
-  color: 0xffffff, size: .055, transparent: true, opacity: .32, sizeAttenuation: true
-})));
-
-// 2. Gold particle tunnel — tighter cylinder for stronger tunnel feel
-const N_GP = 3200;
-const gpArr = new Float32Array(N_GP * 3);
-const gpSpd = [];
-for (let i = 0; i < N_GP; i++) {
+// ── 1. BIOLUMINESCENT PARTICLES (vertical tunnel going DOWN) ──
+const N = 3000;
+const pArr = new Float32Array(N * 3);
+const pSpd = [];
+for (let i = 0; i < N; i++) {
   const a = Math.random() * Math.PI * 2;
-  // 70% close to tunnel wall, 30% scattered
-  const wallCluster = Math.random() < .7;
-  const r = wallCluster
-    ? 4.5 + (Math.random() - .5) * 1.2  // tight cluster near radius 4.5
-    : 2 + Math.random() * 8;             // scattered fill
-  gpArr[i*3]   = Math.cos(a) * r;
-  gpArr[i*3+1] = Math.sin(a) * r * .5;
-  gpArr[i*3+2] = -(Math.random() * 120);
-  gpSpd.push({ x: (Math.random() - .5) * .002, y: (Math.random() - .5) * .0015 });
+  // Cylinder around Y axis — camera descends down Y
+  const r = 4 + Math.pow(Math.random(), .6) * 10;
+  pArr[i*3]   = Math.cos(a) * r;                    // X
+  pArr[i*3+1] = -(Math.random() * 130);              // Y — spread downward
+  pArr[i*3+2] = Math.sin(a) * r * .6 + (Math.random()-.5)*2; // Z
+  pSpd.push({
+    x: (Math.random()-.5)*.0015,
+    z: (Math.random()-.5)*.001,
+  });
 }
-const gpGeo = new THREE.BufferGeometry();
-gpGeo.setAttribute('position', new THREE.BufferAttribute(gpArr, 3));
-scene.add(new THREE.Points(gpGeo, new THREE.PointsMaterial({
-  color: GOLD, size: .032, transparent: true, opacity: .52, sizeAttenuation: true
+const pGeo = new THREE.BufferGeometry();
+pGeo.setAttribute('position', new THREE.BufferAttribute(pArr, 3));
+scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({
+  color: TEAL, size: .035, transparent: true, opacity: .5, sizeAttenuation: true
 })));
 
-// no rings
+// ── 2. BUBBLES (rise upward) ──
+const NB = 400;
+const bubArr = new Float32Array(NB * 3);
+const bubSpd = [];
+for (let i = 0; i < NB; i++) {
+  bubArr[i*3]   = (Math.random()-.5)*18;
+  bubArr[i*3+1] = -(Math.random()*120);
+  bubArr[i*3+2] = (Math.random()-.5)*18;
+  bubSpd.push({ rise: .02 + Math.random()*.04, wobble: Math.random()*Math.PI*2 });
+}
+const bubGeo = new THREE.BufferGeometry();
+bubGeo.setAttribute('position', new THREE.BufferAttribute(bubArr, 3));
+scene.add(new THREE.Points(bubGeo, new THREE.PointsMaterial({
+  color: 0x99eeff, size: .055, transparent: true, opacity: .35, sizeAttenuation: true
+})));
 
-// 3. Wireframe icosahedra
-const icoConfigs = [
-  { pos: [-5.5, 2,    -22], scale: 1.6, rx: .005,  ry: .008  },
-  { pos: [6.5, -2.5, -44], scale: 2.0,  rx: -.004, ry: .007  },
-  { pos: [-5,  3.5,  -68], scale: 2.3,  rx: .006,  ry: -.005 },
+// ── 3. FLOATING DEEP-SEA GEOMETRY ──
+const deepGeo = [
+  {p:[5, -15, -4],  s:1.4, type:'ico'},
+  {p:[-6,-35, 3],   s:1.7, type:'oct'},
+  {p:[4, -55, -3],  s:2.0, type:'ico'},
+  {p:[-5,-78, 4],   s:1.6, type:'tet'},
 ];
-const icoMeshes = icoConfigs.map(cfg => {
-  const m = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(1, 1),
-    new THREE.MeshBasicMaterial({ color: GOLD, wireframe: true, transparent: true, opacity: .14 })
-  );
-  m.position.set(...cfg.pos);
-  m.scale.setScalar(cfg.scale);
-  m.userData.rx = cfg.rx;
-  m.userData.ry = cfg.ry;
+const deepMeshes = deepGeo.map(d => {
+  const geo = d.type==='ico' ? new THREE.IcosahedronGeometry(1,1) :
+              d.type==='oct' ? new THREE.OctahedronGeometry(1,0) :
+                               new THREE.TetrahedronGeometry(1,0);
+  const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+    color: TEAL, wireframe: true, transparent: true, opacity: .13
+  }));
+  m.position.set(...d.p);
+  m.scale.setScalar(d.s);
+  m.userData.rx = (Math.random()-.5)*.005;
+  m.userData.ry = (Math.random()-.5)*.008;
   scene.add(m);
   return m;
 });
 
-// 4. Jellyfish
+// ── 4. JELLYFISH ──
 const jelly = new THREE.Group();
 const bellPts = [];
 for (let i = 0; i <= 10; i++) {
-  const t = (i / 10) * Math.PI * .62;
-  bellPts.push(new THREE.Vector2(Math.sin(t) * 1.3, Math.cos(t) * .85 - .85));
+  const t = (i/10)*Math.PI*.62;
+  bellPts.push(new THREE.Vector2(Math.sin(t)*1.3, Math.cos(t)*.85-.85));
 }
 const bellGeo = new THREE.LatheGeometry(bellPts, 12);
 const bellWire = new THREE.Mesh(bellGeo, new THREE.MeshBasicMaterial({
-  color: GOLDL, wireframe: true, transparent: true, opacity: .5
+  color: new THREE.Color(0x99eeff), wireframe:true, transparent:true, opacity:.55
 }));
 const bellFill = new THREE.Mesh(bellGeo, new THREE.MeshBasicMaterial({
-  color: new THREE.Color(0x1a0e00), transparent: true, opacity: .2, side: THREE.DoubleSide
+  color: new THREE.Color(0x001a2e), transparent:true, opacity:.25, side:THREE.DoubleSide
 }));
-jelly.add(bellWire);
-jelly.add(bellFill);
+jelly.add(bellWire, bellFill);
 for (let i = 0; i < 8; i++) {
-  const a = (i / 8) * Math.PI * 2;
-  const r = .55 + (i % 2) * .22;
+  const a = (i/8)*Math.PI*2;
+  const r = .55 + (i%2)*.2;
   const pts = [];
   for (let j = 0; j <= 14; j++) {
-    const t = j / 14;
+    const t = j/14;
     pts.push(new THREE.Vector3(
-      Math.cos(a) * r * (1 - t*.25) + Math.sin(t*3.5+i) * .13,
-      -t * 2.3 - .85,
-      Math.sin(a) * r * (1 - t*.25) + Math.cos(t*3.5+i) * .13
+      Math.cos(a)*r*(1-t*.25)+Math.sin(t*3.5+i)*.13,
+      -t*2.3-.85,
+      Math.sin(a)*r*(1-t*.25)+Math.cos(t*3.5+i)*.13
     ));
   }
   jelly.add(new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(pts),
-    new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: .3 })
+    new THREE.LineBasicMaterial({color:TEAL, transparent:true, opacity:.3})
   ));
 }
 jelly.scale.setScalar(1.1);
-jelly.position.set(3.5, 1.2, -18);
+jelly.position.set(3.5, -8, 0);
 scene.add(jelly);
 
-// 5. Grid floor
-const gridMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(50, 100, 26, 52),
-  new THREE.MeshBasicMaterial({ color: new THREE.Color(0x7a5a18), wireframe: true, transparent: true, opacity: .042 })
+// ── 5. SEABED GRID (at the bottom) ──
+const seabed = new THREE.Mesh(
+  new THREE.PlaneGeometry(60, 60, 30, 30),
+  new THREE.MeshBasicMaterial({color: TEALM, wireframe:true, transparent:true, opacity:.05})
 );
-gridMesh.rotation.x = -Math.PI / 2;
-gridMesh.position.set(0, -5.5, -45);
-scene.add(gridMesh);
+seabed.rotation.x = Math.PI/2;
+seabed.position.y = -130;
+scene.add(seabed);
 
-// Mouse + camera
-let mx = 0, my = 0, cX = 0, cY = 0, targetZ = 0;
-const TRAVEL = -115;
-document.addEventListener('mousemove', e => {
-  mx = (e.clientX / innerWidth - .5) * .65;
-  my = (e.clientY / innerHeight - .5) * .38;
+// ── CAMERA STATE ──
+let mx=0, my=0, cX=0, cZ=0;
+let targetY = 0;
+const TRAVEL_Y = -115; // descend 115 units down
+
+document.addEventListener('mousemove', e=>{
+  mx = (e.clientX/innerWidth-.5)*.5;
+  my = (e.clientY/innerHeight-.5)*.3;
 });
 
+const dval = document.getElementById('dval');
+
+// ── RENDER LOOP ──
 function renderBG(t) {
   requestAnimationFrame(renderBG);
   const time = t * .001;
 
-  camera.position.z += (targetZ - camera.position.z) * .065;
-  cX += (mx * .32 - cX) * .038;
-  cY += (-my * .2 - cY) * .038;
+  camera.position.y += (targetY - camera.position.y) * .06;
+  cX += (mx*.28 - cX) * .038;
+  cZ += (my*.15 - cZ) * .038;
   camera.position.x = cX;
-  camera.position.y = cY;
-  camera.lookAt(cX * .28, cY * .22, camera.position.z - 10);
+  camera.position.z = cZ;
+  camera.lookAt(cX*.2, camera.position.y - 8, cZ*.2);
 
-  for (let i = 0; i < N_GP; i++) {
-    gpArr[i*3]   += gpSpd[i].x;
-    gpArr[i*3+1] += gpSpd[i].y;
-    if (Math.abs(gpArr[i*3])   > 11) gpSpd[i].x *= -1;
-    if (Math.abs(gpArr[i*3+1]) > 7)  gpSpd[i].y *= -1;
+  // Update depth display
+  const depth = Math.round(Math.abs(camera.position.y / TRAVEL_Y) * 200);
+  if (dval) dval.textContent = Math.min(200, depth) + 'm';
+
+  // Drift particles (horizontal only — tunnel is vertical)
+  for (let i = 0; i < N; i++) {
+    pArr[i*3]   += pSpd[i].x;
+    pArr[i*3+2] += pSpd[i].z;
+    if (Math.abs(pArr[i*3])   > 12) pSpd[i].x *= -1;
+    if (Math.abs(pArr[i*3+2]) > 10) pSpd[i].z *= -1;
   }
-  gpGeo.attributes.position.needsUpdate = true;
+  pGeo.attributes.position.needsUpdate = true;
 
-  icoMeshes.forEach(m => { m.rotation.x += m.userData.rx; m.rotation.y += m.userData.ry; });
-  
-  // no rings
+  // Bubbles rise
+  for (let i = 0; i < NB; i++) {
+    bubArr[i*3+1] += bubSpd[i].rise;
+    bubArr[i*3]   += Math.sin(time*0.8 + bubSpd[i].wobble) * .01;
+    // Reset bubble that rose too high above camera
+    if (bubArr[i*3+1] > camera.position.y + 10) {
+      bubArr[i*3+1] = camera.position.y - 60 - Math.random()*60;
+      bubArr[i*3]   = (Math.random()-.5)*18;
+      bubArr[i*3+2] = (Math.random()-.5)*18;
+    }
+  }
+  bubGeo.attributes.position.needsUpdate = true;
 
-  // Jellyfish
-  jelly.position.x = Math.sin(time * .28) * 3.8 + 2.5;
-  jelly.position.y = Math.sin(time * .2)  * 1.6 + 1.0;
-  jelly.position.z = camera.position.z - 16 + Math.sin(time * .15) * 3.5;
-  jelly.rotation.y = time * .14;
-  jelly.rotation.z = Math.sin(time * .22) * .08;
-  const bp = 1 + Math.sin(time * 1.3) * .07;
-  bellWire.scale.set(bp, 1/bp * .94 + .06, bp);
+  // Rotate geometry
+  deepMeshes.forEach(m => { m.rotation.x+=m.userData.rx; m.rotation.y+=m.userData.ry; });
+
+  // Jellyfish drifts — follows camera down with offset
+  jelly.position.x = Math.sin(time*.28)*3.5+2.5;
+  jelly.position.y = camera.position.y - 8 + Math.sin(time*.2)*1.5;
+  jelly.position.z = Math.cos(time*.22)*2 - 1;
+  jelly.rotation.y = time*.14;
+  const bp = 1+Math.sin(time*1.3)*.07;
+  bellWire.scale.set(bp, 1/bp*.94+.06, bp);
   bellFill.scale.copy(bellWire.scale);
-
-  gridMesh.position.z = -45 + camera.position.z * .12;
 
   renderer.render(scene, camera);
 }
 renderBG(0);
 
-window.addEventListener('resize', () => {
-  camera.aspect = innerWidth / innerHeight;
+window.addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
+  renderer.setSize(innerWidth,innerHeight);
 });
 
 // ════════════════════════════════════════════════════════════
 // SCENE SYSTEM
 // ════════════════════════════════════════════════════════════
 const STOPS = [
-  { p: 0,   z: 0,   id: 'ov0' },
-  { p: .17, z: -18, id: 'ov1' },
-  { p: .34, z: -38, id: 'ov2' },
-  { p: .51, z: -58, id: 'ov3' },
-  { p: .68, z: -78, id: 'ov4' },
-  { p: .85, z: -96, id: 'ov5' },
+  {p:0,   y:0,   id:'ov0'},
+  {p:.17, y:-18, id:'ov1'},
+  {p:.34, y:-38, id:'ov2'},
+  {p:.51, y:-58, id:'ov3'},
+  {p:.68, y:-78, id:'ov4'},
+  {p:.85, y:-96, id:'ov5'},
 ];
-
-const ovEls = STOPS.map(s => document.getElementById(s.id));
+const ovEls = STOPS.map(s=>document.getElementById(s.id));
 const dots  = document.querySelectorAll('.dot');
-let cur = 0, busy = false;
+let cur=0, busy=false;
 
-function showScene(idx) {
-  if (idx === cur || busy) return;
-  busy = true;
-  const prev = cur;
-  cur = idx;
-
-  dots.forEach((d, i) => d.classList.toggle('on', i === idx));
-  targetZ = STOPS[idx].z;
+function showScene(idx){
+  if(idx===cur||busy)return;
+  busy=true;
+  const prev=cur; cur=idx;
+  dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
+  targetY = STOPS[idx].y;
 
   gsap.killTweensOf(ovEls[prev]);
-  gsap.to(ovEls[prev], {
-    opacity: 0, y: idx > prev ? -22 : 22, duration: .38, ease: 'power2.in',
-    onComplete: () => { ovEls[prev].classList.remove('live'); }
+  gsap.to(ovEls[prev],{opacity:0,y:18,duration:.38,ease:'power2.in',
+    onComplete:()=>ovEls[prev].classList.remove('live')
   });
 
   ovEls[idx].classList.add('live');
-
-  setTimeout(() => {
-    gsap.fromTo(ovEls[idx],
-      { opacity: 0, y: idx > prev ? 24 : -24 },
-      { opacity: 1, y: 0, duration: .65, ease: 'power3.out',
-        onComplete: () => { busy = false; }
-      }
-    );
-    const id = STOPS[idx].id;
-    if (id === 'ov1') {
-      gsap.fromTo('#ov1 .ws', { y: '108%' }, { y: 0, stagger: .1, duration: .85, ease: 'power4.out', delay: .1 });
+  setTimeout(()=>{
+    gsap.fromTo(ovEls[idx],{opacity:0,y:-20},{opacity:1,y:0,duration:.65,ease:'power3.out',
+      onComplete:()=>{busy=false;}
+    });
+    const id=STOPS[idx].id;
+    if(id==='ov1') gsap.fromTo('#ov1 .ws',{y:'108%'},{y:0,stagger:.1,duration:.85,ease:'power4.out',delay:.1});
+    if(id==='ov2'){
+      gsap.fromTo('#ov2 .s2-label',{opacity:0},{opacity:1,duration:.5,delay:.1});
+      gsap.fromTo('#ov2 .s2-sub',{opacity:0},{opacity:1,duration:.5,delay:.3});
+      gsap.fromTo('#ov2 .demo-card',{opacity:0,y:20,scale:.94},{opacity:1,y:0,scale:1,stagger:.06,duration:.5,delay:.4,ease:'back.out(1.4)'});
+      gsap.fromTo('#ov2 .hover-hint',{opacity:0},{opacity:1,duration:.5,delay:1.2});
     }
-    if (id === 'ov2') {
-      gsap.fromTo('#ov2 .fc', { opacity:0, y:24, scale:.95 }, { opacity:1, y:0, scale:1, stagger:.07, duration:.52, delay:.1, ease:'back.out(1.4)' });
+    if(id==='ov3'){
+      gsap.fromTo('#ov3 .t3',{opacity:0,scale:.92},{opacity:1,scale:1,duration:.75,delay:.1,ease:'back.out(1.3)'});
+      gsap.fromTo('#ov3 .t3p',{opacity:0},{opacity:1,duration:.6,delay:.55});
+      gsap.fromTo('#ov3 .ss',{opacity:0,y:22},{opacity:1,y:0,stagger:.12,duration:.6,delay:.7,ease:'back.out(1.6)'});
     }
-    if (id === 'ov3') {
-      gsap.fromTo('#ov3 .t3',  { opacity:0, scale:.92 }, { opacity:1, scale:1, duration:.75, delay:.1, ease:'back.out(1.4)' });
-      gsap.fromTo('#ov3 .t3p', { opacity:0 }, { opacity:1, duration:.6, delay:.55 });
-      gsap.fromTo('#ov3 .ss',  { opacity:0, y:22 }, { opacity:1, y:0, stagger:.12, duration:.6, delay:.7, ease:'back.out(1.6)' });
+    if(id==='ov4'){
+      gsap.fromTo('#ov4 .t4h',{opacity:0,y:18},{opacity:1,y:0,duration:.65,delay:.1,ease:'power3.out'});
+      gsap.fromTo('#ov4 .pc',{opacity:0,y:28},{opacity:1,y:0,stagger:.1,duration:.6,delay:.3,ease:'back.out(1.4)'});
     }
-    if (id === 'ov4') {
-      gsap.fromTo('#ov4 .t4h', { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, delay:.1, ease:'power3.out' });
-      gsap.fromTo('#ov4 .pc',  { opacity:0, y:28 }, { opacity:1, y:0, stagger:.1,  duration:.6,  delay:.3,  ease:'back.out(1.4)' });
+    if(id==='ov5'){
+      gsap.fromTo('#ov5 .t5h',{opacity:0,scale:.9},{opacity:1,scale:1,duration:.9,delay:.1,ease:'power3.out'});
+      gsap.fromTo('#ov5 .t5p',{opacity:0},{opacity:1,duration:.65,delay:.75});
+      gsap.fromTo('#ov5 .t5b',{opacity:0,y:12},{opacity:1,y:0,duration:.6,delay:1.0,ease:'back.out(1.4)'});
     }
-    if (id === 'ov5') {
-      gsap.fromTo('#ov5 .t5h', { opacity:0, scale:.9  }, { opacity:1, scale:1, duration:.9,  delay:.1, ease:'power3.out' });
-      gsap.fromTo('#ov5 .t5p', { opacity:0 }, { opacity:1, duration:.65, delay:.75 });
-      gsap.fromTo('#ov5 .t5b', { opacity:0, y:12 }, { opacity:1, y:0, duration:.6, delay:1.0, ease:'back.out(1.4)' });
-    }
-  }, 140);
+  },140);
 }
 
 ScrollTrigger.create({
-  trigger: '.track',
-  start: 'top top',
-  end: 'bottom bottom',
-  onUpdate: self => {
-    targetZ = self.progress * TRAVEL;
-    let best = 0;
-    STOPS.forEach((s, i) => { if (self.progress >= s.p - .06) best = i; });
+  trigger:'.track', start:'top top', end:'bottom bottom',
+  onUpdate:self=>{
+    targetY = self.progress * TRAVEL_Y;
+    let best=0;
+    STOPS.forEach((s,i)=>{if(self.progress>=s.p-.06)best=i;});
     showScene(best);
   }
 });
 
-function jmp(i) {
-  const h = document.querySelector('.track').offsetHeight;
-  window.scrollTo({ top: h * STOPS[i].p, behavior: 'smooth' });
+function jmp(i){
+  window.scrollTo({top:document.querySelector('.track').offsetHeight*STOPS[i].p,behavior:'smooth'});
 }
 
-gsap.fromTo('#ov0', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', delay: .35 });
+gsap.fromTo('#ov0',{opacity:0,y:18},{opacity:1,y:0,duration:1.1,ease:'power3.out',delay:.35});
 </script>
 </body>
 </html>
