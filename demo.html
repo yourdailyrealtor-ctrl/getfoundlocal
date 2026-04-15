@@ -602,14 +602,14 @@ function renderBG(t){
       }
     });
   }
-  if(lastCamY2<=-20 && cy>-20 && !resurfaceFired2){
+  if(lastCamY2<=-60 && cy>-60 && !resurfaceFired2){
     resurfaceFired2=true;
     gsap.killTweensOf('#resurface');
     gsap.fromTo('#resurface',{opacity:0},{opacity:1,duration:.3,ease:'power3.out',
       onComplete:()=>gsap.to('#resurface',{opacity:0,duration:2.0,ease:'power1.in'})
     });
   }
-  if(cy>-5){diveFired2=false;resurfaceFired2=false;}
+  if(cy>-10){diveFired2=false;resurfaceFired2=false;}
   lastCamY2=cy;
 
   renderer.render(scene,camera);
@@ -646,8 +646,8 @@ const STOPS=[
   {p:.55,   z:-30, y:-82, w:1,  type:'card', id:'ac8'},
   {p:.59,  z:-30, y:-90, w:1,  type:'ov',   id:'ov11'}, // deep message
   // Resurface happens at p=.655
-  {p:.65,  z:-42, y:-5,  w:.3, type:'ov',   id:'ov12'}, // stats
-  {p:.74,  z:-58, y:0,   w:0,  type:'ov',   id:'ov13'}, // pricing
+  {p:.65,  z:-42, y:-45, w:.2, type:'ov',   id:'ov12'}, // stats — camera still rising
+  {p:.74,  z:-58, y:0,   w:0,  type:'ov',   id:'ov13'}, // pricing — fully surfaced
   {p:.83,  z:-76, y:0,   w:0,  type:'ov',   id:'ov14'}, // CTA
 ];
 
