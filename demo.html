@@ -87,34 +87,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;al
 .ac-hint{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(77,217,192,.5);margin-top:4px;display:block;text-align:right}
 
 /* Card fill gradients — each unique teal */
-.fill-1{background:repeating-linear-gradient(45deg,#1a1a1a 0px,#1a1a1a 20px,#f0f0f0 20px,#f0f0f0 40px);filter:grayscale(100%);transition:filter .8s ease}
-.live .fill-1{filter:grayscale(0%);background:repeating-linear-gradient(45deg,#1a3a52 0px,#1a3a52 20px,#4dd9c0 20px,#4dd9c0 40px)}
+.fill-1{background:repeating-linear-gradient(45deg,#1a1a1a 0px,#1a1a1a 20px,#f0f0f0 20px,#f0f0f0 40px);filter:grayscale(100%);transition:filter 1.4s ease 0.3s}
+.anim-card.anim-card.live .fill-1{filter:grayscale(0%);background:repeating-linear-gradient(45deg,#1a3a52 0px,#1a3a52 20px,#4dd9c0 20px,#4dd9c0 40px)}
 
 .fill-2{background:radial-gradient(circle,#f0f0f0 20%,#333 20%,#333 40%,#f0f0f0 40%,#f0f0f0 60%,#333 60%);background-size:80px 80px;transform:scale(1);transition:transform .8s cubic-bezier(.4,0,.2,1)}
-.live .fill-2{animation:zoom2 3.5s ease-in-out infinite alternate}
+.anim-card.live .fill-2{animation:zoom2 3.5s ease-in-out infinite alternate}
 @keyframes zoom2{from{transform:scale(1)}to{transform:scale(1.15)}}
 
 .fill-3{background:repeating-linear-gradient(90deg,#eee 0px,#eee 30px,#222 30px,#222 60px);clip-path:inset(0 100% 0 0)}
-.live .fill-3{animation:wipe3 3.5s cubic-bezier(.4,0,.2,1) infinite alternate}
+.anim-card.live .fill-3{animation:wipe3 3.5s cubic-bezier(.4,0,.2,1) infinite alternate}
 @keyframes wipe3{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0% 0 0)}}
 
 .fill-4{background:radial-gradient(circle,#fff 15%,transparent 15%) #111;background-size:24px 24px;filter:blur(6px) brightness(.4);transform:scale(1.06)}
-.live .fill-4{animation:blursharp4 3.5s ease-in-out infinite alternate}
+.anim-card.live .fill-4{animation:blursharp4 3.5s ease-in-out infinite alternate}
 @keyframes blursharp4{from{filter:blur(8px) brightness(.4);transform:scale(1.06)}to{filter:blur(0) brightness(1);transform:scale(1)}}
 
 .fill-5{background:conic-gradient(from 0deg,#eee 0deg,#eee 120deg,#333 120deg,#333 240deg,#999 240deg,#999 360deg);transform:scale(1.1) rotate(-5deg)}
-.live .fill-5{animation:rotate5 5s ease-in-out infinite alternate}
+.anim-card.live .fill-5{animation:rotate5 5s ease-in-out infinite alternate}
 @keyframes rotate5{from{transform:scale(1.1) rotate(-5deg)}to{transform:scale(1) rotate(0deg)}}
 
 .fill-6{background:repeating-linear-gradient(180deg,#eee 0px,#eee 16px,#222 16px,#222 32px);transform:translateX(-18%)}
-.live .fill-6{animation:slide6 3.5s ease-in-out infinite alternate}
+.anim-card.live .fill-6{animation:slide6 3.5s ease-in-out infinite alternate}
 @keyframes slide6{from{transform:translateX(-15%)}to{transform:translateX(0)}}
 
 .fill-7{background:linear-gradient(135deg,#111 25%,#e8e8e8 25%,#e8e8e8 50%,#111 50%,#111 75%,#e8e8e8 75%);background-size:60px 60px;animation:kb7 7s ease infinite alternate}
 @keyframes kb7{from{transform:scale(1) translate(0,0)}to{transform:scale(1.14) translate(-3%,-2%)}}
 
 .fill-8{background:repeating-conic-gradient(#eee 0% 25%,#222 25% 50%);background-size:40px 40px;filter:brightness(.5)}
-.live .fill-8{animation:flash8 3s ease-in-out infinite alternate}
+.anim-card.live .fill-8{animation:flash8 3s ease-in-out infinite alternate}
 @keyframes flash8{from{filter:brightness(.5)}to{filter:brightness(1.15)}}
 
 /* ── S11: Deep bottom message ── */
@@ -485,16 +485,26 @@ function setBlend(b){
   document.body.style.background=`rgb(${r},${g},${bl})`;
 }
 
-function triggerSplash(){
-  splashActive=true; splashT=0;
-  // Reset particles
-  for(let i=0;i<NSPL;i++){splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;}
-}
-
-function triggerResurface(){
-  gsap.to('#resurface',{opacity:1,duration:.6,ease:'power2.out',
-    onComplete:()=>gsap.to('#resurface',{opacity:0,duration:1.4,ease:'power2.in'})
-  });
+// Splash fires when camera is actually moving down (worldBlend crossing 0.5 going up)
+// Resurface fires when worldBlend crossing 0.5 going down
+let lastBlend=0;
+function checkTransitions(newBlend){
+  // Diving: blend crosses 0.45 going UP → flash teal
+  if(lastBlend<0.45 && newBlend>=0.45){
+    gsap.to('#splash',{opacity:1,duration:.4,ease:'power2.out',
+      onComplete:()=>gsap.to('#splash',{opacity:0,duration:1.0,ease:'power2.in'})
+    });
+    // Activate splash particles
+    splashActive=true; splashT=0;
+    for(let i=0;i<NSPL;i++){splArr[i*3]=0;splArr[i*3+1]=0;splArr[i*3+2]=0;}
+  }
+  // Resurfacing: blend crosses 0.45 going DOWN → flash light
+  if(lastBlend>=0.45 && newBlend<0.45){
+    gsap.to('#resurface',{opacity:1,duration:.5,ease:'power2.out',
+      onComplete:()=>gsap.to('#resurface',{opacity:0,duration:1.2,ease:'power2.in'})
+    });
+  }
+  lastBlend=newBlend;
 }
 
 function renderBG(t){
@@ -502,10 +512,9 @@ function renderBG(t){
   const time=t*.001;
   camera.position.z+=(targetZ-camera.position.z)*.055;
   camera.position.y+=(targetY-camera.position.y)*.055;
-  // Reduce mouse influence underwater so background doesn't shift awkwardly
-  const mouseInfluence = worldBlend > 0.5 ? 0.12 : 0.3;
+  // NO mouse movement when underwater — background stays locked
+  const mouseInfluence = worldBlend > 0.7 ? 0 : (0.3 * (1 - worldBlend));
   cX += (mx*mouseInfluence - cX) * .035;
-  cY += (-my*.15 - cY) * .03;
   camera.position.x = cX;
   // Look direction blends between forward (space) and down (ocean)
   const lx=cX*.15, ly=camera.position.y-8*worldBlend, lz=camera.position.z-10*(1-worldBlend);
@@ -645,25 +654,14 @@ function showStop(idx){
 
   // World blend
   gsap.to({w:prev>=0?STOPS[prev].w:0},{w:stop.w,duration:2.4,ease:'power2.inOut',
-    onUpdate:function(){setBlend(this.targets()[0].w);}
+    onUpdate:function(){
+      const bv=this.targets()[0].w;
+      setBlend(bv);
+      checkTransitions(bv);
+    }
   });
 
-  // SPLASH at the dive transition
-  if(idx===3 && !splashFired){
-    splashFired=true;
-    gsap.to('#splash',{opacity:1,duration:.5,ease:'power2.out',
-      onComplete:()=>{
-        triggerSplash();
-        gsap.to('#splash',{opacity:0,duration:1.2,ease:'power2.in'});
-      }
-    });
-  }
-
-  // RESURFACE at stats
-  if(idx===12 && !resurfaceFired){
-    resurfaceFired=true;
-    setTimeout(triggerResurface, 400);
-  }
+  // Splash and resurface are handled by the world blend watcher, not here
 
   // Dots animation for dive invite
   if(stop.id==='ov2'){
@@ -705,9 +703,7 @@ function showStop(idx){
        onComplete:()=>{busy=false;}
       }
     );
-    // Also set the auto-play class
-    const fill=el.querySelector('.ac-fill');
-    if(fill)fill.classList.add('live');
+    // live class is on the card container, fills use .anim-card.live .fill-X
   } else {
     gsap.fromTo(el,
       {opacity:0,y:-20},
